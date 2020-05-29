@@ -1,0 +1,311 @@
+---
+title: "Scraping"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, cache = FALSE}
+source(here::here("code", "setup.R"))
+```
+
+# Introduction {.unnumbered}
+
+We are going to start by scraping the data into a usable form. We are starting
+with HTML files downloaded from the Triple J [Recently Played][recently-played]
+page.
+
+```{r files}
+html_files <- fs::dir_ls(PATHS$html_dir, glob = "*.html")
+```
+
+There are `r length(html_files)` files, one for each day of the Requestival.
+
+# Structure
+
+The HTML files are well structured and the entries for individual songs have
+look like this:
+
+```html
+</div></li><li class="view-playlistItem listeItem clearfix"><div class="time">12:07am</div>
+<div class="comp-image">
+<div class="thumbnail">
+<img src="./requestival_24_files/http___www.abc.net.au_dig_covers_original_gorillaz_plastic.jpg" alt="">
+</div>
+</div>
+<div class="info">
+<div class="title">
+
+<h5>Stylo</h5>
+</div>
+<div class="artist">Gorillaz</div>
+<div class="release">Plastic Beach </div>
+
+<ul class="search clearfix">
+<li><a href="https://www.youtube.com/results?search_query=Gorillaz%20Stylo" target="_blank">YouTube</a></li>
+<li>| <a href="https://play.spotify.com/search/results/artist:Gorillaz%20track:Stylo" target="_blank">Spotify</a></li>
+
+</ul>
+```
+
+It's pretty easy to pick out the information we are looking for such as the
+time played, the artist, song name and album. Some of this also have special
+classes which should make things easier.
+
+# Locating information
+
+Let's try and scrape song information from these file using the **{rvest}**
+package. Much of this is based on [this handy tutorial][tidy-web-scraping] which
+does a similar thing for the Billboard Hot 100.
+
+## Time, artist and release
+
+The play time, artist and release information are stored in divs with their own
+special class so let's pull those out first. For now we will just work with the
+first HTML file.
+
+```{r classes}
+html <- read_html(html_files[1])
+
+times <- html %>%
+    html_nodes(".time") %>%
+    html_text()
+
+artists <- html %>%
+    html_nodes(".artist") %>%
+    html_text()
+
+releases <- html %>%
+    html_nodes(".release") %>%
+    html_text()
+```
+
+We have found **`r length(times)`** times, **`r length(artists)`** artists and
+**`r length(releases)`** releases. These aren't quite the same length 😿. A
+quick look at the web page shows us that there is a "Most Played" section at
+the bottom of the page. This includes the 50 songs that Triple J are currently
+playing most often. Conveniently this explains the extra information we have
+found 🎉! Only the recently played songs have times so we can use this as the
+number of songs we expect to find or just remove the last 50.
+
+Here is the information we have found so far:
+
+```{r classes-table}
+n_played   <- length(times)
+played_idx <- seq_len(n_played)
+
+played <- tibble(
+    Time    = times,
+    Artist  = artists[played_idx],
+    Release = releases[played_idx]
+)
+
+played
+```
+
+## Song name
+
+The song names are stored in `<h5>` tags. Let's extract those as well and see
+what we get.
+
+```{r h5}
+h5s <- html %>%
+    html_nodes("h5") %>%
+    html_text()
+```
+
+This has given us a vector with **`r length(h5s)`** items. This is the same
+length as the artists and releases so it looks like this tag isn't used for
+anything else on the site.
+
+Let's add the song names to the information we have so far:
+
+```{r songs-table}
+played$Song <- h5s[played_idx]
+played
+```
+
+## Links
+
+That's the most important information but there are a few more things it might
+be useful to extract. Next to each song there is a set of links to YouTube,
+Spotify and [Triple J Unearthed][unearthed] (a platform for new artists to share their work). Let's see if we can scrape those as well. The links are in a list
+with `class="search clearfix"`.
+
+```{r search}
+searches <- html %>%
+    html_nodes(".search")
+```
+
+Selecting the `search` class gives us **`r length(searches)`** items. This
+number can be explained by a search box, the recently played songs and the most
+played songs. It looks like this will give us what we want, as long as we ignore
+the first item.
+
+Inside the list we have extracted there are items for each link. Not every song
+has all the links so we have to be a bit careful to make sure we are extracting
+them properly. Let's just look at the first list to start with.
+
+```{r example-links}
+types_example <- searches[2] %>%
+    html_nodes("li") %>%
+    html_nodes("a") %>%
+    html_text()
+
+urls_example <- searches[2] %>%
+    html_nodes("li") %>%
+    html_nodes("a") %>%
+    html_attr("href")
+
+tibble(
+    Type = types_example,
+    URL  = urls_example
+)
+```
+
+By selecting the `<li>` tag and then the `<a>` tag we can get the information we
+want. In this case we want to extract both the text to get the type of the link
+and the `href` attribute to get the URL (we could probably get the type from
+the URL but it's already there so this is easier).
+
+Let's make this into a function that returns a `tibble` that we can apply to our
+list of `search` divs.
+
+```{r get-links, class.source="fold-show"}
+get_links <- function(search_div) {
+    a_tags <- search_div %>%
+        html_nodes("li") %>%
+        html_nodes("a")
+    
+    tibble(
+        Type = html_text(a_tags),
+        URL  = html_attr(a_tags, "href")
+    )
+}
+```
+
+Now we can run this for all the songs and see what we get. We will add a little
+bit of code to add the song name and artist to the results. The artist is
+necessary because there are can be several songs with the same name. We also
+select distinct links as some songs have been played multiple times.
+
+```{r apply-get-links}
+links <- purrr::map_dfr(played_idx, function(.idx) {
+    get_links(searches[.idx + 1]) %>%
+        mutate(
+            Song   = played$Song[.idx],
+            Artist = played$Artist[.idx]
+        )
+}) %>%
+    distinct()
+
+links
+```
+
+This is currently in long format where each row is a link but as there is only
+one of each link type for each song it will be more convenient to have each type
+as a separate column.
+
+```{r widen-links}
+links <- links %>%
+    pivot_wider(names_from = Type, values_from = URL)
+
+links
+```
+
+Now the links are in a form that is easy to join to the other song information
+(using the song name and artist as keys).
+
+```{r join-links}
+played <- played %>%
+    left_join(links, by = c("Song", "Artist"))
+
+played
+```
+
+# Put it together
+
+We now have code for extracting all the information we want so let's put it
+together into a function that we can apply to each HTML file. We want the
+function to take the path to one of the HTML data files and do the following
+things:
+
+1. Read the HTML from the file
+2. Extract the time, artist and release information
+3. Extract the song names
+4. Extract the song links
+5. Put this into a tidy `tibble`
+6. Add which file the songs come from
+
+The function looks like this.
+
+```{r scrape-fun, class.source="fold-show"}
+scrape_songs <- function(html_path) {
+    
+    file <- fs::path_ext_remove(fs::path_file(html_path))
+    
+    html <- read_html(html_path)
+
+    times <- html %>%
+        html_nodes(".time") %>%
+        html_text()
+
+    n_played   <- length(times)
+    played_idx <- seq_len(n_played)
+
+    artists <- html %>%
+        html_nodes(".artist") %>%
+        html_text()
+
+    releases <- html %>%
+        html_nodes(".release") %>%
+        html_text()
+    
+    songs <- html %>%
+        html_nodes("h5") %>%
+        html_text()
+    
+    search_divs <- html %>%
+        html_nodes(".search")
+    
+    links <- purrr::map_dfr(played_idx, function(.idx) {
+        get_links(search_divs[.idx + 1]) %>%
+            mutate(
+                Song   = songs[.idx],
+                Artist = artists[.idx]
+            )
+    }) %>%
+        distinct() %>%
+        pivot_wider(names_from = Type, values_from = URL)
+    
+    tibble(
+        File    = file,
+        Time    = times,
+        Song    = songs[played_idx],
+        Artist  = artists[played_idx],
+        Release = releases[played_idx]
+    ) %>%
+        left_join(links, by = c("Song", "Artist"))
+}
+```
+
+# Scrape those files!
+
+Let's apply the scraping function to all the files and combine the results!
+
+```{r scrape}
+requestival <- purrr::map_dfr(html_files, scrape_songs)
+
+requestival
+```
+
+We save this scraped dataset as a TSV for further analysis.
+
+```{r save}
+write_tsv(requestival, PATHS$scraped)
+```
+
+
+[recently-played]: https://www.abc.net.au/triplej/featured-music/recently-played/ "Triple J recently played"
+[tidy-web-scraping]: https://towardsdatascience.com/tidy-web-scraping-in-r-tutorial-and-resources-ac9f72b4fe47 "Tidy web scraping in R — Tutorial and resources"
+[unearthed]: https://www.triplejunearthed.com/ "Triple J Unearthed"
