@@ -1,7 +1,7 @@
-name: "requestival"
+name: "Requestival"
 output_dir: ../docs
 navbar:
-  title: "requestival"
+  title: "Requestival"
   left:
   - text: Home
     href: index.html
@@ -9,9 +9,17 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    href: https://github.com/lazappi/requestival
 output:
   workflowr::wflow_html:
     toc: yes
     toc_float: yes
+    number_sections: true
     theme: cosmo
     highlight: textmate
+    code_folding: hide
+    code_download: true
+    df_print: paged
+    css: custom.css

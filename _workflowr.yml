@@ -6,3 +6,9 @@ seed: 20200529
 # The working directory to build the R Markdown files. The path is relative to
 # _workflowr.yml. See ?rmarkdown::render for details.
 knit_root_dir: "."
+
+# Use sessioninfo
+sessioninfo: "sessioninfo::session_info()"
+
+# Set link URL
+github: "http://github.com/lazappi/requestival"
