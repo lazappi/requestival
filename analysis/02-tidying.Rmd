@@ -1,0 +1,298 @@
+---
+title: "Tidying"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, cache = FALSE}
+source(here::here("code", "setup.R"))
+```
+
+# Introduction {.unnumbered}
+
+After the scraping process we have a the data about songs played during the
+Requestival in a nice tabular format. Let's load it up and see what it looks
+like.
+
+```{r load}
+requestival <- read_tsv(
+    PATHS$scraped,
+    col_types = cols(
+        .default = col_character()
+    )
+)
+```
+
+This isn't too messy at the moment but there are some things we could do to tidy
+it up. Let's work through each of the columns and see if we need to do anything
+to them.
+
+# File
+
+The first column contains the name of the file the song was scraped from. The
+file names have the form `requestival_X`, where `X` is a day in May 2020. We
+don't really care about the file name but we **do** care about the day the songs
+were played so let's take that part and create a new column.
+
+```{r add-day}
+requestival <- requestival %>%
+    mutate(Day = str_remove(File, "requestival_")) %>%
+    mutate(Day = paste0("2020-05-", Day))
+
+requestival
+```
+
+# Time
+
+The time each song was played is currently a string with the form `hh:mmpp`
+(where `pp` is `am` or `pm`). It would be better to have this has a time object
+so let's do that conversion.
+
+```{r parse-time}
+requestival <- requestival %>%
+    mutate(Time = parse_time(Time, "%I:%M%p"))
+
+requestival
+```
+
+Now all our times are `hms` objects and that have the form `HH:MM:ss`. Our days
+and times are now in nice formats let's combine them into a single datetime.
+This is pretty easy to do, we just covert our day string to a `datetime` object
+and then add on our time.
+
+```{r datetime}
+requestival <- requestival %>%
+    mutate(DateTime = as_datetime(Day, tz = "Europe/Berlin") + Time)
+
+requestival
+```
+
+You might notice that the times are in the CEST timezone. This is because the
+HTML pages were downloaded in Europe and the Triple J website is clever enough
+to display times using your local timezone. It doesn't really make sense to use
+European times for a dataset from an Australian radio station so let's convert
+them to the Australian east coast timezone that Triple J broadcasts in.
+
+```{r convert-tz}
+requestival <- requestival %>%
+    mutate(DateTime = with_tz(DateTime, "Australia/Sydney"))
+
+requestival
+```
+
+# Song
+
+The song name column is made up of strings. This is probably what we want but
+let's do a quick check to see if we have any weird characters left over from the
+HTML.
+
+```{r song-chars}
+song_chars <- requestival$Song %>%
+    str_extract_all(boundary("character")) %>% 
+    unlist() %>%
+    sort() %>%
+    unique()
+```
+
+These are the unique characters we have in the song names:
+`r glue_collapse(song_chars, sep = ", ")`
+
+Most of these letters in the standard Latin alphabet, numerals or standard
+punctuation but there are also a few different kinds of white space, some
+accented letters and what I think are Korean characters.
+
+Let's make a table of these characters with their Unicode descriptions to try
+and work out what they are.
+
+```{r song-chars-table}
+song_chars %>%
+    map_int(utf8ToInt) %>%
+    Unicode::u_char_info() %>%
+    mutate(Character = song_chars) %>%
+    select(Character, Code, Name)
+```
+
+I have quickly checked some of these and it looks like they are correctly part
+of song names so I am going to leave them. I will replace the non-breaking
+spaces with regular spaces though.
+
+```{r song-spaces}
+requestival <- requestival %>%
+    mutate(Song = str_replace(Song, "\u00a0", " "))
+```
+
+# Artist
+
+We can do a similar thing to have a look at the characters in the artist field.
+
+```{r artist-chars}
+artist_chars <- requestival$Artist %>%
+    str_extract_all(boundary("character")) %>% 
+    unlist() %>%
+    sort() %>%
+    unique()
+
+artist_chars %>%
+    map_int(function(.x) {utf8ToInt(.x)[1]}) %>%
+    Unicode::u_char_info() %>%
+    mutate(Character = artist_chars) %>%
+    select(Character, Code, Name)
+```
+
+This looks ok so I don't think we need to do anything here.
+
+# Release
+
+Let's have a look at the characters in the release field as well.
+
+```{r release-chars}
+release_chars <- requestival$Release %>%
+    str_extract_all(boundary("character")) %>% 
+    unlist() %>%
+    sort() %>%
+    unique()
+
+release_chars %>%
+    map_int(function(.x) {utf8ToInt(.x)[1]}) %>%
+    Unicode::u_char_info() %>%
+    mutate(Character = release_chars) %>%
+    select(Character, Code, Name)
+```
+
+There are some more unusual characters here but they also look to be correct so
+we will leave them for now.
+
+# Links
+
+The remaining fields that we scraped are links to places where you can listen
+to each song. We probably don't want to mess with these too much but let's take
+a look.
+
+## YouTube
+
+The YouTube URLs look something like this: `r requestival$YouTube[1]`
+
+This is just a link a YouTube search results page for a query made up of the
+artist and song name. It might be useful to be able to access the query part so
+let's make that into a new column.
+
+```{r youtube-query}
+requestival <- requestival %>%
+    mutate(YouTubeQuery = str_remove(YouTube, "^.*="))
+
+requestival
+```
+
+## Spotify
+
+The Spotify URLs are similar: `r requestival$Spotify[1]`
+
+We can make a similar column for the Spotify query.
+
+```{r spotify-query}
+requestival <- requestival %>%
+    mutate(SpotifyQuery = str_remove(Spotify, "^.*/results/"))
+
+requestival
+```
+
+## Unearthed
+
+The Unearthed links are a bit different: `r requestival$Unearthed[3]`
+
+These are direct links to artist pages on the Unearthed website rather than
+searches. There probably isn't much useful information in these but it would be
+nice to know which artists are on Unearthed so let's make a boolean column to
+represent this.
+
+```{r is-unearthed}
+requestival <- requestival %>%
+    mutate(IsUnearthed = !is.na(Unearthed))
+
+requestival
+```
+
+# Selecting columns
+
+Now that we have tidied up the individual columns we can tidy up the table as a
+whole. For example the "File" field isn't much use now that we have extracted the
+date information and the "Day", "Time" and "DateTime" columns are a bit
+redundant. The times are also inconsistent because we have converted DateTime to
+the Australian time zone but the others are still in European time. We might
+also like to rearrange and rename some of the columns.
+
+```{r select}
+requestival <- requestival %>%
+    select(
+        DateTime,
+        Song,
+        Artist,
+        Release,
+        IsUnearthed,
+        UnearthedURL = Unearthed,
+        SpotifyQuery,
+        SpotifyURL   = Spotify,
+        YouTubeQuery,
+        YouTubeURL   = YouTube
+    ) %>%
+    arrange(DateTime)
+
+requestival
+```
+
+# Filtering
+
+The final step in our tidying is to filter out some of the songs.
+The Requestival officially runs between 6 am and 9 pm from Monday 25 May to
+Sunday 31 May. On the final day it actually ends a bit earlier at 6 pm. We are
+only interested in songs played during this period so we need to filter out
+other times. There is probably a cleaner way to do this but I'm just going to
+use a big ol' logical statement.
+
+```{r filter}
+tz <- "Australia/Sydney" # This is just to save space
+times <- tribble(
+                                 ~Start,                                ~End,
+    ymd_hm("2020-05-25 06:00", tz = tz), ymd_hm("2020-05-25 21:00", tz = tz),
+    ymd_hm("2020-05-26 06:00", tz = tz), ymd_hm("2020-05-26 21:00", tz = tz),
+    ymd_hm("2020-05-27 06:00", tz = tz), ymd_hm("2020-05-27 21:00", tz = tz),
+    ymd_hm("2020-05-28 06:00", tz = tz), ymd_hm("2020-05-28 21:00", tz = tz),
+    ymd_hm("2020-05-29 06:00", tz = tz), ymd_hm("2020-05-29 21:00", tz = tz),
+    ymd_hm("2020-05-30 06:00", tz = tz), ymd_hm("2020-05-30 21:00", tz = tz),
+    ymd_hm("2020-05-31 06:00", tz = tz), ymd_hm("2020-05-31 18:00", tz = tz)
+)
+
+requestival <- requestival %>%
+    filter(
+        (DateTime >= times$Start[1] & DateTime <= times$End[1]) |
+            (DateTime >= times$Start[2] & DateTime <= times$End[2]) |
+            (DateTime >= times$Start[3] & DateTime <= times$End[3]) |
+            (DateTime >= times$Start[4] & DateTime <= times$End[4]) |
+            (DateTime >= times$Start[5] & DateTime <= times$End[5]) |
+            (DateTime >= times$Start[6] & DateTime <= times$End[6]) |
+            (DateTime >= times$Start[7] & DateTime <= times$End[7])
+    )
+```
+
+It would be easy to miss this up let's make a quick plot of the play times to
+check what songs we have kept.
+
+```{r plot-times}
+ggplot(requestival, aes(x = DateTime, y = 0)) +
+    geom_jitter(width = 0) +
+    geom_vline(data = times, aes(xintercept = Start), colour = "red") +
+    geom_vline(data = times, aes(xintercept = End), colour = "blue") +
+    theme_minimal()
+```
+
+That looks pretty good 🎉!
+
+The final dataset has **`r ncol(requestival)`** columns and
+**`r nrow(requestival)`** rows. Let's save it to use for future analysis.
+
+```{r save}
+write_tsv(requestival, PATHS$tidied)
+
+requestival
+```

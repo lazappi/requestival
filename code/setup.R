@@ -10,6 +10,10 @@ suppressPackageStartupMessages({
     library("here")
     # Scraping
     library("rvest")
+    # Dates
+    library("lubridate")
+    # Presentation
+    library("glue")
     # Tidyverse
     library("tidyverse")
 })
@@ -19,7 +23,7 @@ suppressPackageStartupMessages({
 #==============================================================================#
 
 suppressMessages({
-
+    conflict_prefer("filter", "dplyr")
 })
 
 #==============================================================================#
@@ -84,5 +88,6 @@ theme_set(theme_minimal())
 
 PATHS <- list(
     html_dir = here("data", "raw"),
-    scraped  = here("data", "01-requestival-scraped.tsv")
+    scraped  = here("data", "01-requestival-scraped.tsv"),
+    tidied   = here("data", "02-requestival-tidied.tsv")
 )
