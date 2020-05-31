@@ -1,0 +1,480 @@
+---
+title: "Exploration"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, cache = FALSE}
+source(here::here("code", "setup.R"))
+```
+
+# Introduction {.unnumbered}
+
+In this document we are going to do some basic exploration of the complete
+augmented dataset. We will work through each column make some basics plots and
+and summaries. This should have to give us a better sense of the data but might
+also expose any mistakes we made during the pre-processing stages. 
+
+```{r load}
+requestival <- read_tsv(
+    PATHS$augmented,
+    col_types = cols(
+        .default     = col_double(),
+        DateTime     = col_datetime(format = ""),
+        Song         = col_character(),
+        Artist       = col_character(),
+        Release      = col_character(),
+        IsUnearthed  = col_logical(),
+        UnearthedURL = col_character(),
+        SpotifyQuery = col_character(),
+        SpotifyURL   = col_character(),
+        YouTubeQuery = col_character(),
+        YouTubeURL   = col_character(),
+        SpotifyID    = col_character(),
+        HasSpotify   = col_logical(),
+        AlbumDate    = col_date(format = ""),
+        Explicit     = col_logical(),
+        IsMajor      = col_logical()
+)
+) %>%
+    mutate(DateTime = with_tz(DateTime, "Australia/Sydney"))
+```
+
+The dataset has **`r nrow(requestival)`** rows and **`r ncol(requestival)`** 
+columns.
+
+# Triple J features
+
+Let's start with the features we scraped from the HTML files.
+
+## DateTime
+
+When were the songs played?
+
+```{r DateTime}
+ggplot(requestival, aes(x = DateTime)) +
+    geom_histogram(bins = 200)
+```
+
+## Song
+
+There are **`r length(unique(requestival$Song))`** unique songs. How many times
+was each song played?
+
+```{r Song-count}
+song_counts <- requestival %>%
+    group_by(Song, Artist) %>%
+    count(name = "PlayCount")
+
+ggplot(song_counts, aes(x = PlayCount)) +
+    geom_histogram()
+```
+
+Which songs were played more than once?
+
+```{r Song-multiple}
+song_counts %>%
+    filter(PlayCount > 1) %>%
+    arrange(-PlayCount)
+```
+
+## Artist
+
+There are **`r length(unique(requestival$Artist))`** unique artists. How many 
+times was each artist played?
+
+```{r Artist-count}
+artist_counts <- requestival %>%
+    group_by(Artist) %>%
+    count(name = "PlayCount")
+
+ggplot(artist_counts, aes(x = PlayCount)) +
+    geom_histogram()
+```
+
+Which artists were played more than once?
+
+```{r Artist-multiple}
+artist_counts %>%
+    filter(PlayCount > 1) %>%
+    arrange(-PlayCount)
+```
+
+## Release
+
+There are **`r length(unique(requestival$Release))`** unique releases. How many 
+times was each release played?
+
+```{r Release-count}
+release_counts <- requestival %>%
+    group_by(Release) %>%
+    count(name = "PlayCount")
+
+ggplot(release_counts, aes(x = PlayCount)) +
+    geom_histogram()
+```
+
+Which releases were played more than once?
+
+```{r Release-multiple}
+release_counts %>%
+    filter(PlayCount > 1) %>%
+    arrange(-PlayCount)
+```
+
+Which songs do not have an associated release?
+
+```{r Release-NA}
+requestival %>%
+    filter(is.na(Release)) %>%
+    select(DateTime, Song, Artist)
+```
+
+This seems weird but I have checked them and this information is missing from
+the original HTML pages. It's only a few songs so I'm not going to try and fix
+it.
+
+## Unearthed
+
+How many songs are on Unearthed?
+
+```{r Unearthed}
+ggplot(requestival, aes(x = IsUnearthed)) +
+    geom_bar()
+```
+
+# Spotify
+
+Now let's looks at the fields we downloaded from Spotify. How many songs did we
+find Spotify track IDs for?
+
+```{r HasSpotify}
+ggplot(requestival, aes(x = HasSpotify)) +
+    geom_bar()
+```
+
+For the rest of this section we will only look at the songs with Spotify
+information.
+
+```{r filter-spotify}
+requestival_spotify <- filter(requestival, HasSpotify)
+```
+
+## Album date
+
+When we the songs released? This is the album release date so may not be the
+earliest song release depending on which album we got from Spotify.
+
+```{r AlbumDate}
+ggplot(requestival_spotify, aes(x = AlbumDate)) +
+    geom_histogram()
+```
+
+The five most recent songs are:
+
+```{r AlbumDate-recent}
+requestival_spotify %>%
+    arrange(desc(AlbumDate)) %>%
+    top_n(5, AlbumDate) %>%
+    select(Song, Artist, Release, AlbumDate)
+```
+
+The five oldest songs are:
+
+```{r AlbumDate-old}
+requestival_spotify %>%
+    arrange(AlbumDate) %>%
+    top_n(-5, AlbumDate) %>%
+    select(Song, Artist, Release, AlbumDate)
+```
+
+## Duration
+
+How long are the songs?
+
+```{r Duration}
+ggplot(requestival_spotify, aes(x = Duration)) +
+    geom_histogram(bins = 100) +
+    scale_x_time()
+```
+
+The five longest songs are:
+
+```{r Duration-long}
+requestival_spotify %>%
+    arrange(-Duration) %>%
+    top_n(5, Duration) %>%
+    select(Song, Artist, Duration)
+```
+
+The five shortest songs are:
+
+```{r Duration-short}
+requestival_spotify %>%
+    arrange(Duration) %>%
+    top_n(-5, Duration) %>%
+    select(Song, Artist, Duration)
+```
+
+## Explicit
+
+How many songs are explicit?
+
+```{r Explicit}
+ggplot(requestival_spotify, aes(x = Explicit)) +
+    geom_bar()
+```
+
+## Popularity
+
+What is the distribution of popularity scores?
+
+```{r Popularity}
+ggplot(requestival_spotify, aes(x = Popularity)) +
+    geom_bar()
+```
+
+The five most "popular" songs are:
+
+```{r Popularity-high}
+requestival_spotify %>%
+    arrange(-Popularity) %>%
+    top_n(5, Popularity) %>%
+    select(Song, Artist, Popularity)
+```
+
+The five least "popular" songs are:
+
+```{r Popularity-low}
+requestival_spotify %>%
+    arrange(Popularity) %>%
+    top_n(-5, Popularity) %>%
+    select(Song, Artist, Popularity)
+```
+
+## IsMajor
+
+How many songs are in a major key?
+
+```{r IsMajor}
+ggplot(requestival_spotify, aes(x = IsMajor)) +
+    geom_bar()
+```
+
+## Loudness
+
+What is the distribution of loudness?
+
+```{r Loudness}
+ggplot(requestival_spotify, aes(x = Loudness)) +
+    geom_histogram(bins = 100)
+```
+
+The five loudest songs are:
+
+```{r Loudness-loud}
+requestival_spotify %>%
+    arrange(-Loudness) %>%
+    top_n(5, Loudness) %>%
+    select(Song, Artist, Loudness)
+```
+
+The five quietest songs are:
+
+```{r Loudness-quiet}
+requestival_spotify %>%
+    arrange(Loudness) %>%
+    top_n(-5, Loudness) %>%
+    select(Song, Artist, Loudness)
+```
+
+## Temp
+
+What speed are the songs?
+
+```{r Temp}
+ggplot(requestival_spotify, aes(x = Tempo)) +
+    geom_histogram(bins = 100)
+```
+
+The five fastest songs are:
+
+```{r Temp-fast}
+requestival_spotify %>%
+    arrange(-Tempo) %>%
+    top_n(5, Tempo) %>%
+    select(Song, Artist, Tempo)
+```
+
+The five slowest songs are:
+
+```{r Tempo-slow}
+requestival_spotify %>%
+    arrange(Tempo) %>%
+    top_n(-5, Tempo) %>%
+    select(Song, Artist, Tempo)
+```
+
+## Valence
+
+What is the distribution of valence? This is score from zero to one where one
+is positive and zero is negative.
+
+```{r Valence}
+ggplot(requestival_spotify, aes(x = Valence)) +
+    geom_histogram(bins = 100)
+```
+
+The five most positive songs are:
+
+```{r Valence-high}
+requestival_spotify %>%
+    arrange(-Valence) %>%
+    top_n(5, Valence) %>%
+    select(Song, Artist, Valence)
+```
+
+The five most negative songs are:
+
+```{r Valence-low}
+requestival_spotify %>%
+    arrange(Valence) %>%
+    top_n(-5, Valence) %>%
+    select(Song, Artist, Valence)
+```
+
+## Energy
+
+What is the distribution of energy?
+
+```{r Energy}
+ggplot(requestival_spotify, aes(x = Energy)) +
+    geom_histogram(bins = 100)
+```
+
+The five most energetic songs are:
+
+```{r Energy-high}
+requestival_spotify %>%
+    arrange(-Energy) %>%
+    top_n(5, Energy) %>%
+    select(Song, Artist, Energy)
+```
+
+The five least energetic songs are:
+
+```{r Energy-low}
+requestival_spotify %>%
+    arrange(Energy) %>%
+    top_n(-5, Energy) %>%
+    select(Song, Artist, Energy)
+```
+
+## Danceability
+
+What is the distribution of danceability?
+
+```{r Danceability}
+ggplot(requestival_spotify, aes(x = Danceability)) +
+    geom_histogram(bins = 100)
+```
+
+The five most danceable songs are:
+
+```{r Danceability-high}
+requestival_spotify %>%
+    arrange(-Danceability) %>%
+    top_n(5, Danceability) %>%
+    select(Song, Artist, Danceability)
+```
+
+The five least danceable songs are:
+
+```{r Danceability-low}
+requestival_spotify %>%
+    arrange(Danceability) %>%
+    top_n(-5, Danceability) %>%
+    select(Song, Artist, Danceability)
+```
+
+## Speechiness
+
+What is the distribution of speechiness?
+
+```{r Speechiness}
+ggplot(requestival_spotify, aes(x = Speechiness)) +
+    geom_histogram(bins = 100)
+```
+
+The five most speechy songs are:
+
+```{r Speechiness-high}
+requestival_spotify %>%
+    arrange(-Speechiness) %>%
+    top_n(5, Speechiness) %>%
+    select(Song, Artist, Speechiness)
+```
+
+The five least speechy songs are:
+
+```{r Speechiness-low}
+requestival_spotify %>%
+    arrange(Speechiness) %>%
+    top_n(-5, Speechiness) %>%
+    select(Song, Artist, Speechiness)
+```
+
+## Acousticness
+
+What is the distribution of acousticness?
+
+```{r Acousticness}
+ggplot(requestival_spotify, aes(x = Acousticness)) +
+    geom_histogram(bins = 100)
+```
+
+The five most acoustic songs are:
+
+```{r Acousticness-high}
+requestival_spotify %>%
+    arrange(-Acousticness) %>%
+    top_n(5, Acousticness) %>%
+    select(Song, Artist, Acousticness)
+```
+
+The five least acoustic are:
+
+```{r Acousticness-low}
+requestival_spotify %>%
+    arrange(Acousticness) %>%
+    top_n(-5, Acousticness) %>%
+    select(Song, Artist, Acousticness)
+```
+
+## Liveness
+
+What is the distribution of liveness?
+
+```{r Liveness}
+ggplot(requestival_spotify, aes(x = Liveness)) +
+    geom_histogram(bins = 100)
+```
+
+The five most live songs are:
+
+```{r Liveness-high}
+requestival_spotify %>%
+    arrange(-Liveness) %>%
+    top_n(5, Liveness) %>%
+    select(Song, Artist, Liveness)
+```
+
+The five least live songs are:
+
+```{r Liveness-low}
+requestival_spotify %>%
+    arrange(Liveness) %>%
+    top_n(-5, Liveness) %>%
+    select(Song, Artist, Liveness)
+```

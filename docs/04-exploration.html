@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Exploration</title>
+
+<script src="site_libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Requestival</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/lazappi/requestival">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Exploration</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-05-31
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>requestival/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200529code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200529)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200529code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200529)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappirequestivaltreef30d7a1e73cfddd01ff9561f85b246a7b1a08ad3targetblankf30d7a1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/requestival/tree/f30d7a1e73cfddd01ff9561f85b246a7b1a08ad3" target="_blank">f30d7a1</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappirequestivaltreef30d7a1e73cfddd01ff9561f85b246a7b1a08ad3targetblankf30d7a1a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="http://github.com/lazappi/requestival/tree/f30d7a1e73cfddd01ff9561f85b246a7b1a08ad3" target="_blank">f30d7a1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    code/_spotify_secrets.R
+    Ignored:    data/.DS_Store
+    Ignored:    data/raw/.DS_Store
+    Ignored:    data/raw/requestival_24_files/
+    Ignored:    data/raw/requestival_25_files/
+    Ignored:    data/raw/requestival_26_files/
+    Ignored:    data/raw/requestival_27_files/
+    Ignored:    data/raw/requestival_28_files/
+    Ignored:    output/01-scraping.Rmd/
+    Ignored:    output/02-tidying.Rmd/
+    Ignored:    output/03-augmentation.Rmd/
+    Ignored:    output/04-exploration.Rmd/
+    Ignored:    renv/library/
+    Ignored:    renv/staging/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/04-exploration.Rmd</code>) and HTML (<code>docs/04-exploration.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="http://github.com/lazappi/requestival/blob/f30d7a1e73cfddd01ff9561f85b246a7b1a08ad3/analysis/04-exploration.Rmd" target="_blank">f30d7a1</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+<td>
+Add exploration
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>source(here::here(&quot;code&quot;, &quot;setup.R&quot;))</code></pre>
+<div id="introduction" class="section level1 unnumbered" number="">
+<h1 class="unnumbered" number="">Introduction</h1>
+<p>In this document we are going to do some basic exploration of the complete augmented dataset. We will work through each column make some basics plots and and summaries. This should have to give us a better sense of the data but might also expose any mistakes we made during the pre-processing stages.</p>
+<pre class="r"><code>requestival &lt;- read_tsv(
+    PATHS$augmented,
+    col_types = cols(
+        .default     = col_double(),
+        DateTime     = col_datetime(format = &quot;&quot;),
+        Song         = col_character(),
+        Artist       = col_character(),
+        Release      = col_character(),
+        IsUnearthed  = col_logical(),
+        UnearthedURL = col_character(),
+        SpotifyQuery = col_character(),
+        SpotifyURL   = col_character(),
+        YouTubeQuery = col_character(),
+        YouTubeURL   = col_character(),
+        SpotifyID    = col_character(),
+        HasSpotify   = col_logical(),
+        AlbumDate    = col_date(format = &quot;&quot;),
+        Explicit     = col_logical(),
+        IsMajor      = col_logical()
+)
+) %&gt;%
+    mutate(DateTime = with_tz(DateTime, &quot;Australia/Sydney&quot;))</code></pre>
+<p class="timeit">
+Chunk time: 0.04 secs
+</p>
+<p>The dataset has <strong>696</strong> rows and <strong>25</strong> columns.</p>
+</div>
+<div id="triple-j-features" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Triple J features</h1>
+<p>Let’s start with the features we scraped from the HTML files.</p>
+<div id="datetime" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> DateTime</h2>
+<p>When were the songs played?</p>
+<pre class="r"><code>ggplot(requestival, aes(x = DateTime)) +
+    geom_histogram(bins = 200)</code></pre>
+<img src="figure/04-exploration.Rmd/DateTime-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.61 secs
+</p>
+</div>
+<div id="song" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> Song</h2>
+<p>There are <strong>678</strong> unique songs. How many times was each song played?</p>
+<pre class="r"><code>song_counts &lt;- requestival %&gt;%
+    group_by(Song, Artist) %&gt;%
+    count(name = &quot;PlayCount&quot;)
+
+ggplot(song_counts, aes(x = PlayCount)) +
+    geom_histogram()</code></pre>
+<img src="figure/04-exploration.Rmd/Song-count-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.34 secs
+</p>
+<p>Which songs were played more than once?</p>
+<pre class="r"><code>song_counts %&gt;%
+    filter(PlayCount &gt; 1) %&gt;%
+    arrange(-PlayCount)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["PlayCount"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"Bags","2":"Clairo","3":"2"},{"1":"Dead Horse","2":"Hayley Williams","3":"2"},{"1":"Energy","2":"Stace Cadet & KLP","3":"2"},{"1":"Fall","2":"Dulcie","3":"2"},{"1":"HEART ATTACK {Ft. lau.ra}","2":"BRONSON","3":"2"},{"1":"Multiply {Ft. Jack River}","2":"Love Fame Tragedy","3":"2"},{"1":"Pretty Lady","2":"Tash Sultana","3":"2"},{"1":"Swimming Pool","2":"Eliza & The Delusionals","3":"2"},{"1":"Tangled; Content","2":"Luca Brasi","3":"2"},{"1":"The Glow","2":"DMA'S","3":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="artist" class="section level2" number="1.3">
+<h2 number="1.3"><span class="header-section-number">1.3</span> Artist</h2>
+<p>There are <strong>604</strong> unique artists. How many times was each artist played?</p>
+<pre class="r"><code>artist_counts &lt;- requestival %&gt;%
+    group_by(Artist) %&gt;%
+    count(name = &quot;PlayCount&quot;)
+
+ggplot(artist_counts, aes(x = PlayCount)) +
+    geom_histogram()</code></pre>
+<img src="figure/04-exploration.Rmd/Artist-count-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.29 secs
+</p>
+<p>Which artists were played more than once?</p>
+<pre class="r"><code>artist_counts %&gt;%
+    filter(PlayCount &gt; 1) %&gt;%
+    arrange(-PlayCount)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Artist"],"name":[1],"type":["chr"],"align":["left"]},{"label":["PlayCount"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"DMA'S","2":"4"},{"1":"BENEE","2":"3"},{"1":"Daft Punk","2":"3"},{"1":"G Flip","2":"3"},{"1":"Hockey Dad","2":"3"},{"1":"Joji","2":"3"},{"1":"King Gizzard & The Lizard Wizard","2":"3"},{"1":"Luca Brasi","2":"3"},{"1":"Mallrat","2":"3"},{"1":"The Chats","2":"3"},{"1":"Tia Gostelow","2":"3"},{"1":"A$AP Rocky","2":"2"},{"1":"Alex Lahey","2":"2"},{"1":"Ali Barter","2":"2"},{"1":"Alison Wonderland","2":"2"},{"1":"Allday","2":"2"},{"1":"Amy Shark","2":"2"},{"1":"Anderson .Paak","2":"2"},{"1":"Bag Raiders","2":"2"},{"1":"Billie Eilish","2":"2"},{"1":"Boy & Bear","2":"2"},{"1":"British India","2":"2"},{"1":"BROCKHAMPTON","2":"2"},{"1":"BRONSON","2":"2"},{"1":"Catfish And The Bottlemen","2":"2"},{"1":"Chance The Rapper","2":"2"},{"1":"Childish Gambino","2":"2"},{"1":"CHVRCHES","2":"2"},{"1":"Clairo","2":"2"},{"1":"Dear Seattle","2":"2"},{"1":"Digitalism","2":"2"},{"1":"Dulcie","2":"2"},{"1":"Dune Rats","2":"2"},{"1":"E^ST","2":"2"},{"1":"Eliza & The Delusionals","2":"2"},{"1":"Foals","2":"2"},{"1":"Frank Ocean","2":"2"},{"1":"Gang Of Youths","2":"2"},{"1":"Genesis Owusu","2":"2"},{"1":"Good Sniff","2":"2"},{"1":"Great Gable","2":"2"},{"1":"Hayley Williams","2":"2"},{"1":"Hilltop Hoods","2":"2"},{"1":"Horrorshow","2":"2"},{"1":"Illy","2":"2"},{"1":"Juice WRLD","2":"2"},{"1":"Jungle","2":"2"},{"1":"Kelis","2":"2"},{"1":"King Princess","2":"2"},{"1":"Kira Puru","2":"2"},{"1":"Kisschasy","2":"2"},{"1":"Klaxons","2":"2"},{"1":"Lana Del Rey","2":"2"},{"1":"Lily Allen","2":"2"},{"1":"Lime Cordiale","2":"2"},{"1":"Love Fame Tragedy","2":"2"},{"1":"Mac Miller","2":"2"},{"1":"Methyl Ethel","2":"2"},{"1":"Ocean Alley","2":"2"},{"1":"Ocean Grove","2":"2"},{"1":"Paul Dempsey","2":"2"},{"1":"Peking Duk","2":"2"},{"1":"Polaris","2":"2"},{"1":"Porter Robinson","2":"2"},{"1":"RedHook","2":"2"},{"1":"Rina Sawayama","2":"2"},{"1":"SAFIA","2":"2"},{"1":"Seth Sentry","2":"2"},{"1":"Spacey Jane","2":"2"},{"1":"Stace Cadet & KLP","2":"2"},{"1":"Tame Impala","2":"2"},{"1":"Tash Sultana","2":"2"},{"1":"The Avalanches","2":"2"},{"1":"The Grates","2":"2"},{"1":"The Naked And Famous","2":"2"},{"1":"The Wombats","2":"2"},{"1":"The xx","2":"2"},{"1":"Tkay Maidza","2":"2"},{"1":"Travis Scott","2":"2"},{"1":"Wafia","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.05 secs
+</p>
+</div>
+<div id="release" class="section level2" number="1.4">
+<h2 number="1.4"><span class="header-section-number">1.4</span> Release</h2>
+<p>There are <strong>643</strong> unique releases. How many times was each release played?</p>
+<pre class="r"><code>release_counts &lt;- requestival %&gt;%
+    group_by(Release) %&gt;%
+    count(name = &quot;PlayCount&quot;)
+
+ggplot(release_counts, aes(x = PlayCount)) +
+    geom_histogram()</code></pre>
+<img src="figure/04-exploration.Rmd/Release-count-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.3 secs
+</p>
+<p>Which releases were played more than once?</p>
+<pre class="r"><code>release_counts %&gt;%
+    filter(PlayCount &gt; 1) %&gt;%
+    arrange(-PlayCount)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Release"],"name":[1],"type":["chr"],"align":["left"]},{"label":["PlayCount"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Live At The Wireless","2":"15"},{"1":"Like A Version","2":"9"},{"1":"NA","2":"9"},{"1":"Circles","2":"3"},{"1":"Energy","2":"3"},{"1":"A State Of Living In An Objective Reality","2":"2"},{"1":"Alive 2007","2":"2"},{"1":"Blend Inn","2":"2"},{"1":"BRONSON","2":"2"},{"1":"Fall","2":"2"},{"1":"For Ever","2":"2"},{"1":"Good For You","2":"2"},{"1":"Gravity Won't Get You High","2":"2"},{"1":"Immunity","2":"2"},{"1":"Malibu","2":"2"},{"1":"Moonfire","2":"2"},{"1":"Multiply","2":"2"},{"1":"Museum","2":"2"},{"1":"Petals For Armor","2":"2"},{"1":"Pretty Lady","2":"2"},{"1":"Tangled; Content","2":"2"},{"1":"The Death Of Me","2":"2"},{"1":"The Glow","2":"2"},{"1":"triple j's Like A Version 10","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>Which songs do not have an associated release?</p>
+<pre class="r"><code>requestival %&gt;%
+    filter(is.na(Release)) %&gt;%
+    select(DateTime, Song, Artist)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["DateTime"],"name":[1],"type":["S3: POSIXct"],"align":["right"]},{"label":["Song"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"2020-05-26 06:25:00","2":"Where The Wild Roses Grow","3":"Nick Cave And The Bad Seeds"},{"1":"2020-05-26 08:24:00","2":"Louie The Milkman","3":"Good Sniff"},{"1":"2020-05-26 14:30:00","2":"Beautiful Day","3":"U2"},{"1":"2020-05-26 15:09:00","2":"Sticks 'N' Stones","3":"Jamie T"},{"1":"2020-05-26 16:25:00","2":"L'Via L'Viaquez","3":"The Mars Volta"},{"1":"2020-05-27 07:05:00","2":"Anthem For The Year 2000","3":"Silverchair"},{"1":"2020-05-28 10:49:00","2":"Test & Recognise (Flume Re-work)","3":"Seekae"},{"1":"2020-05-28 15:32:00","2":"Call Your Girlfriend","3":"Robyn"},{"1":"2020-05-29 07:10:00","2":"R U A Cop?","3":"The Meeting Tree"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>This seems weird but I have checked them and this information is missing from the original HTML pages. It’s only a few songs so I’m not going to try and fix it.</p>
+</div>
+<div id="unearthed" class="section level2" number="1.5">
+<h2 number="1.5"><span class="header-section-number">1.5</span> Unearthed</h2>
+<p>How many songs are on Unearthed?</p>
+<pre class="r"><code>ggplot(requestival, aes(x = IsUnearthed)) +
+    geom_bar()</code></pre>
+<img src="figure/04-exploration.Rmd/Unearthed-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.25 secs
+</p>
+</div>
+</div>
+<div id="spotify" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Spotify</h1>
+<p>Now let’s looks at the fields we downloaded from Spotify. How many songs did we find Spotify track IDs for?</p>
+<pre class="r"><code>ggplot(requestival, aes(x = HasSpotify)) +
+    geom_bar()</code></pre>
+<img src="figure/04-exploration.Rmd/HasSpotify-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.25 secs
+</p>
+<p>For the rest of this section we will only look at the songs with Spotify information.</p>
+<pre class="r"><code>requestival_spotify &lt;- filter(requestival, HasSpotify)</code></pre>
+<p class="timeit">
+Chunk time: 0 secs
+</p>
+<div id="album-date" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Album date</h2>
+<p>When we the songs released? This is the album release date so may not be the earliest song release depending on which album we got from Spotify.</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = AlbumDate)) +
+    geom_histogram()</code></pre>
+<img src="figure/04-exploration.Rmd/AlbumDate-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.29 secs
+</p>
+<p>The five most recent songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(desc(AlbumDate)) %&gt;%
+    top_n(5, AlbumDate) %&gt;%
+    select(Song, Artist, Release, AlbumDate)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Release"],"name":[3],"type":["chr"],"align":["left"]},{"label":["AlbumDate"],"name":[4],"type":["date"],"align":["right"]}],"data":[{"1":"Twisting Words","2":"Miiesha","3":"Nyaaringu","4":"2020-05-29"},{"1":"California Dreamin'","2":"The Mamas & The Papas","3":"If You Can Believe Your Eyes And Ears","4":"2020-05-29"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"Celebrating 20 Years Together","4":"2020-05-27"},{"1":"Laying Low","2":"ChillinIT","3":"Laying Low","4":"2020-05-22"},{"1":"Break The Rules","2":"Ijale","3":"Break The Rules","4":"2020-05-22"},{"1":"Red, Black and Yellow","2":"Black Rock Band","3":"Red, Black and Yellow","4":"2020-05-22"},{"1":"Don't Call Me Baby","2":"Madison Avenue","3":"The Polyester Embassy","4":"2020-05-22"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five oldest songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(AlbumDate) %&gt;%
+    top_n(-5, AlbumDate) %&gt;%
+    select(Song, Artist, Release, AlbumDate)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Release"],"name":[3],"type":["chr"],"align":["left"]},{"label":["AlbumDate"],"name":[4],"type":["date"],"align":["right"]}],"data":[{"1":"Subterranean Homesick Blues","2":"Bob Dylan","3":"The Best Of Bob Dylan Vol. 1 And 2","4":"1965-03-22"},{"1":"Spirit in the Sky","2":"Norman Greenbaum","3":"Spirit in the Sky","4":"1969-01-01"},{"1":"Sweet Caroline","2":"Neil Diamond","3":"Sweet Caroline","4":"1969-06-06"},{"1":"Starman","2":"David Bowie","3":"The Rise And Fall Of Ziggy Stardust And The Spiders From Mars","4":"1972-06-06"},{"1":"Afternoon Delight","2":"Starland Vocal Band","3":"Starland Vocal Band","4":"1976-07-01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.2 secs
+</p>
+</div>
+<div id="duration" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Duration</h2>
+<p>How long are the songs?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Duration)) +
+    geom_histogram(bins = 100) +
+    scale_x_time()</code></pre>
+<img src="figure/04-exploration.Rmd/Duration-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.31 secs
+</p>
+<p>The five longest songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Duration) %&gt;%
+    top_n(5, Duration) %&gt;%
+    select(Song, Artist, Duration)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Duration"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Fools Gold","2":"The Stone Roses","3":"594.453"},{"1":"Pursuit","2":"Made In Paris","3":"514.385"},{"1":"All My Friends","2":"LCD Soundsystem","3":"462.266"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"455.493"},{"1":"Do Not Let Your Spirit Wane","2":"Gang Of Youths","3":"453.466"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five shortest songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Duration) %&gt;%
+    top_n(-5, Duration) %&gt;%
+    select(Song, Artist, Duration)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Duration"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Counting Worms","2":"Knocked Loose","3":"71.983"},{"1":"Dine N Dash","2":"The Chats","3":"74.866"},{"1":"Buy Me A Pony","2":"Spiderbait","3":"105.200"},{"1":"Let Me Down","2":"Oliver Tree","3":"111.209"},{"1":"Never Had So Much Fun","2":"Frenzal Rhomb","3":"121.373"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="explicit" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Explicit</h2>
+<p>How many songs are explicit?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Explicit)) +
+    geom_bar()</code></pre>
+<img src="figure/04-exploration.Rmd/Explicit-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.25 secs
+</p>
+</div>
+<div id="popularity" class="section level2" number="2.4">
+<h2 number="2.4"><span class="header-section-number">2.4</span> Popularity</h2>
+<p>What is the distribution of popularity scores?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Popularity)) +
+    geom_bar()</code></pre>
+<img src="figure/04-exploration.Rmd/Popularity-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.3 secs
+</p>
+<p>The five most “popular” songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Popularity) %&gt;%
+    top_n(5, Popularity) %&gt;%
+    select(Song, Artist, Popularity)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Popularity"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"goosebumps","2":"Travis Scott","3":"92"},{"1":"WHATS POPPIN","2":"Jack Harlow","3":"92"},{"1":"In Your Eyes","2":"The Weeknd","3":"91"},{"1":"Righteous","2":"Juice WRLD","3":"91"},{"1":"Robbery","2":"Juice WRLD","3":"86"},{"1":"Stupid Love","2":"Lady Gaga","3":"86"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five least “popular” songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Popularity) %&gt;%
+    top_n(-5, Popularity) %&gt;%
+    select(Song, Artist, Popularity)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Popularity"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"0"},{"1":"California Dreamin'","2":"The Mamas & The Papas","3":"0"},{"1":"Radar Detector","2":"Darwin Deez","3":"4"},{"1":"Don't Call Me Baby","2":"Madison Avenue","3":"4"},{"1":"Champion","2":"Grinspoon","3":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="ismajor" class="section level2" number="2.5">
+<h2 number="2.5"><span class="header-section-number">2.5</span> IsMajor</h2>
+<p>How many songs are in a major key?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = IsMajor)) +
+    geom_bar()</code></pre>
+<img src="figure/04-exploration.Rmd/IsMajor-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.24 secs
+</p>
+</div>
+<div id="loudness" class="section level2" number="2.6">
+<h2 number="2.6"><span class="header-section-number">2.6</span> Loudness</h2>
+<p>What is the distribution of loudness?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Loudness)) +
+    geom_histogram(bins = 100)</code></pre>
+<img src="figure/04-exploration.Rmd/Loudness-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.3 secs
+</p>
+<p>The five loudest songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Loudness) %&gt;%
+    top_n(5, Loudness) %&gt;%
+    select(Song, Artist, Loudness)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Loudness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Ask For The Anthem","2":"Ocean Grove","3":"-1.243"},{"1":"Chlorine","2":"Trophy Eyes","3":"-1.402"},{"1":"Barbra Streisand","2":"Duck Sauce","3":"-1.997"},{"1":"Hurricane","2":"Faker","3":"-2.073"},{"1":"Apocalypse Dreams","2":"Tame Impala","3":"-2.279"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five quietest songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Loudness) %&gt;%
+    top_n(-5, Loudness) %&gt;%
+    select(Song, Artist, Loudness)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Loudness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"-18.377"},{"1":"Sweet Caroline","2":"Neil Diamond","3":"-16.066"},{"1":"Thunder Road","2":"Bruce Springsteen","3":"-14.959"},{"1":"The Horses","2":"Daryl Braithwaite","3":"-14.816"},{"1":"It's Oh So Quiet","2":"Bjork","3":"-14.189"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="temp" class="section level2" number="2.7">
+<h2 number="2.7"><span class="header-section-number">2.7</span> Temp</h2>
+<p>What speed are the songs?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Tempo)) +
+    geom_histogram(bins = 100)</code></pre>
+<img src="figure/04-exploration.Rmd/Temp-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.33 secs
+</p>
+<p>The five fastest songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Tempo) %&gt;%
+    top_n(5, Tempo) %&gt;%
+    select(Song, Artist, Tempo)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Tempo"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"93 'Til Infinity","2":"Souls Of Mischief","3":"206.247"},{"1":"Bad Reputation","2":"Joan Jett","3":"203.715"},{"1":"Cigarettes","2":"Illy","3":"200.448"},{"1":"Anime","2":"JOY.","3":"198.107"},{"1":"Say What You Want","2":"Columbus","3":"197.040"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five slowest songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Tempo) %&gt;%
+    top_n(-5, Tempo) %&gt;%
+    select(Song, Artist, Tempo)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Tempo"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Sweet Caroline","2":"Neil Diamond","3":"63.050"},{"1":"Pineapple Head","2":"Crowded House","3":"63.886"},{"1":"Happiness is a Butterfly","2":"Lana Del Rey","3":"68.614"},{"1":"First Aid","2":"Gus Dapperton","3":"69.971"},{"1":"Duality","2":"Slipknot","3":"75.009"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="valence" class="section level2" number="2.8">
+<h2 number="2.8"><span class="header-section-number">2.8</span> Valence</h2>
+<p>What is the distribution of valence? This is score from zero to one where one is positive and zero is negative.</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Valence)) +
+    geom_histogram(bins = 100)</code></pre>
+<img src="figure/04-exploration.Rmd/Valence-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.31 secs
+</p>
+<p>The five most positive songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Valence) %&gt;%
+    top_n(5, Valence) %&gt;%
+    select(Song, Artist, Valence)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Valence"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"September","2":"Earth, Wind & Fire","3":"0.980"},{"1":"Ocean Man","2":"Ween","3":"0.973"},{"1":"Rasputin","2":"Boney M","3":"0.970"},{"1":"Buy Me A Pony","2":"Spiderbait","3":"0.970"},{"1":"101 FM","2":"Little Simz","3":"0.969"},{"1":"White Lies","2":"Max Frost","3":"0.969"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five most negative songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Valence) %&gt;%
+    top_n(-5, Valence) %&gt;%
+    select(Song, Artist, Valence)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Valence"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Raining Blood","2":"Slayer","3":"0.0363"},{"1":"Come On Mess Me Up","2":"Cub Sport","3":"0.0387"},{"1":"Ghost Voices","2":"Virtual Self","3":"0.0390"},{"1":"Weightless","2":"Northlane","3":"0.0528"},{"1":"Drive Me Round","2":"Mallrat","3":"0.0695"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="energy" class="section level2" number="2.9">
+<h2 number="2.9"><span class="header-section-number">2.9</span> Energy</h2>
+<p>What is the distribution of energy?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Energy)) +
+    geom_histogram(bins = 100)</code></pre>
+<img src="figure/04-exploration.Rmd/Energy-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.34 secs
+</p>
+<p>The five most energetic songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Energy) %&gt;%
+    top_n(5, Energy) %&gt;%
+    select(Song, Artist, Energy)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Energy"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Raining Blood","2":"Slayer","3":"0.995"},{"1":"Vice Grip","2":"Parkway Drive","3":"0.988"},{"1":"Composure","2":"Yours Truly","3":"0.987"},{"1":"Ask For The Anthem","2":"Ocean Grove","3":"0.984"},{"1":"Duality","2":"Slipknot","3":"0.984"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five least energetic songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Energy) %&gt;%
+    top_n(-5, Energy) %&gt;%
+    select(Song, Artist, Energy)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Energy"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Thunder Road","2":"Bruce Springsteen","3":"0.119"},{"1":"Happiness is a Butterfly","2":"Lana Del Rey","3":"0.126"},{"1":"Sweet Caroline","2":"Neil Diamond","3":"0.127"},{"1":"It's Oh So Quiet","2":"Bjork","3":"0.129"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"0.168"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="danceability" class="section level2" number="2.10">
+<h2 number="2.10"><span class="header-section-number">2.10</span> Danceability</h2>
+<p>What is the distribution of danceability?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Danceability)) +
+    geom_histogram(bins = 100)</code></pre>
+<img src="figure/04-exploration.Rmd/Danceability-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.3 secs
+</p>
+<p>The five most danceable songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Danceability) %&gt;%
+    top_n(5, Danceability) %&gt;%
+    select(Song, Artist, Danceability)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Danceability"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"This Must Be The Place (Naive Melody)","2":"Talking Heads","3":"0.942"},{"1":"Bad N Bouj","2":"Hp Boyz","3":"0.938"},{"1":"raingurl","2":"yaeji","3":"0.929"},{"1":"Good Times","2":"Genesis Owusu","3":"0.927"},{"1":"Bodak Yellow","2":"Cardi B","3":"0.926"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five least danceable songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Danceability) %&gt;%
+    top_n(-5, Danceability) %&gt;%
+    select(Song, Artist, Danceability)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Danceability"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"I Still Dream About You","2":"The Smith Street Band","3":"0.146"},{"1":"Vanilla","2":"British India","3":"0.163"},{"1":"FU","2":"WAAX","3":"0.171"},{"1":"Echoes","2":"Klaxons","3":"0.200"},{"1":"Duality","2":"Slipknot","3":"0.202"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="speechiness" class="section level2" number="2.11">
+<h2 number="2.11"><span class="header-section-number">2.11</span> Speechiness</h2>
+<p>What is the distribution of speechiness?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Speechiness)) +
+    geom_histogram(bins = 100)</code></pre>
+<img src="figure/04-exploration.Rmd/Speechiness-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.32 secs
+</p>
+<p>The five most speechy songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Speechiness) %&gt;%
+    top_n(5, Speechiness) %&gt;%
+    select(Song, Artist, Speechiness)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Speechiness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"RNP","2":"YBN Cordae","3":"0.856"},{"1":"Sunday Roast","2":"Nerve","3":"0.592"},{"1":"Flat Beat","2":"Mr. Oizo","3":"0.578"},{"1":"Typical Story","2":"Hobo Johnson","3":"0.438"},{"1":"Hoodlum","2":"Dallas Woods","3":"0.430"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five least speechy songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Speechiness) %&gt;%
+    top_n(-5, Speechiness) %&gt;%
+    select(Song, Artist, Speechiness)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Speechiness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Strangers","2":"Tia Gostelow","3":"0.0242"},{"1":"Returning","2":"Erthlings","3":"0.0243"},{"1":"Better","2":"Mallrat","3":"0.0251"},{"1":"Pineapple Head","2":"Crowded House","3":"0.0260"},{"1":"Scar","2":"Cloud Control","3":"0.0260"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="acousticness" class="section level2" number="2.12">
+<h2 number="2.12"><span class="header-section-number">2.12</span> Acousticness</h2>
+<p>What is the distribution of acousticness?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Acousticness)) +
+    geom_histogram(bins = 100)</code></pre>
+<img src="figure/04-exploration.Rmd/Acousticness-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.32 secs
+</p>
+<p>The five most acoustic songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Acousticness) %&gt;%
+    top_n(5, Acousticness) %&gt;%
+    select(Song, Artist, Acousticness)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Acousticness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Happiness is a Butterfly","2":"Lana Del Rey","3":"0.966"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"0.965"},{"1":"Thunder Road","2":"Bruce Springsteen","3":"0.927"},{"1":"Everlong","2":"Foo Fighters","3":"0.909"},{"1":"Together","2":"Ziggy Alberts","3":"0.907"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five least acoustic are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Acousticness) %&gt;%
+    top_n(-5, Acousticness) %&gt;%
+    select(Song, Artist, Acousticness)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Acousticness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Sweet Release","2":"Hockey Dad","3":"6.75e-06"},{"1":"Vagabond","2":"Polaris","3":"7.12e-06"},{"1":"Swimming Pool","2":"Eliza & The Delusionals","3":"9.40e-06"},{"1":"Swimming Pool","2":"Eliza & The Delusionals","3":"9.40e-06"},{"1":"Promise Everything","2":"Basement","3":"1.20e-05"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+</div>
+<div id="liveness" class="section level2" number="2.13">
+<h2 number="2.13"><span class="header-section-number">2.13</span> Liveness</h2>
+<p>What is the distribution of liveness?</p>
+<pre class="r"><code>ggplot(requestival_spotify, aes(x = Liveness)) +
+    geom_histogram(bins = 100)</code></pre>
+<img src="figure/04-exploration.Rmd/Liveness-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.31 secs
+</p>
+<p>The five most live songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(-Liveness) %&gt;%
+    top_n(5, Liveness) %&gt;%
+    select(Song, Artist, Liveness)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Liveness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Let Me Mend The Past (Live in Madrid '19)","2":"King Gizzard & The Lizard Wizard","3":"0.940"},{"1":"Paranoia, Ghosts & Other Sounds","2":"SAFIA","3":"0.923"},{"1":"Mr La Di Da Di","2":"Baker Boy","3":"0.909"},{"1":"The Dreamer","2":"Anderson .Paak","3":"0.896"},{"1":"Youth Allowance","2":"Northeast Party House","3":"0.881"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<p>The five least live songs are:</p>
+<pre class="r"><code>requestival_spotify %&gt;%
+    arrange(Liveness) %&gt;%
+    top_n(-5, Liveness) %&gt;%
+    select(Song, Artist, Liveness)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Liveness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Not Many (Remix)","2":"Scribe","3":"0.0236"},{"1":"This Must Be The Place (Naive Melody)","2":"Talking Heads","3":"0.0280"},{"1":"Nutbush City Limits","2":"Tina Turner","3":"0.0292"},{"1":"Junk Of The Heart (Happy)","2":"The Kooks","3":"0.0299"},{"1":"Superstar (Hollywood Royalty Remix)","2":"RuPaul","3":"0.0319"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p class="timeit">
+Chunk time: 0.01 secs
+</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessioninfo::session_info()</code></pre>
+<pre><code>─ Session info ───────────────────────────────────────────────────────────────
+ setting  value                       
+ version  R version 4.0.0 (2020-04-24)
+ os       macOS Catalina 10.15.4      
+ system   x86_64, darwin17.0          
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ ctype    en_US.UTF-8                 
+ tz       Europe/Berlin               
+ date     2020-05-31                  
+
+─ Packages ───────────────────────────────────────────────────────────────────
+ ! package     * version date       lib source           
+ P assertthat    0.2.1   2019-03-21 [?] CRAN (R 4.0.0)   
+ P backports     1.1.7   2020-05-13 [?] CRAN (R 4.0.0)   
+ P base64enc     0.1-3   2015-07-28 [?] CRAN (R 4.0.0)   
+ P blob          1.2.1   2020-01-20 [?] CRAN (R 4.0.0)   
+ P broom         0.5.6   2020-04-20 [?] CRAN (R 4.0.0)   
+ P cellranger    1.1.0   2016-07-27 [?] standard (@1.1.0)
+ P cli           2.0.2   2020-02-28 [?] CRAN (R 4.0.0)   
+ P colorspace    1.4-1   2019-03-18 [?] standard (@1.4-1)
+ P conflicted  * 1.0.4   2019-06-21 [?] standard (@1.0.4)
+ P crayon        1.3.4   2017-09-16 [?] CRAN (R 4.0.0)   
+ P DBI           1.1.0   2019-12-15 [?] CRAN (R 4.0.0)   
+ P dbplyr        1.4.4   2020-05-27 [?] CRAN (R 4.0.0)   
+ P digest        0.6.25  2020-02-23 [?] CRAN (R 4.0.0)   
+ P dplyr       * 0.8.5   2020-03-07 [?] CRAN (R 4.0.0)   
+ P ellipsis      0.3.1   2020-05-15 [?] CRAN (R 4.0.0)   
+ P evaluate      0.14    2019-05-28 [?] standard (@0.14) 
+ P fansi         0.4.1   2020-01-08 [?] CRAN (R 4.0.0)   
+ P farver        2.0.3   2020-01-16 [?] CRAN (R 4.0.0)   
+ P forcats     * 0.5.0   2020-03-01 [?] CRAN (R 4.0.0)   
+ P fs          * 1.4.1   2020-04-04 [?] CRAN (R 4.0.0)   
+ P generics      0.0.2   2018-11-29 [?] standard (@0.0.2)
+ P genius        2.2.2   2020-05-28 [?] CRAN (R 4.0.0)   
+ P ggplot2     * 3.3.1   2020-05-28 [?] CRAN (R 4.0.0)   
+ P git2r         0.27.1  2020-05-03 [?] CRAN (R 4.0.0)   
+ P glue        * 1.4.1   2020-05-13 [?] CRAN (R 4.0.0)   
+ P gtable        0.3.0   2019-03-25 [?] standard (@0.3.0)
+ P haven         2.3.0   2020-05-24 [?] CRAN (R 4.0.0)   
+ P here        * 0.1     2017-05-28 [?] standard (@0.1)  
+ P hms           0.5.3   2020-01-08 [?] CRAN (R 4.0.0)   
+ P htmltools     0.4.0   2019-10-04 [?] standard (@0.4.0)
+ P httpuv        1.5.3.1 2020-05-26 [?] CRAN (R 4.0.0)   
+ P httr          1.4.1   2019-08-05 [?] standard (@1.4.1)
+ P janeaustenr   0.1.5   2017-06-10 [?] CRAN (R 4.0.0)   
+ P jsonlite      1.6.1   2020-02-02 [?] CRAN (R 4.0.0)   
+ P knitr         1.28    2020-02-06 [?] CRAN (R 4.0.0)   
+ P labeling      0.3     2014-08-23 [?] standard (@0.3)  
+ P later         1.0.0   2019-10-04 [?] standard (@1.0.0)
+ P lattice       0.20-41 2020-04-02 [3] CRAN (R 4.0.0)   
+ P lifecycle     0.2.0   2020-03-06 [?] CRAN (R 4.0.0)   
+ P lubridate   * 1.7.8   2020-04-06 [?] CRAN (R 4.0.0)   
+ P magrittr      1.5     2014-11-22 [?] CRAN (R 4.0.0)   
+ P Matrix        1.2-18  2019-11-27 [3] CRAN (R 4.0.0)   
+ P memoise       1.1.0   2017-04-21 [?] standard (@1.1.0)
+ P modelr        0.1.8   2020-05-19 [?] CRAN (R 4.0.0)   
+ P munsell       0.5.0   2018-06-12 [?] standard (@0.5.0)
+ P nlme          3.1-147 2020-04-13 [3] CRAN (R 4.0.0)   
+ P pillar        1.4.4   2020-05-05 [?] CRAN (R 4.0.0)   
+ P pkgconfig     2.0.3   2019-09-22 [?] CRAN (R 4.0.0)   
+ P plyr          1.8.6   2020-03-03 [?] CRAN (R 4.0.0)   
+ P promises      1.1.0   2019-10-04 [?] standard (@1.1.0)
+ P purrr       * 0.3.4   2020-04-17 [?] CRAN (R 4.0.0)   
+ P R6            2.4.1   2019-11-12 [?] CRAN (R 4.0.0)   
+ P Rcpp          1.0.4.6 2020-04-09 [?] CRAN (R 4.0.0)   
+ P readr       * 1.3.1   2018-12-21 [?] standard (@1.3.1)
+ P readxl        1.3.1   2019-03-13 [?] standard (@1.3.1)
+ P reprex        0.3.0   2019-05-16 [?] standard (@0.3.0)
+ P reshape2      1.4.4   2020-04-09 [?] CRAN (R 4.0.0)   
+ P rlang         0.4.6   2020-05-02 [?] CRAN (R 4.0.0)   
+ P rmarkdown     2.1     2020-01-20 [?] CRAN (R 4.0.0)   
+ P rprojroot     1.3-2   2018-01-03 [?] CRAN (R 4.0.0)   
+ P rstudioapi    0.11    2020-02-07 [?] CRAN (R 4.0.0)   
+ P rvest       * 0.3.5   2019-11-08 [?] standard (@0.3.5)
+ P scales        1.1.1   2020-05-11 [?] CRAN (R 4.0.0)   
+   sessioninfo   1.1.1   2018-11-05 [3] CRAN (R 4.0.0)   
+ P SnowballC     0.7.0   2020-04-01 [?] CRAN (R 4.0.0)   
+ P spotifyr    * 2.1.1   2019-07-13 [?] CRAN (R 4.0.0)   
+ P stringi       1.4.6   2020-02-17 [?] CRAN (R 4.0.0)   
+ P stringr     * 1.4.0   2019-02-10 [?] CRAN (R 4.0.0)   
+ P tibble      * 3.0.1   2020-04-20 [?] CRAN (R 4.0.0)   
+ P tidyr       * 1.1.0   2020-05-20 [?] CRAN (R 4.0.0)   
+ P tidyselect    1.1.0   2020-05-11 [?] CRAN (R 4.0.0)   
+ P tidytext      0.2.4   2020-04-17 [?] CRAN (R 4.0.0)   
+ P tidyverse   * 1.3.0   2019-11-21 [?] standard (@1.3.0)
+ P tokenizers    0.2.1   2018-03-29 [?] CRAN (R 4.0.0)   
+ P vctrs         0.3.0   2020-05-11 [?] CRAN (R 4.0.0)   
+ P whisker       0.4     2019-08-28 [?] standard (@0.4)  
+ P withr         2.2.0   2020-04-20 [?] CRAN (R 4.0.0)   
+ P workflowr     1.6.2   2020-04-30 [?] CRAN (R 4.0.0)   
+ P xfun          0.14    2020-05-20 [?] CRAN (R 4.0.0)   
+ P xml2        * 1.3.2   2020-04-23 [?] CRAN (R 4.0.0)   
+ P yaml          2.2.1   2020-02-01 [?] CRAN (R 4.0.0)   
+
+[1] /Users/luke.zappia/Documents/Projects/requestival/renv/library/R-4.0/x86_64-apple-darwin17.0
+[2] /private/var/folders/rj/60lhr791617422kqvh0r4vy40000gn/T/RtmpQWp4dI/renv-system-library
+[3] /Library/Frameworks/R.framework/Versions/4.0/Resources/library
+
+ P ── Loaded and on-disk path mismatch.</code></pre>
+<p class="timeit">
+Chunk time: 0.22 secs
+</p>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhwbG9yYXRpb24iCm91dHB1dDogd29ya2Zsb3dyOjp3Zmxvd19odG1sCmVkaXRvcl9vcHRpb25zOgogIGNodW5rX291dHB1dF90eXBlOiBjb25zb2xlCi0tLQoKYGBge3Igc2V0dXAsIGNhY2hlID0gRkFMU0V9CnNvdXJjZShoZXJlOjpoZXJlKCJjb2RlIiwgInNldHVwLlIiKSkKYGBgCgojIEludHJvZHVjdGlvbiB7LnVubnVtYmVyZWR9CgpJbiB0aGlzIGRvY3VtZW50IHdlIGFyZSBnb2luZyB0byBkbyBzb21lIGJhc2ljIGV4cGxvcmF0aW9uIG9mIHRoZSBjb21wbGV0ZQphdWdtZW50ZWQgZGF0YXNldC4gV2Ugd2lsbCB3b3JrIHRocm91Z2ggZWFjaCBjb2x1bW4gbWFrZSBzb21lIGJhc2ljcyBwbG90cyBhbmQKYW5kIHN1bW1hcmllcy4gVGhpcyBzaG91bGQgaGF2ZSB0byBnaXZlIHVzIGEgYmV0dGVyIHNlbnNlIG9mIHRoZSBkYXRhIGJ1dCBtaWdodAphbHNvIGV4cG9zZSBhbnkgbWlzdGFrZXMgd2UgbWFkZSBkdXJpbmcgdGhlIHByZS1wcm9jZXNzaW5nIHN0YWdlcy4gCgpgYGB7ciBsb2FkfQpyZXF1ZXN0aXZhbCA8LSByZWFkX3RzdigKICAgIFBBVEhTJGF1Z21lbnRlZCwKICAgIGNvbF90eXBlcyA9IGNvbHMoCiAgICAgICAgLmRlZmF1bHQgICAgID0gY29sX2RvdWJsZSgpLAogICAgICAgIERhdGVUaW1lICAgICA9IGNvbF9kYXRldGltZShmb3JtYXQgPSAiIiksCiAgICAgICAgU29uZyAgICAgICAgID0gY29sX2NoYXJhY3RlcigpLAogICAgICAgIEFydGlzdCAgICAgICA9IGNvbF9jaGFyYWN0ZXIoKSwKICAgICAgICBSZWxlYXNlICAgICAgPSBjb2xfY2hhcmFjdGVyKCksCiAgICAgICAgSXNVbmVhcnRoZWQgID0gY29sX2xvZ2ljYWwoKSwKICAgICAgICBVbmVhcnRoZWRVUkwgPSBjb2xfY2hhcmFjdGVyKCksCiAgICAgICAgU3BvdGlmeVF1ZXJ5ID0gY29sX2NoYXJhY3RlcigpLAogICAgICAgIFNwb3RpZnlVUkwgICA9IGNvbF9jaGFyYWN0ZXIoKSwKICAgICAgICBZb3VUdWJlUXVlcnkgPSBjb2xfY2hhcmFjdGVyKCksCiAgICAgICAgWW91VHViZVVSTCAgID0gY29sX2NoYXJhY3RlcigpLAogICAgICAgIFNwb3RpZnlJRCAgICA9IGNvbF9jaGFyYWN0ZXIoKSwKICAgICAgICBIYXNTcG90aWZ5ICAgPSBjb2xfbG9naWNhbCgpLAogICAgICAgIEFsYnVtRGF0ZSAgICA9IGNvbF9kYXRlKGZvcm1hdCA9ICIiKSwKICAgICAgICBFeHBsaWNpdCAgICAgPSBjb2xfbG9naWNhbCgpLAogICAgICAgIElzTWFqb3IgICAgICA9IGNvbF9sb2dpY2FsKCkKKQopICU+JQogICAgbXV0YXRlKERhdGVUaW1lID0gd2l0aF90eihEYXRlVGltZSwgIkF1c3RyYWxpYS9TeWRuZXkiKSkKYGBgCgpUaGUgZGF0YXNldCBoYXMgKipgciBucm93KHJlcXVlc3RpdmFsKWAqKiByb3dzIGFuZCAqKmByIG5jb2wocmVxdWVzdGl2YWwpYCoqIApjb2x1bW5zLgoKIyBUcmlwbGUgSiBmZWF0dXJlcwoKTGV0J3Mgc3RhcnQgd2l0aCB0aGUgZmVhdHVyZXMgd2Ugc2NyYXBlZCBmcm9tIHRoZSBIVE1MIGZpbGVzLgoKIyMgRGF0ZVRpbWUKCldoZW4gd2VyZSB0aGUgc29uZ3MgcGxheWVkPwoKYGBge3IgRGF0ZVRpbWV9CmdncGxvdChyZXF1ZXN0aXZhbCwgYWVzKHggPSBEYXRlVGltZSkpICsKICAgIGdlb21faGlzdG9ncmFtKGJpbnMgPSAyMDApCmBgYAoKIyMgU29uZwoKVGhlcmUgYXJlICoqYHIgbGVuZ3RoKHVuaXF1ZShyZXF1ZXN0aXZhbCRTb25nKSlgKiogdW5pcXVlIHNvbmdzLiBIb3cgbWFueSB0aW1lcwp3YXMgZWFjaCBzb25nIHBsYXllZD8KCmBgYHtyIFNvbmctY291bnR9CnNvbmdfY291bnRzIDwtIHJlcXVlc3RpdmFsICU+JQogICAgZ3JvdXBfYnkoU29uZywgQXJ0aXN0KSAlPiUKICAgIGNvdW50KG5hbWUgPSAiUGxheUNvdW50IikKCmdncGxvdChzb25nX2NvdW50cywgYWVzKHggPSBQbGF5Q291bnQpKSArCiAgICBnZW9tX2hpc3RvZ3JhbSgpCmBgYAoKV2hpY2ggc29uZ3Mgd2VyZSBwbGF5ZWQgbW9yZSB0aGFuIG9uY2U/CgpgYGB7ciBTb25nLW11bHRpcGxlfQpzb25nX2NvdW50cyAlPiUKICAgIGZpbHRlcihQbGF5Q291bnQgPiAxKSAlPiUKICAgIGFycmFuZ2UoLVBsYXlDb3VudCkKYGBgCgojIyBBcnRpc3QKClRoZXJlIGFyZSAqKmByIGxlbmd0aCh1bmlxdWUocmVxdWVzdGl2YWwkQXJ0aXN0KSlgKiogdW5pcXVlIGFydGlzdHMuIEhvdyBtYW55IAp0aW1lcyB3YXMgZWFjaCBhcnRpc3QgcGxheWVkPwoKYGBge3IgQXJ0aXN0LWNvdW50fQphcnRpc3RfY291bnRzIDwtIHJlcXVlc3RpdmFsICU+JQogICAgZ3JvdXBfYnkoQXJ0aXN0KSAlPiUKICAgIGNvdW50KG5hbWUgPSAiUGxheUNvdW50IikKCmdncGxvdChhcnRpc3RfY291bnRzLCBhZXMoeCA9IFBsYXlDb3VudCkpICsKICAgIGdlb21faGlzdG9ncmFtKCkKYGBgCgpXaGljaCBhcnRpc3RzIHdlcmUgcGxheWVkIG1vcmUgdGhhbiBvbmNlPwoKYGBge3IgQXJ0aXN0LW11bHRpcGxlfQphcnRpc3RfY291bnRzICU+JQogICAgZmlsdGVyKFBsYXlDb3VudCA+IDEpICU+JQogICAgYXJyYW5nZSgtUGxheUNvdW50KQpgYGAKCiMjIFJlbGVhc2UKClRoZXJlIGFyZSAqKmByIGxlbmd0aCh1bmlxdWUocmVxdWVzdGl2YWwkUmVsZWFzZSkpYCoqIHVuaXF1ZSByZWxlYXNlcy4gSG93IG1hbnkgCnRpbWVzIHdhcyBlYWNoIHJlbGVhc2UgcGxheWVkPwoKYGBge3IgUmVsZWFzZS1jb3VudH0KcmVsZWFzZV9jb3VudHMgPC0gcmVxdWVzdGl2YWwgJT4lCiAgICBncm91cF9ieShSZWxlYXNlKSAlPiUKICAgIGNvdW50KG5hbWUgPSAiUGxheUNvdW50IikKCmdncGxvdChyZWxlYXNlX2NvdW50cywgYWVzKHggPSBQbGF5Q291bnQpKSArCiAgICBnZW9tX2hpc3RvZ3JhbSgpCmBgYAoKV2hpY2ggcmVsZWFzZXMgd2VyZSBwbGF5ZWQgbW9yZSB0aGFuIG9uY2U/CgpgYGB7ciBSZWxlYXNlLW11bHRpcGxlfQpyZWxlYXNlX2NvdW50cyAlPiUKICAgIGZpbHRlcihQbGF5Q291bnQgPiAxKSAlPiUKICAgIGFycmFuZ2UoLVBsYXlDb3VudCkKYGBgCgpXaGljaCBzb25ncyBkbyBub3QgaGF2ZSBhbiBhc3NvY2lhdGVkIHJlbGVhc2U/CgpgYGB7ciBSZWxlYXNlLU5BfQpyZXF1ZXN0aXZhbCAlPiUKICAgIGZpbHRlcihpcy5uYShSZWxlYXNlKSkgJT4lCiAgICBzZWxlY3QoRGF0ZVRpbWUsIFNvbmcsIEFydGlzdCkKYGBgCgpUaGlzIHNlZW1zIHdlaXJkIGJ1dCBJIGhhdmUgY2hlY2tlZCB0aGVtIGFuZCB0aGlzIGluZm9ybWF0aW9uIGlzIG1pc3NpbmcgZnJvbQp0aGUgb3JpZ2luYWwgSFRNTCBwYWdlcy4gSXQncyBvbmx5IGEgZmV3IHNvbmdzIHNvIEknbSBub3QgZ29pbmcgdG8gdHJ5IGFuZCBmaXgKaXQuCgojIyBVbmVhcnRoZWQKCkhvdyBtYW55IHNvbmdzIGFyZSBvbiBVbmVhcnRoZWQ/CgpgYGB7ciBVbmVhcnRoZWR9CmdncGxvdChyZXF1ZXN0aXZhbCwgYWVzKHggPSBJc1VuZWFydGhlZCkpICsKICAgIGdlb21fYmFyKCkKYGBgCgojIFNwb3RpZnkKCk5vdyBsZXQncyBsb29rcyBhdCB0aGUgZmllbGRzIHdlIGRvd25sb2FkZWQgZnJvbSBTcG90aWZ5LiBIb3cgbWFueSBzb25ncyBkaWQgd2UKZmluZCBTcG90aWZ5IHRyYWNrIElEcyBmb3I/CgpgYGB7ciBIYXNTcG90aWZ5fQpnZ3Bsb3QocmVxdWVzdGl2YWwsIGFlcyh4ID0gSGFzU3BvdGlmeSkpICsKICAgIGdlb21fYmFyKCkKYGBgCgpGb3IgdGhlIHJlc3Qgb2YgdGhpcyBzZWN0aW9uIHdlIHdpbGwgb25seSBsb29rIGF0IHRoZSBzb25ncyB3aXRoIFNwb3RpZnkKaW5mb3JtYXRpb24uCgpgYGB7ciBmaWx0ZXItc3BvdGlmeX0KcmVxdWVzdGl2YWxfc3BvdGlmeSA8LSBmaWx0ZXIocmVxdWVzdGl2YWwsIEhhc1Nwb3RpZnkpCmBgYAoKIyMgQWxidW0gZGF0ZQoKV2hlbiB3ZSB0aGUgc29uZ3MgcmVsZWFzZWQ/IFRoaXMgaXMgdGhlIGFsYnVtIHJlbGVhc2UgZGF0ZSBzbyBtYXkgbm90IGJlIHRoZQplYXJsaWVzdCBzb25nIHJlbGVhc2UgZGVwZW5kaW5nIG9uIHdoaWNoIGFsYnVtIHdlIGdvdCBmcm9tIFNwb3RpZnkuCgpgYGB7ciBBbGJ1bURhdGV9CmdncGxvdChyZXF1ZXN0aXZhbF9zcG90aWZ5LCBhZXMoeCA9IEFsYnVtRGF0ZSkpICsKICAgIGdlb21faGlzdG9ncmFtKCkKYGBgCgpUaGUgZml2ZSBtb3N0IHJlY2VudCBzb25ncyBhcmU6CgpgYGB7ciBBbGJ1bURhdGUtcmVjZW50fQpyZXF1ZXN0aXZhbF9zcG90aWZ5ICU+JQogICAgYXJyYW5nZShkZXNjKEFsYnVtRGF0ZSkpICU+JQogICAgdG9wX24oNSwgQWxidW1EYXRlKSAlPiUKICAgIHNlbGVjdChTb25nLCBBcnRpc3QsIFJlbGVhc2UsIEFsYnVtRGF0ZSkKYGBgCgpUaGUgZml2ZSBvbGRlc3Qgc29uZ3MgYXJlOgoKYGBge3IgQWxidW1EYXRlLW9sZH0KcmVxdWVzdGl2YWxfc3BvdGlmeSAlPiUKICAgIGFycmFuZ2UoQWxidW1EYXRlKSAlPiUKICAgIHRvcF9uKC01LCBBbGJ1bURhdGUpICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgUmVsZWFzZSwgQWxidW1EYXRlKQpgYGAKCiMjIER1cmF0aW9uCgpIb3cgbG9uZyBhcmUgdGhlIHNvbmdzPwoKYGBge3IgRHVyYXRpb259CmdncGxvdChyZXF1ZXN0aXZhbF9zcG90aWZ5LCBhZXMoeCA9IER1cmF0aW9uKSkgKwogICAgZ2VvbV9oaXN0b2dyYW0oYmlucyA9IDEwMCkgKwogICAgc2NhbGVfeF90aW1lKCkKYGBgCgpUaGUgZml2ZSBsb25nZXN0IHNvbmdzIGFyZToKCmBgYHtyIER1cmF0aW9uLWxvbmd9CnJlcXVlc3RpdmFsX3Nwb3RpZnkgJT4lCiAgICBhcnJhbmdlKC1EdXJhdGlvbikgJT4lCiAgICB0b3Bfbig1LCBEdXJhdGlvbikgJT4lCiAgICBzZWxlY3QoU29uZywgQXJ0aXN0LCBEdXJhdGlvbikKYGBgCgpUaGUgZml2ZSBzaG9ydGVzdCBzb25ncyBhcmU6CgpgYGB7ciBEdXJhdGlvbi1zaG9ydH0KcmVxdWVzdGl2YWxfc3BvdGlmeSAlPiUKICAgIGFycmFuZ2UoRHVyYXRpb24pICU+JQogICAgdG9wX24oLTUsIER1cmF0aW9uKSAlPiUKICAgIHNlbGVjdChTb25nLCBBcnRpc3QsIER1cmF0aW9uKQpgYGAKCiMjIEV4cGxpY2l0CgpIb3cgbWFueSBzb25ncyBhcmUgZXhwbGljaXQ/CgpgYGB7ciBFeHBsaWNpdH0KZ2dwbG90KHJlcXVlc3RpdmFsX3Nwb3RpZnksIGFlcyh4ID0gRXhwbGljaXQpKSArCiAgICBnZW9tX2JhcigpCmBgYAoKIyMgUG9wdWxhcml0eQoKV2hhdCBpcyB0aGUgZGlzdHJpYnV0aW9uIG9mIHBvcHVsYXJpdHkgc2NvcmVzPwoKYGBge3IgUG9wdWxhcml0eX0KZ2dwbG90KHJlcXVlc3RpdmFsX3Nwb3RpZnksIGFlcyh4ID0gUG9wdWxhcml0eSkpICsKICAgIGdlb21fYmFyKCkKYGBgCgpUaGUgZml2ZSBtb3N0ICJwb3B1bGFyIiBzb25ncyBhcmU6CgpgYGB7ciBQb3B1bGFyaXR5LWhpZ2h9CnJlcXVlc3RpdmFsX3Nwb3RpZnkgJT4lCiAgICBhcnJhbmdlKC1Qb3B1bGFyaXR5KSAlPiUKICAgIHRvcF9uKDUsIFBvcHVsYXJpdHkpICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgUG9wdWxhcml0eSkKYGBgCgpUaGUgZml2ZSBsZWFzdCAicG9wdWxhciIgc29uZ3MgYXJlOgoKYGBge3IgUG9wdWxhcml0eS1sb3d9CnJlcXVlc3RpdmFsX3Nwb3RpZnkgJT4lCiAgICBhcnJhbmdlKFBvcHVsYXJpdHkpICU+JQogICAgdG9wX24oLTUsIFBvcHVsYXJpdHkpICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgUG9wdWxhcml0eSkKYGBgCgojIyBJc01ham9yCgpIb3cgbWFueSBzb25ncyBhcmUgaW4gYSBtYWpvciBrZXk/CgpgYGB7ciBJc01ham9yfQpnZ3Bsb3QocmVxdWVzdGl2YWxfc3BvdGlmeSwgYWVzKHggPSBJc01ham9yKSkgKwogICAgZ2VvbV9iYXIoKQpgYGAKCiMjIExvdWRuZXNzCgpXaGF0IGlzIHRoZSBkaXN0cmlidXRpb24gb2YgbG91ZG5lc3M/CgpgYGB7ciBMb3VkbmVzc30KZ2dwbG90KHJlcXVlc3RpdmFsX3Nwb3RpZnksIGFlcyh4ID0gTG91ZG5lc3MpKSArCiAgICBnZW9tX2hpc3RvZ3JhbShiaW5zID0gMTAwKQpgYGAKClRoZSBmaXZlIGxvdWRlc3Qgc29uZ3MgYXJlOgoKYGBge3IgTG91ZG5lc3MtbG91ZH0KcmVxdWVzdGl2YWxfc3BvdGlmeSAlPiUKICAgIGFycmFuZ2UoLUxvdWRuZXNzKSAlPiUKICAgIHRvcF9uKDUsIExvdWRuZXNzKSAlPiUKICAgIHNlbGVjdChTb25nLCBBcnRpc3QsIExvdWRuZXNzKQpgYGAKClRoZSBmaXZlIHF1aWV0ZXN0IHNvbmdzIGFyZToKCmBgYHtyIExvdWRuZXNzLXF1aWV0fQpyZXF1ZXN0aXZhbF9zcG90aWZ5ICU+JQogICAgYXJyYW5nZShMb3VkbmVzcykgJT4lCiAgICB0b3BfbigtNSwgTG91ZG5lc3MpICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgTG91ZG5lc3MpCmBgYAoKIyMgVGVtcAoKV2hhdCBzcGVlZCBhcmUgdGhlIHNvbmdzPwoKYGBge3IgVGVtcH0KZ2dwbG90KHJlcXVlc3RpdmFsX3Nwb3RpZnksIGFlcyh4ID0gVGVtcG8pKSArCiAgICBnZW9tX2hpc3RvZ3JhbShiaW5zID0gMTAwKQpgYGAKClRoZSBmaXZlIGZhc3Rlc3Qgc29uZ3MgYXJlOgoKYGBge3IgVGVtcC1mYXN0fQpyZXF1ZXN0aXZhbF9zcG90aWZ5ICU+JQogICAgYXJyYW5nZSgtVGVtcG8pICU+JQogICAgdG9wX24oNSwgVGVtcG8pICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgVGVtcG8pCmBgYAoKVGhlIGZpdmUgc2xvd2VzdCBzb25ncyBhcmU6CgpgYGB7ciBUZW1wby1zbG93fQpyZXF1ZXN0aXZhbF9zcG90aWZ5ICU+JQogICAgYXJyYW5nZShUZW1wbykgJT4lCiAgICB0b3BfbigtNSwgVGVtcG8pICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgVGVtcG8pCmBgYAoKIyMgVmFsZW5jZQoKV2hhdCBpcyB0aGUgZGlzdHJpYnV0aW9uIG9mIHZhbGVuY2U/IFRoaXMgaXMgc2NvcmUgZnJvbSB6ZXJvIHRvIG9uZSB3aGVyZSBvbmUKaXMgcG9zaXRpdmUgYW5kIHplcm8gaXMgbmVnYXRpdmUuCgpgYGB7ciBWYWxlbmNlfQpnZ3Bsb3QocmVxdWVzdGl2YWxfc3BvdGlmeSwgYWVzKHggPSBWYWxlbmNlKSkgKwogICAgZ2VvbV9oaXN0b2dyYW0oYmlucyA9IDEwMCkKYGBgCgpUaGUgZml2ZSBtb3N0IHBvc2l0aXZlIHNvbmdzIGFyZToKCmBgYHtyIFZhbGVuY2UtaGlnaH0KcmVxdWVzdGl2YWxfc3BvdGlmeSAlPiUKICAgIGFycmFuZ2UoLVZhbGVuY2UpICU+JQogICAgdG9wX24oNSwgVmFsZW5jZSkgJT4lCiAgICBzZWxlY3QoU29uZywgQXJ0aXN0LCBWYWxlbmNlKQpgYGAKClRoZSBmaXZlIG1vc3QgbmVnYXRpdmUgc29uZ3MgYXJlOgoKYGBge3IgVmFsZW5jZS1sb3d9CnJlcXVlc3RpdmFsX3Nwb3RpZnkgJT4lCiAgICBhcnJhbmdlKFZhbGVuY2UpICU+JQogICAgdG9wX24oLTUsIFZhbGVuY2UpICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgVmFsZW5jZSkKYGBgCgojIyBFbmVyZ3kKCldoYXQgaXMgdGhlIGRpc3RyaWJ1dGlvbiBvZiBlbmVyZ3k/CgpgYGB7ciBFbmVyZ3l9CmdncGxvdChyZXF1ZXN0aXZhbF9zcG90aWZ5LCBhZXMoeCA9IEVuZXJneSkpICsKICAgIGdlb21faGlzdG9ncmFtKGJpbnMgPSAxMDApCmBgYAoKVGhlIGZpdmUgbW9zdCBlbmVyZ2V0aWMgc29uZ3MgYXJlOgoKYGBge3IgRW5lcmd5LWhpZ2h9CnJlcXVlc3RpdmFsX3Nwb3RpZnkgJT4lCiAgICBhcnJhbmdlKC1FbmVyZ3kpICU+JQogICAgdG9wX24oNSwgRW5lcmd5KSAlPiUKICAgIHNlbGVjdChTb25nLCBBcnRpc3QsIEVuZXJneSkKYGBgCgpUaGUgZml2ZSBsZWFzdCBlbmVyZ2V0aWMgc29uZ3MgYXJlOgoKYGBge3IgRW5lcmd5LWxvd30KcmVxdWVzdGl2YWxfc3BvdGlmeSAlPiUKICAgIGFycmFuZ2UoRW5lcmd5KSAlPiUKICAgIHRvcF9uKC01LCBFbmVyZ3kpICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgRW5lcmd5KQpgYGAKCiMjIERhbmNlYWJpbGl0eQoKV2hhdCBpcyB0aGUgZGlzdHJpYnV0aW9uIG9mIGRhbmNlYWJpbGl0eT8KCmBgYHtyIERhbmNlYWJpbGl0eX0KZ2dwbG90KHJlcXVlc3RpdmFsX3Nwb3RpZnksIGFlcyh4ID0gRGFuY2VhYmlsaXR5KSkgKwogICAgZ2VvbV9oaXN0b2dyYW0oYmlucyA9IDEwMCkKYGBgCgpUaGUgZml2ZSBtb3N0IGRhbmNlYWJsZSBzb25ncyBhcmU6CgpgYGB7ciBEYW5jZWFiaWxpdHktaGlnaH0KcmVxdWVzdGl2YWxfc3BvdGlmeSAlPiUKICAgIGFycmFuZ2UoLURhbmNlYWJpbGl0eSkgJT4lCiAgICB0b3Bfbig1LCBEYW5jZWFiaWxpdHkpICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgRGFuY2VhYmlsaXR5KQpgYGAKClRoZSBmaXZlIGxlYXN0IGRhbmNlYWJsZSBzb25ncyBhcmU6CgpgYGB7ciBEYW5jZWFiaWxpdHktbG93fQpyZXF1ZXN0aXZhbF9zcG90aWZ5ICU+JQogICAgYXJyYW5nZShEYW5jZWFiaWxpdHkpICU+JQogICAgdG9wX24oLTUsIERhbmNlYWJpbGl0eSkgJT4lCiAgICBzZWxlY3QoU29uZywgQXJ0aXN0LCBEYW5jZWFiaWxpdHkpCmBgYAoKIyMgU3BlZWNoaW5lc3MKCldoYXQgaXMgdGhlIGRpc3RyaWJ1dGlvbiBvZiBzcGVlY2hpbmVzcz8KCmBgYHtyIFNwZWVjaGluZXNzfQpnZ3Bsb3QocmVxdWVzdGl2YWxfc3BvdGlmeSwgYWVzKHggPSBTcGVlY2hpbmVzcykpICsKICAgIGdlb21faGlzdG9ncmFtKGJpbnMgPSAxMDApCmBgYAoKVGhlIGZpdmUgbW9zdCBzcGVlY2h5IHNvbmdzIGFyZToKCmBgYHtyIFNwZWVjaGluZXNzLWhpZ2h9CnJlcXVlc3RpdmFsX3Nwb3RpZnkgJT4lCiAgICBhcnJhbmdlKC1TcGVlY2hpbmVzcykgJT4lCiAgICB0b3Bfbig1LCBTcGVlY2hpbmVzcykgJT4lCiAgICBzZWxlY3QoU29uZywgQXJ0aXN0LCBTcGVlY2hpbmVzcykKYGBgCgpUaGUgZml2ZSBsZWFzdCBzcGVlY2h5IHNvbmdzIGFyZToKCmBgYHtyIFNwZWVjaGluZXNzLWxvd30KcmVxdWVzdGl2YWxfc3BvdGlmeSAlPiUKICAgIGFycmFuZ2UoU3BlZWNoaW5lc3MpICU+JQogICAgdG9wX24oLTUsIFNwZWVjaGluZXNzKSAlPiUKICAgIHNlbGVjdChTb25nLCBBcnRpc3QsIFNwZWVjaGluZXNzKQpgYGAKCiMjIEFjb3VzdGljbmVzcwoKV2hhdCBpcyB0aGUgZGlzdHJpYnV0aW9uIG9mIGFjb3VzdGljbmVzcz8KCmBgYHtyIEFjb3VzdGljbmVzc30KZ2dwbG90KHJlcXVlc3RpdmFsX3Nwb3RpZnksIGFlcyh4ID0gQWNvdXN0aWNuZXNzKSkgKwogICAgZ2VvbV9oaXN0b2dyYW0oYmlucyA9IDEwMCkKYGBgCgpUaGUgZml2ZSBtb3N0IGFjb3VzdGljIHNvbmdzIGFyZToKCmBgYHtyIEFjb3VzdGljbmVzcy1oaWdofQpyZXF1ZXN0aXZhbF9zcG90aWZ5ICU+JQogICAgYXJyYW5nZSgtQWNvdXN0aWNuZXNzKSAlPiUKICAgIHRvcF9uKDUsIEFjb3VzdGljbmVzcykgJT4lCiAgICBzZWxlY3QoU29uZywgQXJ0aXN0LCBBY291c3RpY25lc3MpCmBgYAoKVGhlIGZpdmUgbGVhc3QgYWNvdXN0aWMgYXJlOgoKYGBge3IgQWNvdXN0aWNuZXNzLWxvd30KcmVxdWVzdGl2YWxfc3BvdGlmeSAlPiUKICAgIGFycmFuZ2UoQWNvdXN0aWNuZXNzKSAlPiUKICAgIHRvcF9uKC01LCBBY291c3RpY25lc3MpICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgQWNvdXN0aWNuZXNzKQpgYGAKCiMjIExpdmVuZXNzCgpXaGF0IGlzIHRoZSBkaXN0cmlidXRpb24gb2YgbGl2ZW5lc3M/CgpgYGB7ciBMaXZlbmVzc30KZ2dwbG90KHJlcXVlc3RpdmFsX3Nwb3RpZnksIGFlcyh4ID0gTGl2ZW5lc3MpKSArCiAgICBnZW9tX2hpc3RvZ3JhbShiaW5zID0gMTAwKQpgYGAKClRoZSBmaXZlIG1vc3QgbGl2ZSBzb25ncyBhcmU6CgpgYGB7ciBMaXZlbmVzcy1oaWdofQpyZXF1ZXN0aXZhbF9zcG90aWZ5ICU+JQogICAgYXJyYW5nZSgtTGl2ZW5lc3MpICU+JQogICAgdG9wX24oNSwgTGl2ZW5lc3MpICU+JQogICAgc2VsZWN0KFNvbmcsIEFydGlzdCwgTGl2ZW5lc3MpCmBgYAoKVGhlIGZpdmUgbGVhc3QgbGl2ZSBzb25ncyBhcmU6CgpgYGB7ciBMaXZlbmVzcy1sb3d9CnJlcXVlc3RpdmFsX3Nwb3RpZnkgJT4lCiAgICBhcnJhbmdlKExpdmVuZXNzKSAlPiUKICAgIHRvcF9uKC01LCBMaXZlbmVzcykgJT4lCiAgICBzZWxlY3QoU29uZywgQXJ0aXN0LCBMaXZlbmVzcykKYGBgCg==</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("04-exploration.Rmd");
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
