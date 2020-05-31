@@ -55,19 +55,18 @@ about how to format the search terms but unfortunately we can't use them
 directly 😿. Because they were designed for the web spaces and other characters
 have been replaced with codes (e.g. `%20` for space) but the **{spotifyr}**
 search function prefers the standard characters. It's not hard to construct
-the queries from the informatino we have though.
+the queries from the information we have though.
 
 For some songs we will get multiple results. Here we try and handle that by
 first search for the song, artist and release. If there are any results we
-sort them by the album release data and return the first one. If not we try a 
-simpler search with just the song and artist, and again return the earliest 
-result.
+return the first one. If not we try a simpler search with just the song and 
+artist, and again return the first result.
 
 ```{r track-ids}
 get_id <- function(Song, Artist, Release, ...) {
     
     # Search for artist, track, album
-    query <- glue("artist:{Artist} track:{Song} album:{Release}")
+    query <- glue('artist:"{Artist}" track:"{Song}" album: "{Release}"')
     
     results <- search_spotify(
         query,
@@ -75,7 +74,7 @@ get_id <- function(Song, Artist, Release, ...) {
         market        = "AU",
         authorization = access_token
     ) %>%
-        arrange(album.release_date_precision, album.release_date)
+        filter(album.release_date_precision == "day")
     
     # Return the earliest result if there are any
     if (nrow(results) > 0) {
@@ -83,7 +82,7 @@ get_id <- function(Song, Artist, Release, ...) {
     }
     
     # Otherwise search for just artist and track
-    query <- glue("artist:{Artist} track:{Song}")
+    query <- glue('artist:"{Artist}" track:"{Song}"')
     
     results <- search_spotify(
         query,
@@ -91,7 +90,7 @@ get_id <- function(Song, Artist, Release, ...) {
         market        = "AU",
         authorization = access_token
     ) %>%
-        arrange(album.release_date_precision, album.release_date)
+        filter(album.release_date_precision == "day")
     
     # Return the first result or NA
     if (nrow(results) > 0) {
@@ -129,18 +128,23 @@ tracks <- requestival %>%
         )
         tibble(
             SpotifyID  = track_info$id,
+            AlbumDate  = track_info$album$release_date,
             Duration   = track_info$duration_ms,
             Explicit   = track_info$explicit,
             Popularity = track_info$popularity
         )
-    })
+    }) %>%
+    mutate(
+        Duration  = Duration / 1000,
+        AlbumDate = ymd(AlbumDate)
+    )
 
 tracks
 ```
 
 A lot of the track information isn't useful or is redundant with what we already
-have but I have picked out a few things that might be interesting: The track
-duration (in ms), whether it is explicit or not and the Spotify popularity
+have but I have picked out a few things that might be interesting: the track
+duration (in seconds), whether it is explicit or not and the Spotify popularity
 score.
 
 ## Audio features
