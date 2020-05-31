@@ -10,6 +10,8 @@ suppressPackageStartupMessages({
     library("here")
     # Scraping
     library("rvest")
+    # Spotify API
+    library("spotifyr")
     # Dates
     library("lubridate")
     # Presentation
@@ -87,7 +89,23 @@ theme_set(theme_minimal())
 #==============================================================================#
 
 PATHS <- list(
-    html_dir = here("data", "raw"),
-    scraped  = here("data", "01-requestival-scraped.tsv"),
-    tidied   = here("data", "02-requestival-tidied.tsv")
+    spotify_secrets = here("code", "_spotify_secrets.R"),
+    html_dir        = here("data", "raw"),
+    scraped         = here("data", "01-requestival-scraped.tsv"),
+    tidied          = here("data", "02-requestival-tidied.tsv"),
+    augmented       = here("data", "03-requestival-augmented.tsv")
 )
+
+#==============================================================================#
+# ---- SECRETS ----
+#==============================================================================#
+
+if (file_exists(PATHS$spotify_secrets)) {
+    source(PATHS$spotify_secrets)
+} else {
+    rlang::warn(paste(
+        "Spotify secrets file doesn't exist so some sections of the code won't",
+        "be run. See the '_spotify_secrets.R.template' file in the'`code/'",
+        "directory for details."
+    ))
+}

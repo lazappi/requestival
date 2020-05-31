@@ -1,0 +1,199 @@
+---
+title: "Augmentation"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, cache = FALSE}
+source(here::here("code", "setup.R"))
+```
+
+# Introduction {.unnumbered}
+
+The tidy we scraped from the HTML pages is now in a nice clean and tidy format
+but maybe there is some other information we can add to it from other sources?
+
+```{r load}
+requestival <- read_tsv(
+    PATHS$tidied,
+    col_types = cols(
+        DateTime     = col_datetime(format = ""),
+        Song         = col_character(),
+        Artist       = col_character(),
+        Release      = col_character(),
+        IsUnearthed  = col_logical(),
+        UnearthedURL = col_character(),
+        SpotifyQuery = col_character(),
+        SpotifyURL   = col_character(),
+        YouTubeQuery = col_character(),
+        YouTubeURL   = col_character()
+    )
+) %>%
+    mutate(DateTime = with_tz(DateTime, "Australia/Sydney"))
+```
+
+# Spotify
+
+We already have search queries for Spotify so maybe we can pull some useful
+information from their database? Luckily they have a nice API that we can access
+with the **{spotifyr}** package. See the
+[**{spotifyr}** documentation][spotifyr] for more details about how this works.
+
+```{r spotifyr}
+access_token <- get_spotify_access_token(
+    client_id     = SPOTIFY_CLIENT_ID,
+    client_secret = SPOTIFY_CLIENT_SECRET
+)
+```
+
+## Track IDs
+
+To get more information about each song we need track IDs which we don't
+currently have. The queries we extracted from the Spotify links give use a clue
+about how to format the search terms but unfortunately we can't use them 
+directly 😿. Because they were designed for the web spaces and other characters
+have been replaced with codes (e.g. `%20` for space) but the **{spotifyr}**
+search function prefers the standard characters. It's not hard to construct
+the queries from the informatino we have though.
+
+For some songs we will get multiple results. Here we try and handle that by
+first search for the song, artist and release. If there are any results we
+sort them by the album release data and return the first one. If not we try a 
+simpler search with just the song and artist, and again return the earliest 
+result.
+
+```{r track-ids}
+get_id <- function(Song, Artist, Release, ...) {
+    
+    # Search for artist, track, album
+    query <- glue("artist:{Artist} track:{Song} album:{Release}")
+    
+    results <- search_spotify(
+        query,
+        type          = "track",
+        market        = "AU",
+        authorization = access_token
+    ) %>%
+        arrange(album.release_date_precision, album.release_date)
+    
+    # Return the earliest result if there are any
+    if (nrow(results) > 0) {
+        return(results$id[1])
+    }
+    
+    # Otherwise search for just artist and track
+    query <- glue("artist:{Artist} track:{Song}")
+    
+    results <- search_spotify(
+        query,
+        type          = "track",
+        market        = "AU",
+        authorization = access_token
+    ) %>%
+        arrange(album.release_date_precision, album.release_date)
+    
+    # Return the first result or NA
+    if (nrow(results) > 0) {
+        return(results$id[1])
+    } else {
+        return(NA)
+    }
+}
+
+requestival <- requestival %>%
+    mutate(SpotifyID = pmap_chr(requestival, get_id)) %>%
+    mutate(HasSpotify = !is.na(SpotifyID))
+```
+
+The track IDs are character strings that look something like this:
+`r requestival$SpotifyID[1]`. For our **`r nrow(requestival)`** songs we were
+able to find **`r sum(!is.na(requestival$SpotifyID))`** IDs. These IDs aren't
+very interesting by themselves but we can use them to retrieve other information 
+from the Spotify database.
+
+## Track information
+
+Now that we have track IDs we can get some more information about each of the
+Requestival songs.
+
+```{r track-info}
+tracks <- requestival %>%
+    filter(HasSpotify) %>%
+    pull(SpotifyID) %>%
+    map_dfr(function(.id) {
+        track_info <- get_track(
+            .id,
+            market        = "AU",
+            authorization = access_token
+        )
+        tibble(
+            SpotifyID  = track_info$id,
+            Duration   = track_info$duration_ms,
+            Explicit   = track_info$explicit,
+            Popularity = track_info$popularity
+        )
+    })
+
+tracks
+```
+
+A lot of the track information isn't useful or is redundant with what we already
+have but I have picked out a few things that might be interesting: The track
+duration (in ms), whether it is explicit or not and the Spotify popularity
+score.
+
+## Audio features
+
+We can also use the Spotify API to retrieve some information about the audio
+features of each song.
+
+```{r audio-features}
+audio <- requestival %>%
+    filter(HasSpotify) %>%
+    pull(SpotifyID) %>%
+    map_dfr(function(.id) {
+        audio_features <- get_track_audio_features(
+            .id,
+            authorization = access_token
+        )
+    }) %>%
+    mutate(IsMajor = mode == 1) %>%
+    select(
+        SpotifyID    = id,
+        IsMajor,
+        Loudness     = loudness,
+        Tempo        = tempo,
+        Valence      = valence,
+        Energy       = energy,
+        Danceability = danceability,
+        Speechiness  = speechiness,
+        Acousticness = acousticness,
+        Liveness     = liveness
+    )
+
+audio
+```
+
+Detail about the audio features can be found [here][audio-features] but in
+general they try to provide a numeric description of the track. Some things like
+loudness, tempo or whether the track is in a major key are simply calculated
+from the track but others such as "danceability" or "acousticness" are more
+abstract summaries of what the track sounds like.
+
+Let's join the information we have downloaded from Spotify to our data scraped
+from the HTML pages and save it for analysis.
+
+```{r save}
+requestival <- requestival %>%
+    left_join(tracks, by = "SpotifyID") %>%
+    left_join(audio, by = "SpotifyID") %>%
+    distinct()
+
+write_tsv(requestival, PATHS$augmented)
+
+requestival
+```
+
+[spotifyr]: https://www.rcharlie.com/spotifyr/ "spotifyr website"
+[audio-features]: https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-audio-features/ "Get several audio features"

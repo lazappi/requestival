@@ -4,3 +4,5 @@
 .Ruserdata
 
 data/raw/*_files
+
+code/_spotify_secrets.R
