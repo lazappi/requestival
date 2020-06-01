@@ -432,7 +432,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-31
+<strong>Last updated:</strong> 2020-06-01
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -523,16 +523,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappirequestivaltreef30d7a1e73cfddd01ff9561f85b246a7b1a08ad3targetblankf30d7a1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/requestival/tree/f30d7a1e73cfddd01ff9561f85b246a7b1a08ad3" target="_blank">f30d7a1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappirequestivaltree8f40292bd93f219e57316ff339c90c01c96d7c72targetblank8f40292a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/requestival/tree/8f40292bd93f219e57316ff339c90c01c96d7c72" target="_blank">8f40292</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappirequestivaltreef30d7a1e73cfddd01ff9561f85b246a7b1a08ad3targetblankf30d7a1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappirequestivaltree8f40292bd93f219e57316ff339c90c01c96d7c72targetblank8f40292a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="http://github.com/lazappi/requestival/tree/f30d7a1e73cfddd01ff9561f85b246a7b1a08ad3" target="_blank">f30d7a1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="http://github.com/lazappi/requestival/tree/8f40292bd93f219e57316ff339c90c01c96d7c72" target="_blank">8f40292</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -549,12 +549,25 @@ Ignored files:
     Ignored:    data/raw/requestival_26_files/
     Ignored:    data/raw/requestival_27_files/
     Ignored:    data/raw/requestival_28_files/
+    Ignored:    data/raw/requestival_29_files/
+    Ignored:    data/raw/requestival_30_files/
+    Ignored:    data/raw/requestival_31_files/
     Ignored:    output/01-scraping.Rmd/
     Ignored:    output/02-tidying.Rmd/
     Ignored:    output/03-augmentation.Rmd/
     Ignored:    output/04-exploration.Rmd/
     Ignored:    renv/library/
     Ignored:    renv/staging/
+
+Untracked files:
+    Untracked:  data/raw/requestival_29.html
+    Untracked:  data/raw/requestival_30.html
+    Untracked:  data/raw/requestival_31.html
+
+Unstaged changes:
+    Modified:   data/01-requestival-scraped.tsv
+    Modified:   data/02-requestival-tidied.tsv
+    Modified:   data/03-requestival-augmented.tsv
 
 </code></pre>
 <p>
@@ -598,7 +611,24 @@ Message
 Rmd
 </td>
 <td>
-<a href="http://github.com/lazappi/requestival/blob/f30d7a1e73cfddd01ff9561f85b246a7b1a08ad3/analysis/04-exploration.Rmd" target="_blank">f30d7a1</a>
+<a href="http://github.com/lazappi/requestival/blob/8f40292bd93f219e57316ff339c90c01c96d7c72/analysis/04-exploration.Rmd" target="_blank">8f40292</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+<td>
+Add exploration
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="http://github.com/lazappi/requestival/blob/8f40292bd93f219e57316ff339c90c01c96d7c72/docs/04-exploration.html" target="_blank">8f40292</a>
 </td>
 <td>
 Luke Zappia
@@ -644,9 +674,9 @@ Add exploration
 ) %&gt;%
     mutate(DateTime = with_tz(DateTime, &quot;Australia/Sydney&quot;))</code></pre>
 <p class="timeit">
-Chunk time: 0.04 secs
+Chunk time: 0.05 secs
 </p>
-<p>The dataset has <strong>696</strong> rows and <strong>25</strong> columns.</p>
+<p>The dataset has <strong>1187</strong> rows and <strong>25</strong> columns.</p>
 </div>
 <div id="triple-j-features" class="section level1" number="1">
 <h1 number="1"><span class="header-section-number">1</span> Triple J features</h1>
@@ -656,23 +686,97 @@ Chunk time: 0.04 secs
 <p>When were the songs played?</p>
 <pre class="r"><code>ggplot(requestival, aes(x = DateTime)) +
     geom_histogram(bins = 200)</code></pre>
-<img src="figure/04-exploration.Rmd/DateTime-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/DateTime-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-DateTime-1">
+Past versions of DateTime-1.png
+</button>
+</p>
+<div id="fig-DateTime-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.61 secs
+Chunk time: 0.63 secs
 </p>
 </div>
 <div id="song" class="section level2" number="1.2">
 <h2 number="1.2"><span class="header-section-number">1.2</span> Song</h2>
-<p>There are <strong>678</strong> unique songs. How many times was each song played?</p>
+<p>There are <strong>1128</strong> unique songs. How many times was each song played?</p>
 <pre class="r"><code>song_counts &lt;- requestival %&gt;%
     group_by(Song, Artist) %&gt;%
     count(name = &quot;PlayCount&quot;)
 
 ggplot(song_counts, aes(x = PlayCount)) +
     geom_histogram()</code></pre>
-<img src="figure/04-exploration.Rmd/Song-count-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Song-count-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Song-count-1">
+Past versions of Song-count-1.png
+</button>
+</p>
+<div id="fig-Song-count-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.34 secs
+Chunk time: 0.36 secs
 </p>
 <p>Which songs were played more than once?</p>
 <pre class="r"><code>song_counts %&gt;%
@@ -680,25 +784,62 @@ Chunk time: 0.34 secs
     arrange(-PlayCount)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["PlayCount"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"Bags","2":"Clairo","3":"2"},{"1":"Dead Horse","2":"Hayley Williams","3":"2"},{"1":"Energy","2":"Stace Cadet & KLP","3":"2"},{"1":"Fall","2":"Dulcie","3":"2"},{"1":"HEART ATTACK {Ft. lau.ra}","2":"BRONSON","3":"2"},{"1":"Multiply {Ft. Jack River}","2":"Love Fame Tragedy","3":"2"},{"1":"Pretty Lady","2":"Tash Sultana","3":"2"},{"1":"Swimming Pool","2":"Eliza & The Delusionals","3":"2"},{"1":"Tangled; Content","2":"Luca Brasi","3":"2"},{"1":"The Glow","2":"DMA'S","3":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["PlayCount"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"40oz. On Repeat (triple j live recording, Laneway Fest Adelaide 2016)","2":"FIDLAR","3":"2"},{"1":"7 (triple j live recording, Falls Fest Lorne 2016)","2":"Catfish And The Bottlemen","3":"2"},{"1":"A-Punk {triple j live recording, Sydney Big Day Out 2013}","2":"Vampire Weekend","3":"2"},{"1":"Bags","2":"Clairo","3":"2"},{"1":"Blur","2":"Great Gable","3":"2"},{"1":"Butterfly","2":"Crazy Town","3":"2"},{"1":"Composure","2":"Yours Truly","3":"2"},{"1":"Dead Horse","2":"Hayley Williams","3":"2"},{"1":"Deranged","2":"The Vanns","3":"2"},{"1":"Drive Me Round","2":"Mallrat","3":"2"},{"1":"Energy","2":"Stace Cadet & KLP","3":"2"},{"1":"Fall","2":"Dulcie","3":"2"},{"1":"Freaks","2":"FISHER","3":"2"},{"1":"Fucked Myself Up","2":"merci, mercy","3":"2"},{"1":"Global Concepts (triple j live recording, Splendour In The Grass 2013)","2":"Robert Delong","3":"2"},{"1":"Good For You","2":"Spacey Jane","3":"2"},{"1":"HEART ATTACK {Ft. lau.ra}","2":"BRONSON","3":"2"},{"1":"Heavy Weather","2":"The Rubens","3":"2"},{"1":"Hyperfine","2":"G Flip","3":"2"},{"1":"I Think You're Great","2":"Alex the Astronaut","3":"2"},{"1":"I'm Not Getting Excited","2":"The Beths","3":"2"},{"1":"Killer (triple j live recording, One Night Stand Dalby QLD 2012)","2":"360","3":"2"},{"1":"Magic Fountain","2":"Art vs Science","3":"2"},{"1":"Multiply {Ft. Jack River}","2":"Love Fame Tragedy","3":"2"},{"1":"No CD (Live at Laneway Adelaide 2018)","2":"Loyle Carner","3":"2"},{"1":"Off White Limousine (Live At Splendour In The Grass 2017)","2":"Client Liaison","3":"2"},{"1":"Pretty Lady","2":"Tash Sultana","3":"2"},{"1":"Psycho","2":"Mia Rodriguez","3":"2"},{"1":"Pub Feed","2":"The Chats","3":"2"},{"1":"Purple Hat","2":"Sofi Tukker","3":"2"},{"1":"Resolution {Live at Splendour in the Grass 2019}","2":"Matt Corby","3":"2"},{"1":"Rocket Ship (triple j live recording, Live At The Wireless, Corner Hotel 2012}","2":"San Cisco","3":"2"},{"1":"Slow","2":"Hauskey","3":"2"},{"1":"Stranger (triple j live recording, One Night Stand St Helens 2018)","2":"Peking Duk","3":"2"},{"1":"Sun (triple j live recording, Live At The Wireless, Falls Festival Lorne 2012)","2":"Two Door Cinema Club","3":"2"},{"1":"Swimming Pool","2":"Eliza & The Delusionals","3":"2"},{"1":"Tangled; Content","2":"Luca Brasi","3":"2"},{"1":"The Glow","2":"DMA'S","3":"2"},{"1":"The Suburbs (triple j live recording, Sydney Entertainment Centre 2014)","2":"Arcade Fire","3":"2"},{"1":"Tieduprightnow (triple j live recording, 170 Russell St, Melbourne, 2019)","2":"Parcels","3":"2"},{"1":"Vagabond","2":"Polaris","3":"2"},{"1":"Waterbed","2":"Tired Lion","3":"2"},{"1":"You You","2":"EGOISM","3":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
-Chunk time: 0.01 secs
+Chunk time: 0.02 secs
 </p>
 </div>
 <div id="artist" class="section level2" number="1.3">
 <h2 number="1.3"><span class="header-section-number">1.3</span> Artist</h2>
-<p>There are <strong>604</strong> unique artists. How many times was each artist played?</p>
+<p>There are <strong>896</strong> unique artists. How many times was each artist played?</p>
 <pre class="r"><code>artist_counts &lt;- requestival %&gt;%
     group_by(Artist) %&gt;%
     count(name = &quot;PlayCount&quot;)
 
 ggplot(artist_counts, aes(x = PlayCount)) +
     geom_histogram()</code></pre>
-<img src="figure/04-exploration.Rmd/Artist-count-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Artist-count-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Artist-count-1">
+Past versions of Artist-count-1.png
+</button>
+</p>
+<div id="fig-Artist-count-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.29 secs
+Chunk time: 0.27 secs
 </p>
 <p>Which artists were played more than once?</p>
 <pre class="r"><code>artist_counts %&gt;%
@@ -706,7 +847,7 @@ Chunk time: 0.29 secs
     arrange(-PlayCount)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Artist"],"name":[1],"type":["chr"],"align":["left"]},{"label":["PlayCount"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"DMA'S","2":"4"},{"1":"BENEE","2":"3"},{"1":"Daft Punk","2":"3"},{"1":"G Flip","2":"3"},{"1":"Hockey Dad","2":"3"},{"1":"Joji","2":"3"},{"1":"King Gizzard & The Lizard Wizard","2":"3"},{"1":"Luca Brasi","2":"3"},{"1":"Mallrat","2":"3"},{"1":"The Chats","2":"3"},{"1":"Tia Gostelow","2":"3"},{"1":"A$AP Rocky","2":"2"},{"1":"Alex Lahey","2":"2"},{"1":"Ali Barter","2":"2"},{"1":"Alison Wonderland","2":"2"},{"1":"Allday","2":"2"},{"1":"Amy Shark","2":"2"},{"1":"Anderson .Paak","2":"2"},{"1":"Bag Raiders","2":"2"},{"1":"Billie Eilish","2":"2"},{"1":"Boy & Bear","2":"2"},{"1":"British India","2":"2"},{"1":"BROCKHAMPTON","2":"2"},{"1":"BRONSON","2":"2"},{"1":"Catfish And The Bottlemen","2":"2"},{"1":"Chance The Rapper","2":"2"},{"1":"Childish Gambino","2":"2"},{"1":"CHVRCHES","2":"2"},{"1":"Clairo","2":"2"},{"1":"Dear Seattle","2":"2"},{"1":"Digitalism","2":"2"},{"1":"Dulcie","2":"2"},{"1":"Dune Rats","2":"2"},{"1":"E^ST","2":"2"},{"1":"Eliza & The Delusionals","2":"2"},{"1":"Foals","2":"2"},{"1":"Frank Ocean","2":"2"},{"1":"Gang Of Youths","2":"2"},{"1":"Genesis Owusu","2":"2"},{"1":"Good Sniff","2":"2"},{"1":"Great Gable","2":"2"},{"1":"Hayley Williams","2":"2"},{"1":"Hilltop Hoods","2":"2"},{"1":"Horrorshow","2":"2"},{"1":"Illy","2":"2"},{"1":"Juice WRLD","2":"2"},{"1":"Jungle","2":"2"},{"1":"Kelis","2":"2"},{"1":"King Princess","2":"2"},{"1":"Kira Puru","2":"2"},{"1":"Kisschasy","2":"2"},{"1":"Klaxons","2":"2"},{"1":"Lana Del Rey","2":"2"},{"1":"Lily Allen","2":"2"},{"1":"Lime Cordiale","2":"2"},{"1":"Love Fame Tragedy","2":"2"},{"1":"Mac Miller","2":"2"},{"1":"Methyl Ethel","2":"2"},{"1":"Ocean Alley","2":"2"},{"1":"Ocean Grove","2":"2"},{"1":"Paul Dempsey","2":"2"},{"1":"Peking Duk","2":"2"},{"1":"Polaris","2":"2"},{"1":"Porter Robinson","2":"2"},{"1":"RedHook","2":"2"},{"1":"Rina Sawayama","2":"2"},{"1":"SAFIA","2":"2"},{"1":"Seth Sentry","2":"2"},{"1":"Spacey Jane","2":"2"},{"1":"Stace Cadet & KLP","2":"2"},{"1":"Tame Impala","2":"2"},{"1":"Tash Sultana","2":"2"},{"1":"The Avalanches","2":"2"},{"1":"The Grates","2":"2"},{"1":"The Naked And Famous","2":"2"},{"1":"The Wombats","2":"2"},{"1":"The xx","2":"2"},{"1":"Tkay Maidza","2":"2"},{"1":"Travis Scott","2":"2"},{"1":"Wafia","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Artist"],"name":[1],"type":["chr"],"align":["left"]},{"label":["PlayCount"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"BENEE","2":"5"},{"1":"Childish Gambino","2":"5"},{"1":"CHVRCHES","2":"5"},{"1":"DMA'S","2":"5"},{"1":"The Chats","2":"5"},{"1":"Art vs Science","2":"4"},{"1":"Billie Eilish","2":"4"},{"1":"BROCKHAMPTON","2":"4"},{"1":"G Flip","2":"4"},{"1":"Hilltop Hoods","2":"4"},{"1":"King Gizzard & The Lizard Wizard","2":"4"},{"1":"Mallrat","2":"4"},{"1":"Spacey Jane","2":"4"},{"1":"Tame Impala","2":"4"},{"1":"Violent Soho","2":"4"},{"1":"Alex the Astronaut","2":"3"},{"1":"Ali Barter","2":"3"},{"1":"alt-J","2":"3"},{"1":"Anderson .Paak","2":"3"},{"1":"Catfish And The Bottlemen","2":"3"},{"1":"Chance The Rapper","2":"3"},{"1":"Daft Punk","2":"3"},{"1":"Disclosure","2":"3"},{"1":"Duke Dumont","2":"3"},{"1":"Dune Rats","2":"3"},{"1":"E^ST","2":"3"},{"1":"FIDLAR","2":"3"},{"1":"FISHER","2":"3"},{"1":"Flume","2":"3"},{"1":"Foals","2":"3"},{"1":"Frank Ocean","2":"3"},{"1":"Gang Of Youths","2":"3"},{"1":"Genesis Owusu","2":"3"},{"1":"Great Gable","2":"3"},{"1":"Hayley Williams","2":"3"},{"1":"Hockey Dad","2":"3"},{"1":"Joji","2":"3"},{"1":"Jungle","2":"3"},{"1":"King Princess","2":"3"},{"1":"Lana Del Rey","2":"3"},{"1":"Lorde","2":"3"},{"1":"Luca Brasi","2":"3"},{"1":"Mac Miller","2":"3"},{"1":"Matt Corby","2":"3"},{"1":"Methyl Ethel","2":"3"},{"1":"Ocean Alley","2":"3"},{"1":"Ocean Grove","2":"3"},{"1":"Peking Duk","2":"3"},{"1":"Pendulum","2":"3"},{"1":"Petit Biscuit","2":"3"},{"1":"Polaris","2":"3"},{"1":"Ruby Fields","2":"3"},{"1":"SAFIA","2":"3"},{"1":"Slowly Slowly","2":"3"},{"1":"The Avalanches","2":"3"},{"1":"The Chemical Brothers","2":"3"},{"1":"The Naked And Famous","2":"3"},{"1":"The Rubens","2":"3"},{"1":"Tia Gostelow","2":"3"},{"1":"Tkay Maidza","2":"3"},{"1":"Travis Scott","2":"3"},{"1":"Wafia","2":"3"},{"1":"100 gecs","2":"2"},{"1":"2Pac","2":"2"},{"1":"360","2":"2"},{"1":"A$AP Rocky","2":"2"},{"1":"Alex Lahey","2":"2"},{"1":"Alice Ivy","2":"2"},{"1":"Alison Wonderland","2":"2"},{"1":"Allday","2":"2"},{"1":"Aminé","2":"2"},{"1":"Amy Shark","2":"2"},{"1":"Arcade Fire","2":"2"},{"1":"Arlo Parks","2":"2"},{"1":"AURORA","2":"2"},{"1":"Avicii","2":"2"},{"1":"Bag Raiders","2":"2"},{"1":"Ball Park Music","2":"2"},{"1":"Beyoncé","2":"2"},{"1":"Bliss N Eso","2":"2"},{"1":"Bloc Party","2":"2"},{"1":"Bluejuice","2":"2"},{"1":"Boy & Bear","2":"2"},{"1":"Bring Me The Horizon","2":"2"},{"1":"British India","2":"2"},{"1":"Britney Spears","2":"2"},{"1":"BRONSON","2":"2"},{"1":"Broods","2":"2"},{"1":"Bugs","2":"2"},{"1":"Calvin Harris","2":"2"},{"1":"Charli XCX","2":"2"},{"1":"Clairo","2":"2"},{"1":"Client Liaison","2":"2"},{"1":"CLYPSO","2":"2"},{"1":"Columbus","2":"2"},{"1":"Confidence Man","2":"2"},{"1":"Crazy Town","2":"2"},{"1":"Crooked Colours","2":"2"},{"1":"Cub Sport","2":"2"},{"1":"Dear Seattle","2":"2"},{"1":"Digitalism","2":"2"},{"1":"Drapht","2":"2"},{"1":"Dulcie","2":"2"},{"1":"DZ Deathrays","2":"2"},{"1":"EGOISM","2":"2"},{"1":"Eliza & The Delusionals","2":"2"},{"1":"Empire Of The Sun","2":"2"},{"1":"Fergus James","2":"2"},{"1":"Florence And The Machine","2":"2"},{"1":"Franz Ferdinand","2":"2"},{"1":"girl in red","2":"2"},{"1":"Glass Animals","2":"2"},{"1":"Good Sniff","2":"2"},{"1":"Gordi","2":"2"},{"1":"Gorillaz","2":"2"},{"1":"Gracie Abrams","2":"2"},{"1":"Grimes","2":"2"},{"1":"HAIM","2":"2"},{"1":"Halsey","2":"2"},{"1":"Hauskey","2":"2"},{"1":"Hayden James","2":"2"},{"1":"Hermitude","2":"2"},{"1":"Holy Holy","2":"2"},{"1":"Horrorshow","2":"2"},{"1":"Illy","2":"2"},{"1":"J. Cole","2":"2"},{"1":"Jack Garratt","2":"2"},{"1":"Jack River","2":"2"},{"1":"Jaguar Jonze","2":"2"},{"1":"James Blake","2":"2"},{"1":"Jamie T","2":"2"},{"1":"JAY Z & Kanye West","2":"2"},{"1":"Jess Day","2":"2"},{"1":"Jme","2":"2"},{"1":"Juice WRLD","2":"2"},{"1":"Julia Jacklin","2":"2"},{"1":"Kelis","2":"2"},{"1":"Kendrick Lamar","2":"2"},{"1":"Kira Puru","2":"2"},{"1":"Kisschasy","2":"2"},{"1":"Klaxons","2":"2"},{"1":"Kwame","2":"2"},{"1":"Last Dinosaurs","2":"2"},{"1":"LAUREL","2":"2"},{"1":"Leikeli47","2":"2"},{"1":"Lily Allen","2":"2"},{"1":"Lime Cordiale","2":"2"},{"1":"Lisa Mitchell","2":"2"},{"1":"Lizzo","2":"2"},{"1":"Love Fame Tragedy","2":"2"},{"1":"Loyle Carner","2":"2"},{"1":"Maggie Rogers","2":"2"},{"1":"Meg Mac","2":"2"},{"1":"merci, mercy","2":"2"},{"1":"Mia Rodriguez","2":"2"},{"1":"Mickey Kojak","2":"2"},{"1":"Middle Kids","2":"2"},{"1":"Midnight Oil","2":"2"},{"1":"Missy Elliott","2":"2"},{"1":"MØ","2":"2"},{"1":"Montaigne","2":"2"},{"1":"No Money Enterprise","2":"2"},{"1":"Northeast Party House","2":"2"},{"1":"Nothing But Thieves","2":"2"},{"1":"Outkast","2":"2"},{"1":"Parcels","2":"2"},{"1":"Paul Dempsey","2":"2"},{"1":"PNAU","2":"2"},{"1":"Polish Club","2":"2"},{"1":"Porter Robinson","2":"2"},{"1":"Post Malone","2":"2"},{"1":"RAT!hammock","2":"2"},{"1":"RedHook","2":"2"},{"1":"Rex Orange County","2":"2"},{"1":"Rina Sawayama","2":"2"},{"1":"Robert Delong","2":"2"},{"1":"San Cisco","2":"2"},{"1":"Seth Sentry","2":"2"},{"1":"ShockOne","2":"2"},{"1":"Sly Withers","2":"2"},{"1":"Sofi Tukker","2":"2"},{"1":"Spiderbait","2":"2"},{"1":"Stace Cadet & KLP","2":"2"},{"1":"Stand Atlantic","2":"2"},{"1":"Stella Donnelly","2":"2"},{"1":"Sticky Fingers","2":"2"},{"1":"Stormzy","2":"2"},{"1":"Tash Sultana","2":"2"},{"1":"The Beths","2":"2"},{"1":"The Grates","2":"2"},{"1":"The Jungle Giants","2":"2"},{"1":"The Kid LAROI","2":"2"},{"1":"The Smith Street Band","2":"2"},{"1":"The Temper Trap","2":"2"},{"1":"The Vanns","2":"2"},{"1":"The Weeknd","2":"2"},{"1":"The Wombats","2":"2"},{"1":"The xx","2":"2"},{"1":"Tired Lion","2":"2"},{"1":"Tobiahs","2":"2"},{"1":"Towkio","2":"2"},{"1":"Trophy Eyes","2":"2"},{"1":"Two Door Cinema Club","2":"2"},{"1":"Vampire Weekend","2":"2"},{"1":"Vera Blue","2":"2"},{"1":"WAAX","2":"2"},{"1":"Yeah Yeah Yeahs","2":"2"},{"1":"Yours Truly","2":"2"},{"1":"Ziggy Alberts","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -715,16 +856,53 @@ Chunk time: 0.05 secs
 </div>
 <div id="release" class="section level2" number="1.4">
 <h2 number="1.4"><span class="header-section-number">1.4</span> Release</h2>
-<p>There are <strong>643</strong> unique releases. How many times was each release played?</p>
+<p>There are <strong>1049</strong> unique releases. How many times was each release played?</p>
 <pre class="r"><code>release_counts &lt;- requestival %&gt;%
     group_by(Release) %&gt;%
     count(name = &quot;PlayCount&quot;)
 
 ggplot(release_counts, aes(x = PlayCount)) +
     geom_histogram()</code></pre>
-<img src="figure/04-exploration.Rmd/Release-count-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Release-count-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Release-count-1">
+Past versions of Release-count-1.png
+</button>
+</p>
+<div id="fig-Release-count-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.3 secs
+Chunk time: 0.31 secs
 </p>
 <p>Which releases were played more than once?</p>
 <pre class="r"><code>release_counts %&gt;%
@@ -732,7 +910,7 @@ Chunk time: 0.3 secs
     arrange(-PlayCount)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Release"],"name":[1],"type":["chr"],"align":["left"]},{"label":["PlayCount"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Live At The Wireless","2":"15"},{"1":"Like A Version","2":"9"},{"1":"NA","2":"9"},{"1":"Circles","2":"3"},{"1":"Energy","2":"3"},{"1":"A State Of Living In An Objective Reality","2":"2"},{"1":"Alive 2007","2":"2"},{"1":"Blend Inn","2":"2"},{"1":"BRONSON","2":"2"},{"1":"Fall","2":"2"},{"1":"For Ever","2":"2"},{"1":"Good For You","2":"2"},{"1":"Gravity Won't Get You High","2":"2"},{"1":"Immunity","2":"2"},{"1":"Malibu","2":"2"},{"1":"Moonfire","2":"2"},{"1":"Multiply","2":"2"},{"1":"Museum","2":"2"},{"1":"Petals For Armor","2":"2"},{"1":"Pretty Lady","2":"2"},{"1":"Tangled; Content","2":"2"},{"1":"The Death Of Me","2":"2"},{"1":"The Glow","2":"2"},{"1":"triple j's Like A Version 10","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Release"],"name":[1],"type":["chr"],"align":["left"]},{"label":["PlayCount"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Live At The Wireless","2":"32"},{"1":"NA","2":"27"},{"1":"Like A Version","2":"9"},{"1":"Circles","2":"4"},{"1":"Energy","2":"3"},{"1":"Good For You","2":"3"},{"1":"The Death Of Me","2":"3"},{"1":"The Experiment","2":"3"},{"1":"triple j's Like A Version 10","2":"3"},{"1":"03.15.20","2":"2"},{"1":"21","2":"2"},{"1":"A State Of Living In An Objective Reality","2":"2"},{"1":"Alive 2007","2":"2"},{"1":"Beware Of The Dogs","2":"2"},{"1":"Black Rat","2":"2"},{"1":"Blend Inn","2":"2"},{"1":"Blur","2":"2"},{"1":"BRONSON","2":"2"},{"1":"Caress Your Soul","2":"2"},{"1":"Coloring Book","2":"2"},{"1":"Composure","2":"2"},{"1":"Conditions","2":"2"},{"1":"Crushing","2":"2"},{"1":"Dark Night Sweet Light","2":"2"},{"1":"DOGVIOLET","2":"2"},{"1":"Driving Music","2":"2"},{"1":"Fall","2":"2"},{"1":"For Ever","2":"2"},{"1":"Freaks","2":"2"},{"1":"Fucked Myself Up","2":"2"},{"1":"Gravity Won't Get You High","2":"2"},{"1":"Greatest Hits","2":"2"},{"1":"Heavy Weather","2":"2"},{"1":"High Risk Behaviour","2":"2"},{"1":"Hungry Ghost","2":"2"},{"1":"Hyperfine","2":"2"},{"1":"I Think You're Great","2":"2"},{"1":"Immunity","2":"2"},{"1":"iridescence","2":"2"},{"1":"Ivy & The Big Apples","2":"2"},{"1":"Jump Rope Gazers","2":"2"},{"1":"Malibu","2":"2"},{"1":"Moonfire","2":"2"},{"1":"Multiply","2":"2"},{"1":"Museum","2":"2"},{"1":"Perennial","2":"2"},{"1":"Petals For Armor","2":"2"},{"1":"Pony","2":"2"},{"1":"Pretty Lady","2":"2"},{"1":"Psycho","2":"2"},{"1":"Pub Feed [Single]","2":"2"},{"1":"Purple Hat","2":"2"},{"1":"R.Y.C","2":"2"},{"1":"Sandwiches","2":"2"},{"1":"Slow","2":"2"},{"1":"Starlight","2":"2"},{"1":"Tangled; Content","2":"2"},{"1":"The Gift Of Game","2":"2"},{"1":"The Glow","2":"2"},{"1":"The Positions","2":"2"},{"1":"Through The Walls","2":"2"},{"1":"triple j Live at Laneway Adelaide 2018","2":"2"},{"1":"triple j Live at Splendour 2017","2":"2"},{"1":"triple j Live at Splendour in the Grass 2019","2":"2"},{"1":"Walking On A Dream","2":"2"},{"1":"Watch The Throne","2":"2"},{"1":"Waterbed","2":"2"},{"1":"Wildflower","2":"2"},{"1":"You You","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -744,11 +922,11 @@ Chunk time: 0.01 secs
     select(DateTime, Song, Artist)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["DateTime"],"name":[1],"type":["S3: POSIXct"],"align":["right"]},{"label":["Song"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"2020-05-26 06:25:00","2":"Where The Wild Roses Grow","3":"Nick Cave And The Bad Seeds"},{"1":"2020-05-26 08:24:00","2":"Louie The Milkman","3":"Good Sniff"},{"1":"2020-05-26 14:30:00","2":"Beautiful Day","3":"U2"},{"1":"2020-05-26 15:09:00","2":"Sticks 'N' Stones","3":"Jamie T"},{"1":"2020-05-26 16:25:00","2":"L'Via L'Viaquez","3":"The Mars Volta"},{"1":"2020-05-27 07:05:00","2":"Anthem For The Year 2000","3":"Silverchair"},{"1":"2020-05-28 10:49:00","2":"Test & Recognise (Flume Re-work)","3":"Seekae"},{"1":"2020-05-28 15:32:00","2":"Call Your Girlfriend","3":"Robyn"},{"1":"2020-05-29 07:10:00","2":"R U A Cop?","3":"The Meeting Tree"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["DateTime"],"name":[1],"type":["S3: POSIXct"],"align":["right"]},{"label":["Song"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"2020-05-26 06:25:00","2":"Where The Wild Roses Grow","3":"Nick Cave And The Bad Seeds"},{"1":"2020-05-26 08:24:00","2":"Louie The Milkman","3":"Good Sniff"},{"1":"2020-05-26 14:30:00","2":"Beautiful Day","3":"U2"},{"1":"2020-05-26 15:09:00","2":"Sticks 'N' Stones","3":"Jamie T"},{"1":"2020-05-26 16:25:00","2":"L'Via L'Viaquez","3":"The Mars Volta"},{"1":"2020-05-27 07:05:00","2":"Anthem For The Year 2000","3":"Silverchair"},{"1":"2020-05-28 10:49:00","2":"Test & Recognise (Flume Re-work)","3":"Seekae"},{"1":"2020-05-28 15:32:00","2":"Call Your Girlfriend","3":"Robyn"},{"1":"2020-05-29 07:10:00","2":"R U A Cop?","3":"The Meeting Tree"},{"1":"2020-05-29 10:38:00","2":"Figjam","3":"Butterfingers"},{"1":"2020-05-29 11:48:00","2":"Clown Prince","3":"Hilltop Hoods"},{"1":"2020-05-29 12:23:00","2":"Jesus Stole My Girlfriend","3":"Violent Soho"},{"1":"2020-05-29 15:07:00","2":"Fridays","3":"Matty B"},{"1":"2020-05-29 19:41:00","2":"Superstylin'","3":"Groove Armada"},{"1":"2020-05-30 09:04:00","2":"The Salmon Dance","3":"The Chemical Brothers"},{"1":"2020-05-30 11:30:00","2":"& Down","3":"Boys Noize"},{"1":"2020-05-30 14:41:00","2":"Baby Got Back","3":"Sir Mix-A-Lot"},{"1":"2020-05-30 15:07:00","2":"Man Don't Care","3":"Jme"},{"1":"2020-05-30 18:02:00","2":"Feel Good Inc","3":"Gorillaz"},{"1":"2020-05-30 18:14:00","2":"Wash & Set","3":"Leikeli47"},{"1":"2020-05-30 18:42:00","2":"Turn Off The Lights {Ft. Alexis Roberts}","3":"Chris Lake"},{"1":"2020-05-30 18:46:00","2":"Bonfire","3":"Childish Gambino"},{"1":"2020-05-30 18:52:00","2":"Zulu Screams {Ft. Maleek Berry, Bibi Bourelly}","3":"Goldlink"},{"1":"2020-05-30 19:17:00","2":"Nightcall","3":"Kavinsky"},{"1":"2020-05-30 19:32:00","2":"The Sweet Escape {Ft. Akon}","3":"Gwen Stefani"},{"1":"2020-05-30 20:54:00","2":"Opposite Of Adults","3":"Chiddy Bang"},{"1":"2020-05-31 06:42:00","2":"Rare Air","3":"Mildlife"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
-Chunk time: 0.01 secs
+Chunk time: 0.02 secs
 </p>
 <p>This seems weird but I have checked them and this information is missing from the original HTML pages. It’s only a few songs so I’m not going to try and fix it.</p>
 </div>
@@ -757,9 +935,46 @@ Chunk time: 0.01 secs
 <p>How many songs are on Unearthed?</p>
 <pre class="r"><code>ggplot(requestival, aes(x = IsUnearthed)) +
     geom_bar()</code></pre>
-<img src="figure/04-exploration.Rmd/Unearthed-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Unearthed-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Unearthed-1">
+Past versions of Unearthed-1.png
+</button>
+</p>
+<div id="fig-Unearthed-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.25 secs
+Chunk time: 0.26 secs
 </p>
 </div>
 </div>
@@ -768,23 +983,97 @@ Chunk time: 0.25 secs
 <p>Now let’s looks at the fields we downloaded from Spotify. How many songs did we find Spotify track IDs for?</p>
 <pre class="r"><code>ggplot(requestival, aes(x = HasSpotify)) +
     geom_bar()</code></pre>
-<img src="figure/04-exploration.Rmd/HasSpotify-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/HasSpotify-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-HasSpotify-1">
+Past versions of HasSpotify-1.png
+</button>
+</p>
+<div id="fig-HasSpotify-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.25 secs
+Chunk time: 0.24 secs
 </p>
 <p>For the rest of this section we will only look at the songs with Spotify information.</p>
 <pre class="r"><code>requestival_spotify &lt;- filter(requestival, HasSpotify)</code></pre>
 <p class="timeit">
-Chunk time: 0 secs
+Chunk time: 0.01 secs
 </p>
 <div id="album-date" class="section level2" number="2.1">
 <h2 number="2.1"><span class="header-section-number">2.1</span> Album date</h2>
 <p>When we the songs released? This is the album release date so may not be the earliest song release depending on which album we got from Spotify.</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = AlbumDate)) +
     geom_histogram()</code></pre>
-<img src="figure/04-exploration.Rmd/AlbumDate-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/AlbumDate-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-AlbumDate-1">
+Past versions of AlbumDate-1.png
+</button>
+</p>
+<div id="fig-AlbumDate-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.29 secs
+Chunk time: 0.27 secs
 </p>
 <p>The five most recent songs are:</p>
 <pre class="r"><code>requestival_spotify %&gt;%
@@ -793,7 +1082,7 @@ Chunk time: 0.29 secs
     select(Song, Artist, Release, AlbumDate)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Release"],"name":[3],"type":["chr"],"align":["left"]},{"label":["AlbumDate"],"name":[4],"type":["date"],"align":["right"]}],"data":[{"1":"Twisting Words","2":"Miiesha","3":"Nyaaringu","4":"2020-05-29"},{"1":"California Dreamin'","2":"The Mamas & The Papas","3":"If You Can Believe Your Eyes And Ears","4":"2020-05-29"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"Celebrating 20 Years Together","4":"2020-05-27"},{"1":"Laying Low","2":"ChillinIT","3":"Laying Low","4":"2020-05-22"},{"1":"Break The Rules","2":"Ijale","3":"Break The Rules","4":"2020-05-22"},{"1":"Red, Black and Yellow","2":"Black Rock Band","3":"Red, Black and Yellow","4":"2020-05-22"},{"1":"Don't Call Me Baby","2":"Madison Avenue","3":"The Polyester Embassy","4":"2020-05-22"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Release"],"name":[3],"type":["chr"],"align":["left"]},{"label":["AlbumDate"],"name":[4],"type":["date"],"align":["right"]}],"data":[{"1":"Twisting Words","2":"Miiesha","3":"Nyaaringu","4":"2020-05-29"},{"1":"California Dreamin'","2":"The Mamas & The Papas","3":"If You Can Believe Your Eyes And Ears","4":"2020-05-29"},{"1":"Day 'N' Nite (Crookers Remix)","2":"Kid Cudi","3":"Day 'N' Nite","4":"2020-05-29"},{"1":"Nightcall","2":"Kavinsky","3":"NA","4":"2020-05-29"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"Celebrating 20 Years Together","4":"2020-05-27"},{"1":"Rare Air","2":"Mildlife","3":"NA","4":"2020-05-27"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -806,11 +1095,11 @@ Chunk time: 0.01 secs
     select(Song, Artist, Release, AlbumDate)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Release"],"name":[3],"type":["chr"],"align":["left"]},{"label":["AlbumDate"],"name":[4],"type":["date"],"align":["right"]}],"data":[{"1":"Subterranean Homesick Blues","2":"Bob Dylan","3":"The Best Of Bob Dylan Vol. 1 And 2","4":"1965-03-22"},{"1":"Spirit in the Sky","2":"Norman Greenbaum","3":"Spirit in the Sky","4":"1969-01-01"},{"1":"Sweet Caroline","2":"Neil Diamond","3":"Sweet Caroline","4":"1969-06-06"},{"1":"Starman","2":"David Bowie","3":"The Rise And Fall Of Ziggy Stardust And The Spiders From Mars","4":"1972-06-06"},{"1":"Afternoon Delight","2":"Starland Vocal Band","3":"Starland Vocal Band","4":"1976-07-01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Release"],"name":[3],"type":["chr"],"align":["left"]},{"label":["AlbumDate"],"name":[4],"type":["date"],"align":["right"]}],"data":[{"1":"Subterranean Homesick Blues","2":"Bob Dylan","3":"The Best Of Bob Dylan Vol. 1 And 2","4":"1965-03-22"},{"1":"Good Vibrations","2":"The Beach Boys","3":"Good Vibrations: The Beach Boys","4":"1967-09-18"},{"1":"Spirit in the Sky","2":"Norman Greenbaum","3":"Spirit in the Sky","4":"1969-01-01"},{"1":"Sweet Caroline","2":"Neil Diamond","3":"Sweet Caroline","4":"1969-06-06"},{"1":"Eagle Rock","2":"Daddy Cool","3":"Daddy Who? Daddy Cool (40th Anniversary Edition)","4":"1971-07-01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
-Chunk time: 0.2 secs
+Chunk time: 0.31 secs
 </p>
 </div>
 <div id="duration" class="section level2" number="2.2">
@@ -819,7 +1108,44 @@ Chunk time: 0.2 secs
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Duration)) +
     geom_histogram(bins = 100) +
     scale_x_time()</code></pre>
-<img src="figure/04-exploration.Rmd/Duration-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Duration-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Duration-1">
+Past versions of Duration-1.png
+</button>
+</p>
+<div id="fig-Duration-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
 Chunk time: 0.31 secs
 </p>
@@ -830,7 +1156,7 @@ Chunk time: 0.31 secs
     select(Song, Artist, Duration)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Duration"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Fools Gold","2":"The Stone Roses","3":"594.453"},{"1":"Pursuit","2":"Made In Paris","3":"514.385"},{"1":"All My Friends","2":"LCD Soundsystem","3":"462.266"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"455.493"},{"1":"Do Not Let Your Spirit Wane","2":"Gang Of Youths","3":"453.466"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Duration"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Fools Gold","2":"The Stone Roses","3":"594.453"},{"1":"Pyramids","2":"Frank Ocean","3":"592.920"},{"1":"Pursuit","2":"Made In Paris","3":"514.385"},{"1":"This Fire","2":"Franz Ferdinand","3":"493.946"},{"1":"Rattlesnake","2":"King Gizzard & The Lizard Wizard","3":"468.093"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -843,7 +1169,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Duration)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Duration"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Counting Worms","2":"Knocked Loose","3":"71.983"},{"1":"Dine N Dash","2":"The Chats","3":"74.866"},{"1":"Buy Me A Pony","2":"Spiderbait","3":"105.200"},{"1":"Let Me Down","2":"Oliver Tree","3":"111.209"},{"1":"Never Had So Much Fun","2":"Frenzal Rhomb","3":"121.373"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Duration"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Counting Worms","2":"Knocked Loose","3":"71.983"},{"1":"Dine N Dash","2":"The Chats","3":"74.866"},{"1":"4 Da Trap","2":"645AR","3":"95.502"},{"1":"Keep The Grubs Out","2":"The Chats","3":"95.613"},{"1":"Buy Me A Pony","2":"Spiderbait","3":"105.200"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -855,9 +1181,46 @@ Chunk time: 0.01 secs
 <p>How many songs are explicit?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Explicit)) +
     geom_bar()</code></pre>
-<img src="figure/04-exploration.Rmd/Explicit-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Explicit-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Explicit-1">
+Past versions of Explicit-1.png
+</button>
+</p>
+<div id="fig-Explicit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.25 secs
+Chunk time: 0.26 secs
 </p>
 </div>
 <div id="popularity" class="section level2" number="2.4">
@@ -865,7 +1228,44 @@ Chunk time: 0.25 secs
 <p>What is the distribution of popularity scores?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Popularity)) +
     geom_bar()</code></pre>
-<img src="figure/04-exploration.Rmd/Popularity-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Popularity-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Popularity-1">
+Past versions of Popularity-1.png
+</button>
+</p>
+<div id="fig-Popularity-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
 Chunk time: 0.3 secs
 </p>
@@ -876,7 +1276,7 @@ Chunk time: 0.3 secs
     select(Song, Artist, Popularity)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Popularity"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"goosebumps","2":"Travis Scott","3":"92"},{"1":"WHATS POPPIN","2":"Jack Harlow","3":"92"},{"1":"In Your Eyes","2":"The Weeknd","3":"91"},{"1":"Righteous","2":"Juice WRLD","3":"91"},{"1":"Robbery","2":"Juice WRLD","3":"86"},{"1":"Stupid Love","2":"Lady Gaga","3":"86"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Popularity"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"goosebumps","2":"Travis Scott","3":"92"},{"1":"WHATS POPPIN","2":"Jack Harlow","3":"92"},{"1":"HIGHEST IN THE ROOM","2":"Travis Scott","3":"92"},{"1":"In Your Eyes","2":"The Weeknd","3":"91"},{"1":"Righteous","2":"Juice WRLD","3":"91"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -889,7 +1289,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Popularity)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Popularity"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"0"},{"1":"California Dreamin'","2":"The Mamas & The Papas","3":"0"},{"1":"Radar Detector","2":"Darwin Deez","3":"4"},{"1":"Don't Call Me Baby","2":"Madison Avenue","3":"4"},{"1":"Champion","2":"Grinspoon","3":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Popularity"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"0"},{"1":"California Dreamin'","2":"The Mamas & The Papas","3":"0"},{"1":"Day 'N' Nite (Crookers Remix)","2":"Kid Cudi","3":"0"},{"1":"Nightcall","2":"Kavinsky","3":"0"},{"1":"Sister Song","2":"Satsuki","3":"0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -901,9 +1301,46 @@ Chunk time: 0.01 secs
 <p>How many songs are in a major key?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = IsMajor)) +
     geom_bar()</code></pre>
-<img src="figure/04-exploration.Rmd/IsMajor-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/IsMajor-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-IsMajor-1">
+Past versions of IsMajor-1.png
+</button>
+</p>
+<div id="fig-IsMajor-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.24 secs
+Chunk time: 0.23 secs
 </p>
 </div>
 <div id="loudness" class="section level2" number="2.6">
@@ -911,7 +1348,44 @@ Chunk time: 0.24 secs
 <p>What is the distribution of loudness?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Loudness)) +
     geom_histogram(bins = 100)</code></pre>
-<img src="figure/04-exploration.Rmd/Loudness-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Loudness-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Loudness-1">
+Past versions of Loudness-1.png
+</button>
+</p>
+<div id="fig-Loudness-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
 Chunk time: 0.3 secs
 </p>
@@ -922,7 +1396,7 @@ Chunk time: 0.3 secs
     select(Song, Artist, Loudness)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Loudness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Ask For The Anthem","2":"Ocean Grove","3":"-1.243"},{"1":"Chlorine","2":"Trophy Eyes","3":"-1.402"},{"1":"Barbra Streisand","2":"Duck Sauce","3":"-1.997"},{"1":"Hurricane","2":"Faker","3":"-2.073"},{"1":"Apocalypse Dreams","2":"Tame Impala","3":"-2.279"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Loudness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Ask For The Anthem","2":"Ocean Grove","3":"-1.243"},{"1":"Chlorine","2":"Trophy Eyes","3":"-1.402"},{"1":"Home","2":"ShockOne","3":"-1.584"},{"1":"Fit But You Know It","2":"The Streets","3":"-1.714"},{"1":"Arnold","2":"Luke Million","3":"-1.941"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -935,7 +1409,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Loudness)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Loudness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"-18.377"},{"1":"Sweet Caroline","2":"Neil Diamond","3":"-16.066"},{"1":"Thunder Road","2":"Bruce Springsteen","3":"-14.959"},{"1":"The Horses","2":"Daryl Braithwaite","3":"-14.816"},{"1":"It's Oh So Quiet","2":"Bjork","3":"-14.189"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Loudness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"What's Up","2":"4 Non Blondes","3":"-23.572"},{"1":"Believe","2":"Cher","3":"-20.261"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"-18.377"},{"1":"Africa","2":"Toto","3":"-18.064"},{"1":"Boombastic","2":"Shaggy","3":"-16.183"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -947,9 +1421,46 @@ Chunk time: 0.01 secs
 <p>What speed are the songs?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Tempo)) +
     geom_histogram(bins = 100)</code></pre>
-<img src="figure/04-exploration.Rmd/Temp-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Temp-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Temp-1">
+Past versions of Temp-1.png
+</button>
+</p>
+<div id="fig-Temp-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.33 secs
+Chunk time: 0.32 secs
 </p>
 <p>The five fastest songs are:</p>
 <pre class="r"><code>requestival_spotify %&gt;%
@@ -958,7 +1469,7 @@ Chunk time: 0.33 secs
     select(Song, Artist, Tempo)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Tempo"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"93 'Til Infinity","2":"Souls Of Mischief","3":"206.247"},{"1":"Bad Reputation","2":"Joan Jett","3":"203.715"},{"1":"Cigarettes","2":"Illy","3":"200.448"},{"1":"Anime","2":"JOY.","3":"198.107"},{"1":"Say What You Want","2":"Columbus","3":"197.040"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Tempo"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"93 'Til Infinity","2":"Souls Of Mischief","3":"206.247"},{"1":"Bad Reputation","2":"Joan Jett","3":"203.715"},{"1":"Heart-Shaped Box","2":"Nirvana","3":"203.006"},{"1":"Cigarettes","2":"Illy","3":"200.448"},{"1":"Anime","2":"JOY.","3":"198.107"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -971,7 +1482,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Tempo)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Tempo"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Sweet Caroline","2":"Neil Diamond","3":"63.050"},{"1":"Pineapple Head","2":"Crowded House","3":"63.886"},{"1":"Happiness is a Butterfly","2":"Lana Del Rey","3":"68.614"},{"1":"First Aid","2":"Gus Dapperton","3":"69.971"},{"1":"Duality","2":"Slipknot","3":"75.009"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Tempo"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Soon","2":"Angie McMahon","3":"49.725"},{"1":"Sweet Caroline","2":"Neil Diamond","3":"63.050"},{"1":"Pineapple Head","2":"Crowded House","3":"63.886"},{"1":"Punching In A Dream","2":"The Naked And Famous","3":"65.119"},{"1":"Happiness is a Butterfly","2":"Lana Del Rey","3":"68.614"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -983,9 +1494,46 @@ Chunk time: 0.01 secs
 <p>What is the distribution of valence? This is score from zero to one where one is positive and zero is negative.</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Valence)) +
     geom_histogram(bins = 100)</code></pre>
-<img src="figure/04-exploration.Rmd/Valence-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Valence-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Valence-1">
+Past versions of Valence-1.png
+</button>
+</p>
+<div id="fig-Valence-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.31 secs
+Chunk time: 0.34 secs
 </p>
 <p>The five most positive songs are:</p>
 <pre class="r"><code>requestival_spotify %&gt;%
@@ -994,7 +1542,7 @@ Chunk time: 0.31 secs
     select(Song, Artist, Valence)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Valence"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"September","2":"Earth, Wind & Fire","3":"0.980"},{"1":"Ocean Man","2":"Ween","3":"0.973"},{"1":"Rasputin","2":"Boney M","3":"0.970"},{"1":"Buy Me A Pony","2":"Spiderbait","3":"0.970"},{"1":"101 FM","2":"Little Simz","3":"0.969"},{"1":"White Lies","2":"Max Frost","3":"0.969"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Valence"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"September","2":"Earth, Wind & Fire","3":"0.980"},{"1":"Ocean Man","2":"Ween","3":"0.973"},{"1":"Rasputin","2":"Boney M","3":"0.970"},{"1":"Buy Me A Pony","2":"Spiderbait","3":"0.970"},{"1":"Vitriol","2":"Bluejuice","3":"0.970"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1007,7 +1555,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Valence)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Valence"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Raining Blood","2":"Slayer","3":"0.0363"},{"1":"Come On Mess Me Up","2":"Cub Sport","3":"0.0387"},{"1":"Ghost Voices","2":"Virtual Self","3":"0.0390"},{"1":"Weightless","2":"Northlane","3":"0.0528"},{"1":"Drive Me Round","2":"Mallrat","3":"0.0695"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Valence"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Raining Blood","2":"Slayer","3":"0.0363"},{"1":"Come On Mess Me Up","2":"Cub Sport","3":"0.0387"},{"1":"Ghost Voices","2":"Virtual Self","3":"0.0390"},{"1":"Hey Now","2":"London Grammar","3":"0.0391"},{"1":"Duel Of The Fates","2":"John Williams","3":"0.0393"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1019,9 +1567,46 @@ Chunk time: 0.01 secs
 <p>What is the distribution of energy?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Energy)) +
     geom_histogram(bins = 100)</code></pre>
-<img src="figure/04-exploration.Rmd/Energy-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Energy-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Energy-1">
+Past versions of Energy-1.png
+</button>
+</p>
+<div id="fig-Energy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.34 secs
+Chunk time: 0.33 secs
 </p>
 <p>The five most energetic songs are:</p>
 <pre class="r"><code>requestival_spotify %&gt;%
@@ -1030,7 +1615,7 @@ Chunk time: 0.34 secs
     select(Song, Artist, Energy)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Energy"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Raining Blood","2":"Slayer","3":"0.995"},{"1":"Vice Grip","2":"Parkway Drive","3":"0.988"},{"1":"Composure","2":"Yours Truly","3":"0.987"},{"1":"Ask For The Anthem","2":"Ocean Grove","3":"0.984"},{"1":"Duality","2":"Slipknot","3":"0.984"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Energy"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Raining Blood","2":"Slayer","3":"0.995"},{"1":"Son Of A Witch","2":"In Hearts Wake","3":"0.995"},{"1":"Motor Runnin","2":"Pist Idiots","3":"0.991"},{"1":"Vice Grip","2":"Parkway Drive","3":"0.988"},{"1":"Composure","2":"Yours Truly","3":"0.987"},{"1":"Composure","2":"Yours Truly","3":"0.987"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1043,7 +1628,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Energy)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Energy"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Thunder Road","2":"Bruce Springsteen","3":"0.119"},{"1":"Happiness is a Butterfly","2":"Lana Del Rey","3":"0.126"},{"1":"Sweet Caroline","2":"Neil Diamond","3":"0.127"},{"1":"It's Oh So Quiet","2":"Bjork","3":"0.129"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"0.168"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Energy"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"In Disguise","2":"Ashe","3":"0.0931"},{"1":"Thunder Road","2":"Bruce Springsteen","3":"0.1190"},{"1":"Happiness is a Butterfly","2":"Lana Del Rey","3":"0.1260"},{"1":"Sweet Caroline","2":"Neil Diamond","3":"0.1270"},{"1":"It's Oh So Quiet","2":"Bjork","3":"0.1290"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1055,9 +1640,46 @@ Chunk time: 0.01 secs
 <p>What is the distribution of danceability?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Danceability)) +
     geom_histogram(bins = 100)</code></pre>
-<img src="figure/04-exploration.Rmd/Danceability-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Danceability-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Danceability-1">
+Past versions of Danceability-1.png
+</button>
+</p>
+<div id="fig-Danceability-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.3 secs
+Chunk time: 0.31 secs
 </p>
 <p>The five most danceable songs are:</p>
 <pre class="r"><code>requestival_spotify %&gt;%
@@ -1066,7 +1688,7 @@ Chunk time: 0.3 secs
     select(Song, Artist, Danceability)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Danceability"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"This Must Be The Place (Naive Melody)","2":"Talking Heads","3":"0.942"},{"1":"Bad N Bouj","2":"Hp Boyz","3":"0.938"},{"1":"raingurl","2":"yaeji","3":"0.929"},{"1":"Good Times","2":"Genesis Owusu","3":"0.927"},{"1":"Bodak Yellow","2":"Cardi B","3":"0.926"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Danceability"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Wash & Set","2":"Leikeli47","3":"0.963"},{"1":"The Real Slim Shady","2":"Eminem","3":"0.949"},{"1":"This Must Be The Place (Naive Melody)","2":"Talking Heads","3":"0.942"},{"1":"No Effect","2":"Hooligan Hefs","3":"0.942"},{"1":"Bad N Bouj","2":"Hp Boyz","3":"0.938"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1079,7 +1701,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Danceability)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Danceability"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"I Still Dream About You","2":"The Smith Street Band","3":"0.146"},{"1":"Vanilla","2":"British India","3":"0.163"},{"1":"FU","2":"WAAX","3":"0.171"},{"1":"Echoes","2":"Klaxons","3":"0.200"},{"1":"Duality","2":"Slipknot","3":"0.202"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Danceability"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"I Still Dream About You","2":"The Smith Street Band","3":"0.146"},{"1":"Vanilla","2":"British India","3":"0.163"},{"1":"FU","2":"WAAX","3":"0.171"},{"1":"Punching In A Dream","2":"The Naked And Famous","3":"0.185"},{"1":"Echoes","2":"Klaxons","3":"0.200"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1091,7 +1713,44 @@ Chunk time: 0.01 secs
 <p>What is the distribution of speechiness?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Speechiness)) +
     geom_histogram(bins = 100)</code></pre>
-<img src="figure/04-exploration.Rmd/Speechiness-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Speechiness-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Speechiness-1">
+Past versions of Speechiness-1.png
+</button>
+</p>
+<div id="fig-Speechiness-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
 Chunk time: 0.32 secs
 </p>
@@ -1102,7 +1761,7 @@ Chunk time: 0.32 secs
     select(Song, Artist, Speechiness)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Speechiness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"RNP","2":"YBN Cordae","3":"0.856"},{"1":"Sunday Roast","2":"Nerve","3":"0.592"},{"1":"Flat Beat","2":"Mr. Oizo","3":"0.578"},{"1":"Typical Story","2":"Hobo Johnson","3":"0.438"},{"1":"Hoodlum","2":"Dallas Woods","3":"0.430"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Speechiness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"RNP","2":"YBN Cordae","3":"0.856"},{"1":"Sunday Roast","2":"Nerve","3":"0.592"},{"1":"Flat Beat","2":"Mr. Oizo","3":"0.578"},{"1":"Because I Got High","2":"Afroman","3":"0.488"},{"1":"Shimmy","2":"Aminé","3":"0.483"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1115,7 +1774,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Speechiness)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Speechiness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Strangers","2":"Tia Gostelow","3":"0.0242"},{"1":"Returning","2":"Erthlings","3":"0.0243"},{"1":"Better","2":"Mallrat","3":"0.0251"},{"1":"Pineapple Head","2":"Crowded House","3":"0.0260"},{"1":"Scar","2":"Cloud Control","3":"0.0260"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Speechiness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Strangers","2":"Tia Gostelow","3":"0.0242"},{"1":"Pure Shores","2":"All Saints","3":"0.0242"},{"1":"Returning","2":"Erthlings","3":"0.0243"},{"1":"Believe","2":"Cher","3":"0.0248"},{"1":"My Life Is Yours","2":"Papa Vs Pretty","3":"0.0250"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1127,9 +1786,46 @@ Chunk time: 0.01 secs
 <p>What is the distribution of acousticness?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Acousticness)) +
     geom_histogram(bins = 100)</code></pre>
-<img src="figure/04-exploration.Rmd/Acousticness-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Acousticness-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Acousticness-1">
+Past versions of Acousticness-1.png
+</button>
+</p>
+<div id="fig-Acousticness-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.32 secs
+Chunk time: 0.33 secs
 </p>
 <p>The five most acoustic songs are:</p>
 <pre class="r"><code>requestival_spotify %&gt;%
@@ -1138,7 +1834,7 @@ Chunk time: 0.32 secs
     select(Song, Artist, Acousticness)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Acousticness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Happiness is a Butterfly","2":"Lana Del Rey","3":"0.966"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"0.965"},{"1":"Thunder Road","2":"Bruce Springsteen","3":"0.927"},{"1":"Everlong","2":"Foo Fighters","3":"0.909"},{"1":"Together","2":"Ziggy Alberts","3":"0.907"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Acousticness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Punching In A Dream","2":"The Naked And Famous","3":"0.972"},{"1":"Happiness is a Butterfly","2":"Lana Del Rey","3":"0.966"},{"1":"Symphony No. 5 in C minor: I. Allegro con brio","2":"Beethoven","3":"0.965"},{"1":"Blood Bank","2":"Bon Iver","3":"0.960"},{"1":"Same Drugs","2":"Chance The Rapper","3":"0.947"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1151,7 +1847,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Acousticness)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Acousticness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Sweet Release","2":"Hockey Dad","3":"6.75e-06"},{"1":"Vagabond","2":"Polaris","3":"7.12e-06"},{"1":"Swimming Pool","2":"Eliza & The Delusionals","3":"9.40e-06"},{"1":"Swimming Pool","2":"Eliza & The Delusionals","3":"9.40e-06"},{"1":"Promise Everything","2":"Basement","3":"1.20e-05"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Acousticness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Go","2":"Pearl Jam","3":"4.34e-06"},{"1":"Sweet Release","2":"Hockey Dad","3":"6.75e-06"},{"1":"Vagabond","2":"Polaris","3":"7.12e-06"},{"1":"Vagabond","2":"Polaris","3":"7.12e-06"},{"1":"Eleven","2":"Last Dinosaurs","3":"8.40e-06"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1163,9 +1859,46 @@ Chunk time: 0.01 secs
 <p>What is the distribution of liveness?</p>
 <pre class="r"><code>ggplot(requestival_spotify, aes(x = Liveness)) +
     geom_histogram(bins = 100)</code></pre>
-<img src="figure/04-exploration.Rmd/Liveness-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="figure/04-exploration.Rmd/Liveness-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Liveness-1">
+Past versions of Liveness-1.png
+</button>
+</p>
+<div id="fig-Liveness-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+8f40292
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-05-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p class="timeit">
-Chunk time: 0.31 secs
+Chunk time: 0.34 secs
 </p>
 <p>The five most live songs are:</p>
 <pre class="r"><code>requestival_spotify %&gt;%
@@ -1174,7 +1907,7 @@ Chunk time: 0.31 secs
     select(Song, Artist, Liveness)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Liveness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Let Me Mend The Past (Live in Madrid '19)","2":"King Gizzard & The Lizard Wizard","3":"0.940"},{"1":"Paranoia, Ghosts & Other Sounds","2":"SAFIA","3":"0.923"},{"1":"Mr La Di Da Di","2":"Baker Boy","3":"0.909"},{"1":"The Dreamer","2":"Anderson .Paak","3":"0.896"},{"1":"Youth Allowance","2":"Northeast Party House","3":"0.881"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Liveness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Formation","2":"Beyoncé","3":"0.956"},{"1":"Let Me Mend The Past (Live in Madrid '19)","2":"King Gizzard & The Lizard Wizard","3":"0.940"},{"1":"Paranoia, Ghosts & Other Sounds","2":"SAFIA","3":"0.923"},{"1":"Mr La Di Da Di","2":"Baker Boy","3":"0.909"},{"1":"The Dreamer","2":"Anderson .Paak","3":"0.896"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1187,7 +1920,7 @@ Chunk time: 0.01 secs
     select(Song, Artist, Liveness)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Liveness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Not Many (Remix)","2":"Scribe","3":"0.0236"},{"1":"This Must Be The Place (Naive Melody)","2":"Talking Heads","3":"0.0280"},{"1":"Nutbush City Limits","2":"Tina Turner","3":"0.0292"},{"1":"Junk Of The Heart (Happy)","2":"The Kooks","3":"0.0299"},{"1":"Superstar (Hollywood Royalty Remix)","2":"RuPaul","3":"0.0319"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Song"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Artist"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Liveness"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Fit But You Know It","2":"The Streets","3":"0.0222"},{"1":"Not Many (Remix)","2":"Scribe","3":"0.0236"},{"1":"Vitriol","2":"Bluejuice","3":"0.0251"},{"1":"Detachable Penis","2":"King Missile","3":"0.0278"},{"1":"WUTD","2":"Genesis Owusu","3":"0.0278"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p class="timeit">
@@ -1211,7 +1944,7 @@ Chunk time: 0.01 secs
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       Europe/Berlin               
- date     2020-05-31                  
+ date     2020-06-01                  
 
 ─ Packages ───────────────────────────────────────────────────────────────────
  ! package     * version date       lib source           
@@ -1303,7 +2036,7 @@ Chunk time: 0.01 secs
 
  P ── Loaded and on-disk path mismatch.</code></pre>
 <p class="timeit">
-Chunk time: 0.22 secs
+Chunk time: 0.2 secs
 </p>
 </div>
 </div>
