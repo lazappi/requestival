@@ -12,10 +12,13 @@ suppressPackageStartupMessages({
     library("rvest")
     # Spotify API
     library("spotifyr")
+    # Embedding
+    library("Rtsne")
     # Dates
     library("lubridate")
     # Presentation
     library("glue")
+    library("knitr")
     # Tidyverse
     library("tidyverse")
 })

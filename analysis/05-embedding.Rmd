@@ -1,0 +1,173 @@
+---
+title: "Embedding"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, cache = FALSE}
+source(here::here("code", "setup.R"))
+```
+
+# Introduction {.unnumbered}
+
+After checking the individual variables the first thing I like to do with a new
+dataset is to perform some dimensionality reduction to get an overiew of it as a
+whole.
+
+```{r load}
+requestival <- read_tsv(
+    PATHS$augmented,
+    col_types = cols(
+        .default     = col_double(),
+        DateTime     = col_datetime(format = ""),
+        Song         = col_character(),
+        Artist       = col_character(),
+        Release      = col_character(),
+        IsUnearthed  = col_logical(),
+        UnearthedURL = col_character(),
+        SpotifyQuery = col_character(),
+        SpotifyURL   = col_character(),
+        YouTubeQuery = col_character(),
+        YouTubeURL   = col_character(),
+        SpotifyID    = col_character(),
+        HasSpotify   = col_logical(),
+        AlbumDate    = col_date(format = ""),
+        Explicit     = col_logical(),
+        IsMajor      = col_logical()
+)
+) %>%
+    mutate(DateTime = with_tz(DateTime, "Australia/Sydney"))
+```
+
+# PCA
+
+Let's perform a PCA of the dataset. We need numeric values so we can only really
+do this on the songs that we have Spotify information for.
+
+```{r pca-features}
+features <- c("Duration", "Loudness", "Tempo", "Valence", "Energy", 
+              "Danceability", "Speechiness", "Acousticness", "Liveness")
+
+features_mat <- requestival %>%
+    filter(HasSpotify) %>%
+    select(SpotifyID, !!features) %>%
+    distinct() %>%
+    column_to_rownames("SpotifyID") %>%
+    as.matrix() %>%
+    scale()
+```
+
+I have selected the features that describe the basic characteristics of each
+song. These are:
+`r glue_collapse(glue("**{features}**"), sep = ", ", last = " and ")`. Most of
+these features are scores between zero and one but a few have very different
+ranges so I have centered and scaled each of them.
+
+```{r pca}
+pca <- prcomp(features_mat)
+```
+
+Let's have a look at the loadings for each principle component.
+
+```{r pca-loadings}
+feature_loadings <- pca$rotation %>%
+    as.data.frame() %>%
+    rownames_to_column("Feature") %>%
+    mutate(Feature = factor(Feature, levels = features)) %>%
+    pivot_longer(-Feature, names_to = "PC", values_to = "Loading")
+
+ggplot(feature_loadings,
+       aes(x = fct_rev(Feature), y = Loading, fill = Feature)) +
+    geom_col() +
+    geom_hline(yintercept = 0) +
+    coord_flip() +
+    scale_fill_brewer(palette = "Set1", guide = FALSE) +
+    facet_wrap(~ PC) +
+    labs(
+        title = "PC loadings",
+        x     = NULL
+    ) +
+    theme(
+        strip.text       = element_text(colour = "white"),
+        strip.background = element_rect(fill = "black"),
+        panel.border     = element_rect(fill = NA)
+    )
+```
+
+Here is the scatter plot of the first two components.
+
+```{r pca-scatter}
+pca_points <- pca$x %>%
+    as.data.frame() %>%
+    rownames_to_column("SpotifyID")
+
+ggplot(pca_points, aes(x = PC1, y = PC2)) +
+    geom_point()
+```
+
+There's not a lot of separation between points here. Perhaps thing will be
+clearer if we do a non-linear embedding based on the PCA?
+
+# t-SNE
+
+Let's see what a t-SNE plot looks like.
+
+```{r tsne}
+tsne <- Rtsne(pca$x, pca = FALSE)
+
+tsne_points <- tsne$Y %>%
+    as.data.frame() %>%
+    set_names(c("TSNE1", "TSNE2")) %>%
+    mutate(SpotifyID = pca_points$SpotifyID)
+
+ggplot(tsne_points, aes(x = TSNE1, y = TSNE2)) +
+    geom_point()
+```
+
+That maybe does a better job of showing the structure in the data? What if we
+overlay some of the information we have.
+
+## Features {.tabset}
+
+```{r tsne-features, results = "hide"}
+requestival <- left_join(requestival, tsne_points, by = "SpotifyID")
+
+plot_data <- requestival %>%
+    filter(HasSpotify) %>%
+    select(-DateTime) %>%
+    distinct(SpotifyID, .keep_all = TRUE)
+
+plot_features <- c("IsUnearthed", "AlbumDate", "Duration", "Explicit",
+                   "Popularity", "IsMajor", "Loudness", "Tempo", "Valence",
+                   "Energy", "Danceability", "Speechiness", "Acousticness",
+                   "Liveness")
+
+src_list <- map(plot_features, function(.feature) {
+    if (is.logical(plot_data[[.feature]][1])) {
+        colour_scale <- 'scale_colour_manual(values = c("grey", "red"))'
+    } else if (is.Date(plot_data[[.feature]][1])) {
+        colour_scale <- 'scale_colour_date()'
+    } else {
+        colour_scale <- 'scale_colour_viridis_c()'
+    }
+    knit_expand(text = c(
+        "### {{.feature}} {.unnumbered}",
+        "```{r}",
+        "ggplot(plot_data) +",
+        "aes(x = TSNE1, y = TSNE2, colour = {{.feature}}) +",
+        "geom_point(size = 2) +",
+        colour_scale,
+        "```",
+        ""
+    ))
+})
+
+out <- knit_child(text = unlist(src_list), options = list(cache = FALSE))
+```
+
+`r out`
+
+requestival %>% filter(HasSpotify) %>% mutate(Day = day(DateTime), Time = (60 * hour(DateTime) + minute(DateTime)) * 60) %>% select(Day, Time, Danceability, Speechiness, Acousticness, Liveness) %>% pivot_longer(c(-Time, -Day), names_to = "Feature", values_to = "Score") -> pp
+
+ggplot(pp, aes(x = Time, y = Score, colour = Feature, fill = Feature)) + geom_point(alpha = 0.25, size = 1) + geom_smooth() + facet_grid(Day ~ Feature, scales = "free") + scale_x_time() + scale_colour_brewer(palette = "Set1", guide = FALSE) + scale_fill_brewer(palette = "Set1", guide = FALSE)

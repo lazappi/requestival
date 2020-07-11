@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Embedding</title>
+
+<script src="site_libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Requestival</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/lazappi/requestival">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Embedding</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-07-11
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>requestival/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200529code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200529)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200529code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200529)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappirequestivaltreed563c545b86eda4170a99d1f0e089a290979f1f5targetblankd563c54a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/requestival/tree/d563c545b86eda4170a99d1f0e089a290979f1f5" target="_blank">d563c54</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappirequestivaltreed563c545b86eda4170a99d1f0e089a290979f1f5targetblankd563c54a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="http://github.com/lazappi/requestival/tree/d563c545b86eda4170a99d1f0e089a290979f1f5" target="_blank">d563c54</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    code/_spotify_secrets.R
+    Ignored:    data/.DS_Store
+    Ignored:    data/raw/.DS_Store
+    Ignored:    data/raw/requestival_24_files/
+    Ignored:    data/raw/requestival_25_files/
+    Ignored:    data/raw/requestival_26_files/
+    Ignored:    data/raw/requestival_27_files/
+    Ignored:    data/raw/requestival_28_files/
+    Ignored:    data/raw/requestival_29_files/
+    Ignored:    data/raw/requestival_30_files/
+    Ignored:    data/raw/requestival_31_files/
+    Ignored:    output/01-scraping.Rmd/
+    Ignored:    output/02-tidying.Rmd/
+    Ignored:    output/03-augmentation.Rmd/
+    Ignored:    output/04-exploration.Rmd/
+    Ignored:    output/05-embedding.Rmd/
+    Ignored:    renv/library/
+    Ignored:    renv/staging/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/05-embedding.Rmd</code>) and HTML (<code>docs/05-embedding.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="http://github.com/lazappi/requestival/blob/d563c545b86eda4170a99d1f0e089a290979f1f5/analysis/05-embedding.Rmd" target="_blank">d563c54</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2020-07-11
+</td>
+<td>
+Add embedding
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>source(here::here(&quot;code&quot;, &quot;setup.R&quot;))</code></pre>
+<div id="introduction" class="section level1 unnumbered" number="">
+<h1 class="unnumbered" number="">Introduction</h1>
+<p>After checking the individual variables the first thing I like to do with a new dataset is to perform some dimensionality reduction to get an overiew of it as a whole.</p>
+<pre class="r"><code>requestival &lt;- read_tsv(
+    PATHS$augmented,
+    col_types = cols(
+        .default     = col_double(),
+        DateTime     = col_datetime(format = &quot;&quot;),
+        Song         = col_character(),
+        Artist       = col_character(),
+        Release      = col_character(),
+        IsUnearthed  = col_logical(),
+        UnearthedURL = col_character(),
+        SpotifyQuery = col_character(),
+        SpotifyURL   = col_character(),
+        YouTubeQuery = col_character(),
+        YouTubeURL   = col_character(),
+        SpotifyID    = col_character(),
+        HasSpotify   = col_logical(),
+        AlbumDate    = col_date(format = &quot;&quot;),
+        Explicit     = col_logical(),
+        IsMajor      = col_logical()
+)
+) %&gt;%
+    mutate(DateTime = with_tz(DateTime, &quot;Australia/Sydney&quot;))</code></pre>
+<p class="timeit">
+Chunk time: 0.22 secs
+</p>
+</div>
+<div id="pca" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> PCA</h1>
+<p>Let’s perform a PCA of the dataset. We need numeric values so we can only really do this on the songs that we have Spotify information for.</p>
+<pre class="r"><code>features &lt;- c(&quot;Duration&quot;, &quot;Loudness&quot;, &quot;Tempo&quot;, &quot;Valence&quot;, &quot;Energy&quot;, 
+              &quot;Danceability&quot;, &quot;Speechiness&quot;, &quot;Acousticness&quot;, &quot;Liveness&quot;)
+
+features_mat &lt;- requestival %&gt;%
+    filter(HasSpotify) %&gt;%
+    select(SpotifyID, !!features) %&gt;%
+    distinct() %&gt;%
+    column_to_rownames(&quot;SpotifyID&quot;) %&gt;%
+    as.matrix() %&gt;%
+    scale()</code></pre>
+<p class="timeit">
+Chunk time: 0.02 secs
+</p>
+<p>I have selected the features that describe the basic characteristics of each song. These are: <strong>Duration</strong>, <strong>Loudness</strong>, <strong>Tempo</strong>, <strong>Valence</strong>, <strong>Energy</strong>, <strong>Danceability</strong>, <strong>Speechiness</strong>, <strong>Acousticness</strong> and <strong>Liveness</strong>. Most of these features are scores between zero and one but a few have very different ranges so I have centered and scaled each of them.</p>
+<pre class="r"><code>pca &lt;- prcomp(features_mat)</code></pre>
+<p class="timeit">
+Chunk time: 0.11 secs
+</p>
+<p>Let’s have a look at the loadings for each principle component.</p>
+<pre class="r"><code>feature_loadings &lt;- pca$rotation %&gt;%
+    as.data.frame() %&gt;%
+    rownames_to_column(&quot;Feature&quot;) %&gt;%
+    mutate(Feature = factor(Feature, levels = features)) %&gt;%
+    pivot_longer(-Feature, names_to = &quot;PC&quot;, values_to = &quot;Loading&quot;)
+
+ggplot(feature_loadings,
+       aes(x = fct_rev(Feature), y = Loading, fill = Feature)) +
+    geom_col() +
+    geom_hline(yintercept = 0) +
+    coord_flip() +
+    scale_fill_brewer(palette = &quot;Set1&quot;, guide = FALSE) +
+    facet_wrap(~ PC) +
+    labs(
+        title = &quot;PC loadings&quot;,
+        x     = NULL
+    ) +
+    theme(
+        strip.text       = element_text(colour = &quot;white&quot;),
+        strip.background = element_rect(fill = &quot;black&quot;),
+        panel.border     = element_rect(fill = NA)
+    )</code></pre>
+<img src="figure/05-embedding.Rmd/pca-loadings-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 1.52 secs
+</p>
+<p>Here is the scatter plot of the first two components.</p>
+<pre class="r"><code>pca_points &lt;- pca$x %&gt;%
+    as.data.frame() %&gt;%
+    rownames_to_column(&quot;SpotifyID&quot;)
+
+ggplot(pca_points, aes(x = PC1, y = PC2)) +
+    geom_point()</code></pre>
+<img src="figure/05-embedding.Rmd/pca-scatter-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.33 secs
+</p>
+<p>There’s not a lot of separation between points here. Perhaps thing will be clearer if we do a non-linear embedding based on the PCA?</p>
+</div>
+<div id="t-sne" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> t-SNE</h1>
+<p>Let’s see what a t-SNE plot looks like.</p>
+<pre class="r"><code>tsne &lt;- Rtsne(pca$x, pca = FALSE)
+
+tsne_points &lt;- tsne$Y %&gt;%
+    as.data.frame() %&gt;%
+    set_names(c(&quot;TSNE1&quot;, &quot;TSNE2&quot;)) %&gt;%
+    mutate(SpotifyID = pca_points$SpotifyID)
+
+ggplot(tsne_points, aes(x = TSNE1, y = TSNE2)) +
+    geom_point()</code></pre>
+<img src="figure/05-embedding.Rmd/tsne-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 2.64 secs
+</p>
+<p>That maybe does a better job of showing the structure in the data? What if we overlay some of the information we have.</p>
+<div id="features" class="section level2 tabset" number="2.1">
+<h2 class="tabset" number="2.1"><span class="header-section-number">2.1</span> Features</h2>
+<pre class="r"><code>requestival &lt;- left_join(requestival, tsne_points, by = &quot;SpotifyID&quot;)
+
+plot_data &lt;- requestival %&gt;%
+    filter(HasSpotify) %&gt;%
+    select(-DateTime) %&gt;%
+    distinct(SpotifyID, .keep_all = TRUE)
+
+plot_features &lt;- c(&quot;IsUnearthed&quot;, &quot;AlbumDate&quot;, &quot;Duration&quot;, &quot;Explicit&quot;,
+                   &quot;Popularity&quot;, &quot;IsMajor&quot;, &quot;Loudness&quot;, &quot;Tempo&quot;, &quot;Valence&quot;,
+                   &quot;Energy&quot;, &quot;Danceability&quot;, &quot;Speechiness&quot;, &quot;Acousticness&quot;,
+                   &quot;Liveness&quot;)
+
+src_list &lt;- map(plot_features, function(.feature) {
+    if (is.logical(plot_data[[.feature]][1])) {
+        colour_scale &lt;- &#39;scale_colour_manual(values = c(&quot;grey&quot;, &quot;red&quot;))&#39;
+    } else if (is.Date(plot_data[[.feature]][1])) {
+        colour_scale &lt;- &#39;scale_colour_date()&#39;
+    } else {
+        colour_scale &lt;- &#39;scale_colour_viridis_c()&#39;
+    }
+    knit_expand(text = c(
+        &quot;### {{.feature}} {.unnumbered}&quot;,
+        &quot;```{r}&quot;,
+        &quot;ggplot(plot_data) +&quot;,
+        &quot;aes(x = TSNE1, y = TSNE2, colour = {{.feature}}) +&quot;,
+        &quot;geom_point(size = 2) +&quot;,
+        colour_scale,
+        &quot;```&quot;,
+        &quot;&quot;
+    ))
+})
+
+out &lt;- knit_child(text = unlist(src_list), options = list(cache = FALSE))</code></pre>
+<p class="timeit">
+Chunk time: 0.43 secs
+</p>
+<div id="isunearthed" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">IsUnearthed</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = IsUnearthed) +
+geom_point(size = 2) +
+scale_colour_manual(values = c(&quot;grey&quot;, &quot;red&quot;))</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-1-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.43 secs
+</p>
+</div>
+<div id="albumdate" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">AlbumDate</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = AlbumDate) +
+geom_point(size = 2) +
+scale_colour_date()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-2-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.38 secs
+</p>
+</div>
+<div id="duration" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Duration</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Duration) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.39 secs
+</p>
+</div>
+<div id="explicit" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Explicit</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Explicit) +
+geom_point(size = 2) +
+scale_colour_manual(values = c(&quot;grey&quot;, &quot;red&quot;))</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.39 secs
+</p>
+</div>
+<div id="popularity" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Popularity</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Popularity) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-5-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.39 secs
+</p>
+</div>
+<div id="ismajor" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">IsMajor</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = IsMajor) +
+geom_point(size = 2) +
+scale_colour_manual(values = c(&quot;grey&quot;, &quot;red&quot;))</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.39 secs
+</p>
+</div>
+<div id="loudness" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Loudness</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Loudness) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-7-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.39 secs
+</p>
+</div>
+<div id="tempo" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Tempo</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Tempo) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-8-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.36 secs
+</p>
+</div>
+<div id="valence" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Valence</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Valence) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-9-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.38 secs
+</p>
+</div>
+<div id="energy" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Energy</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Energy) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-10-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.37 secs
+</p>
+</div>
+<div id="danceability" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Danceability</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Danceability) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-11-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.38 secs
+</p>
+</div>
+<div id="speechiness" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Speechiness</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Speechiness) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.39 secs
+</p>
+</div>
+<div id="acousticness" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Acousticness</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Acousticness) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-13-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.37 secs
+</p>
+</div>
+<div id="liveness" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Liveness</h3>
+<pre class="r"><code>ggplot(plot_data) +
+aes(x = TSNE1, y = TSNE2, colour = Liveness) +
+geom_point(size = 2) +
+scale_colour_viridis_c()</code></pre>
+<img src="figure/05-embedding.Rmd/unnamed-chunk-14-1.png" width="960" style="display: block; margin: auto;" />
+<p class="timeit">
+Chunk time: 0.38 secs
+</p>
+<p>requestival %&gt;% filter(HasSpotify) %&gt;% mutate(Day = day(DateTime), Time = (60 * hour(DateTime) + minute(DateTime)) * 60) %&gt;% select(Day, Time, Danceability, Speechiness, Acousticness, Liveness) %&gt;% pivot_longer(c(-Time, -Day), names_to = “Feature”, values_to = “Score”) -&gt; pp</p>
+<p>ggplot(pp, aes(x = Time, y = Score, colour = Feature, fill = Feature)) + geom_point(alpha = 0.25, size = 1) + geom_smooth() + facet_grid(Day ~ Feature, scales = “free”) + scale_x_time() + scale_colour_brewer(palette = “Set1”, guide = FALSE) + scale_fill_brewer(palette = “Set1”, guide = FALSE)</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessioninfo::session_info()</code></pre>
+<pre><code>─ Session info ───────────────────────────────────────────────────────────────
+ setting  value                       
+ version  R version 4.0.0 (2020-04-24)
+ os       macOS Catalina 10.15.5      
+ system   x86_64, darwin17.0          
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ ctype    en_US.UTF-8                 
+ tz       Europe/Berlin               
+ date     2020-07-11                  
+
+─ Packages ───────────────────────────────────────────────────────────────────
+ ! package      * version date       lib source           
+ P assertthat     0.2.1   2019-03-21 [?] CRAN (R 4.0.0)   
+ P backports      1.1.7   2020-05-13 [?] CRAN (R 4.0.0)   
+ P base64enc      0.1-3   2015-07-28 [?] CRAN (R 4.0.0)   
+ P blob           1.2.1   2020-01-20 [?] CRAN (R 4.0.0)   
+ P broom          0.5.6   2020-04-20 [?] CRAN (R 4.0.0)   
+ P cellranger     1.1.0   2016-07-27 [?] standard (@1.1.0)
+ P cli            2.0.2   2020-02-28 [?] CRAN (R 4.0.0)   
+ P colorspace     1.4-1   2019-03-18 [?] standard (@1.4-1)
+ P conflicted   * 1.0.4   2019-06-21 [?] standard (@1.0.4)
+ P crayon         1.3.4   2017-09-16 [?] CRAN (R 4.0.0)   
+ P DBI            1.1.0   2019-12-15 [?] CRAN (R 4.0.0)   
+ P dbplyr         1.4.4   2020-05-27 [?] CRAN (R 4.0.0)   
+ P digest         0.6.25  2020-02-23 [?] CRAN (R 4.0.0)   
+ P dplyr        * 0.8.5   2020-03-07 [?] CRAN (R 4.0.0)   
+ P ellipsis       0.3.1   2020-05-15 [?] CRAN (R 4.0.0)   
+ P evaluate       0.14    2019-05-28 [?] standard (@0.14) 
+ P fansi          0.4.1   2020-01-08 [?] CRAN (R 4.0.0)   
+ P farver         2.0.3   2020-01-16 [?] CRAN (R 4.0.0)   
+ P forcats      * 0.5.0   2020-03-01 [?] CRAN (R 4.0.0)   
+ P fs           * 1.4.1   2020-04-04 [?] CRAN (R 4.0.0)   
+ P generics       0.0.2   2018-11-29 [?] standard (@0.0.2)
+ P genius         2.2.2   2020-05-28 [?] CRAN (R 4.0.0)   
+ P ggplot2      * 3.3.1   2020-05-28 [?] CRAN (R 4.0.0)   
+ P git2r          0.27.1  2020-05-03 [?] CRAN (R 4.0.0)   
+ P glue         * 1.4.1   2020-05-13 [?] CRAN (R 4.0.0)   
+ P gtable         0.3.0   2019-03-25 [?] standard (@0.3.0)
+ P haven          2.3.0   2020-05-24 [?] CRAN (R 4.0.0)   
+ P here         * 0.1     2017-05-28 [?] standard (@0.1)  
+ P hms            0.5.3   2020-01-08 [?] CRAN (R 4.0.0)   
+ P htmltools      0.4.0   2019-10-04 [?] standard (@0.4.0)
+ P httpuv         1.5.3.1 2020-05-26 [?] CRAN (R 4.0.0)   
+ P httr           1.4.1   2019-08-05 [?] standard (@1.4.1)
+ P janeaustenr    0.1.5   2017-06-10 [?] CRAN (R 4.0.0)   
+ P jsonlite       1.6.1   2020-02-02 [?] CRAN (R 4.0.0)   
+ P knitr        * 1.28    2020-02-06 [?] CRAN (R 4.0.0)   
+ P labeling       0.3     2014-08-23 [?] standard (@0.3)  
+ P later          1.0.0   2019-10-04 [?] standard (@1.0.0)
+ P lattice        0.20-41 2020-04-02 [3] CRAN (R 4.0.0)   
+ P lifecycle      0.2.0   2020-03-06 [?] CRAN (R 4.0.0)   
+ P lubridate    * 1.7.8   2020-04-06 [?] CRAN (R 4.0.0)   
+ P magrittr       1.5     2014-11-22 [?] CRAN (R 4.0.0)   
+ P Matrix         1.2-18  2019-11-27 [3] CRAN (R 4.0.0)   
+ P memoise        1.1.0   2017-04-21 [?] standard (@1.1.0)
+ P modelr         0.1.8   2020-05-19 [?] CRAN (R 4.0.0)   
+ P munsell        0.5.0   2018-06-12 [?] standard (@0.5.0)
+ P nlme           3.1-148 2020-05-24 [3] CRAN (R 4.0.0)   
+ P pillar         1.4.4   2020-05-05 [?] CRAN (R 4.0.0)   
+ P pkgconfig      2.0.3   2019-09-22 [?] CRAN (R 4.0.0)   
+ P plyr           1.8.6   2020-03-03 [?] CRAN (R 4.0.0)   
+ P promises       1.1.0   2019-10-04 [?] standard (@1.1.0)
+ P purrr        * 0.3.4   2020-04-17 [?] CRAN (R 4.0.0)   
+ P R6             2.4.1   2019-11-12 [?] CRAN (R 4.0.0)   
+ P RColorBrewer   1.1-2   2014-12-07 [?] standard (@1.1-2)
+ P Rcpp           1.0.4.6 2020-04-09 [?] CRAN (R 4.0.0)   
+ P readr        * 1.3.1   2018-12-21 [?] standard (@1.3.1)
+ P readxl         1.3.1   2019-03-13 [?] standard (@1.3.1)
+ P reprex         0.3.0   2019-05-16 [?] standard (@0.3.0)
+ P reshape2       1.4.4   2020-04-09 [?] CRAN (R 4.0.0)   
+ P rlang          0.4.6   2020-05-02 [?] CRAN (R 4.0.0)   
+ P rmarkdown      2.1     2020-01-20 [?] CRAN (R 4.0.0)   
+ P rprojroot      1.3-2   2018-01-03 [?] CRAN (R 4.0.0)   
+ P rstudioapi     0.11    2020-02-07 [?] CRAN (R 4.0.0)   
+ P Rtsne        * 0.15    2018-11-10 [?] CRAN (R 4.0.0)   
+ P rvest        * 0.3.5   2019-11-08 [?] standard (@0.3.5)
+ P scales         1.1.1   2020-05-11 [?] CRAN (R 4.0.0)   
+   sessioninfo    1.1.1   2018-11-05 [3] CRAN (R 4.0.0)   
+ P SnowballC      0.7.0   2020-04-01 [?] CRAN (R 4.0.0)   
+ P spotifyr     * 2.1.1   2019-07-13 [?] CRAN (R 4.0.0)   
+ P stringi        1.4.6   2020-02-17 [?] CRAN (R 4.0.0)   
+ P stringr      * 1.4.0   2019-02-10 [?] CRAN (R 4.0.0)   
+ P tibble       * 3.0.1   2020-04-20 [?] CRAN (R 4.0.0)   
+ P tidyr        * 1.1.0   2020-05-20 [?] CRAN (R 4.0.0)   
+ P tidyselect     1.1.0   2020-05-11 [?] CRAN (R 4.0.0)   
+ P tidytext       0.2.4   2020-04-17 [?] CRAN (R 4.0.0)   
+ P tidyverse    * 1.3.0   2019-11-21 [?] standard (@1.3.0)
+ P tokenizers     0.2.1   2018-03-29 [?] CRAN (R 4.0.0)   
+ P vctrs          0.3.0   2020-05-11 [?] CRAN (R 4.0.0)   
+ P viridisLite    0.3.0   2018-02-01 [?] standard (@0.3.0)
+ P whisker        0.4     2019-08-28 [?] standard (@0.4)  
+ P withr          2.2.0   2020-04-20 [?] CRAN (R 4.0.0)   
+ P workflowr      1.6.2   2020-04-30 [?] CRAN (R 4.0.0)   
+ P xfun           0.14    2020-05-20 [?] CRAN (R 4.0.0)   
+ P xml2         * 1.3.2   2020-04-23 [?] CRAN (R 4.0.0)   
+ P yaml           2.2.1   2020-02-01 [?] CRAN (R 4.0.0)   
+
+[1] /Users/luke.zappia/Documents/Projects/requestival/renv/library/R-4.0/x86_64-apple-darwin17.0
+[2] /private/var/folders/rj/60lhr791617422kqvh0r4vy40000gn/T/RtmpiOA0NZ/renv-system-library
+[3] /Library/Frameworks/R.framework/Versions/4.0/Resources/library
+
+ P ── Loaded and on-disk path mismatch.</code></pre>
+<p class="timeit">
+Chunk time: 0.21 secs
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRW1iZWRkaW5nIgpvdXRwdXQ6IHdvcmtmbG93cjo6d2Zsb3dfaHRtbAplZGl0b3Jfb3B0aW9uczoKICBjaHVua19vdXRwdXRfdHlwZTogY29uc29sZQotLS0KCmBgYHtyIHNldHVwLCBjYWNoZSA9IEZBTFNFfQpzb3VyY2UoaGVyZTo6aGVyZSgiY29kZSIsICJzZXR1cC5SIikpCmBgYAoKIyBJbnRyb2R1Y3Rpb24gey51bm51bWJlcmVkfQoKQWZ0ZXIgY2hlY2tpbmcgdGhlIGluZGl2aWR1YWwgdmFyaWFibGVzIHRoZSBmaXJzdCB0aGluZyBJIGxpa2UgdG8gZG8gd2l0aCBhIG5ldwpkYXRhc2V0IGlzIHRvIHBlcmZvcm0gc29tZSBkaW1lbnNpb25hbGl0eSByZWR1Y3Rpb24gdG8gZ2V0IGFuIG92ZXJpZXcgb2YgaXQgYXMgYQp3aG9sZS4KCmBgYHtyIGxvYWR9CnJlcXVlc3RpdmFsIDwtIHJlYWRfdHN2KAogICAgUEFUSFMkYXVnbWVudGVkLAogICAgY29sX3R5cGVzID0gY29scygKICAgICAgICAuZGVmYXVsdCAgICAgPSBjb2xfZG91YmxlKCksCiAgICAgICAgRGF0ZVRpbWUgICAgID0gY29sX2RhdGV0aW1lKGZvcm1hdCA9ICIiKSwKICAgICAgICBTb25nICAgICAgICAgPSBjb2xfY2hhcmFjdGVyKCksCiAgICAgICAgQXJ0aXN0ICAgICAgID0gY29sX2NoYXJhY3RlcigpLAogICAgICAgIFJlbGVhc2UgICAgICA9IGNvbF9jaGFyYWN0ZXIoKSwKICAgICAgICBJc1VuZWFydGhlZCAgPSBjb2xfbG9naWNhbCgpLAogICAgICAgIFVuZWFydGhlZFVSTCA9IGNvbF9jaGFyYWN0ZXIoKSwKICAgICAgICBTcG90aWZ5UXVlcnkgPSBjb2xfY2hhcmFjdGVyKCksCiAgICAgICAgU3BvdGlmeVVSTCAgID0gY29sX2NoYXJhY3RlcigpLAogICAgICAgIFlvdVR1YmVRdWVyeSA9IGNvbF9jaGFyYWN0ZXIoKSwKICAgICAgICBZb3VUdWJlVVJMICAgPSBjb2xfY2hhcmFjdGVyKCksCiAgICAgICAgU3BvdGlmeUlEICAgID0gY29sX2NoYXJhY3RlcigpLAogICAgICAgIEhhc1Nwb3RpZnkgICA9IGNvbF9sb2dpY2FsKCksCiAgICAgICAgQWxidW1EYXRlICAgID0gY29sX2RhdGUoZm9ybWF0ID0gIiIpLAogICAgICAgIEV4cGxpY2l0ICAgICA9IGNvbF9sb2dpY2FsKCksCiAgICAgICAgSXNNYWpvciAgICAgID0gY29sX2xvZ2ljYWwoKQopCikgJT4lCiAgICBtdXRhdGUoRGF0ZVRpbWUgPSB3aXRoX3R6KERhdGVUaW1lLCAiQXVzdHJhbGlhL1N5ZG5leSIpKQpgYGAKCiMgUENBCgpMZXQncyBwZXJmb3JtIGEgUENBIG9mIHRoZSBkYXRhc2V0LiBXZSBuZWVkIG51bWVyaWMgdmFsdWVzIHNvIHdlIGNhbiBvbmx5IHJlYWxseQpkbyB0aGlzIG9uIHRoZSBzb25ncyB0aGF0IHdlIGhhdmUgU3BvdGlmeSBpbmZvcm1hdGlvbiBmb3IuCgpgYGB7ciBwY2EtZmVhdHVyZXN9CmZlYXR1cmVzIDwtIGMoIkR1cmF0aW9uIiwgIkxvdWRuZXNzIiwgIlRlbXBvIiwgIlZhbGVuY2UiLCAiRW5lcmd5IiwgCiAgICAgICAgICAgICAgIkRhbmNlYWJpbGl0eSIsICJTcGVlY2hpbmVzcyIsICJBY291c3RpY25lc3MiLCAiTGl2ZW5lc3MiKQoKZmVhdHVyZXNfbWF0IDwtIHJlcXVlc3RpdmFsICU+JQogICAgZmlsdGVyKEhhc1Nwb3RpZnkpICU+JQogICAgc2VsZWN0KFNwb3RpZnlJRCwgISFmZWF0dXJlcykgJT4lCiAgICBkaXN0aW5jdCgpICU+JQogICAgY29sdW1uX3RvX3Jvd25hbWVzKCJTcG90aWZ5SUQiKSAlPiUKICAgIGFzLm1hdHJpeCgpICU+JQogICAgc2NhbGUoKQpgYGAKCkkgaGF2ZSBzZWxlY3RlZCB0aGUgZmVhdHVyZXMgdGhhdCBkZXNjcmliZSB0aGUgYmFzaWMgY2hhcmFjdGVyaXN0aWNzIG9mIGVhY2gKc29uZy4gVGhlc2UgYXJlOgpgciBnbHVlX2NvbGxhcHNlKGdsdWUoIioqe2ZlYXR1cmVzfSoqIiksIHNlcCA9ICIsICIsIGxhc3QgPSAiIGFuZCAiKWAuIE1vc3Qgb2YKdGhlc2UgZmVhdHVyZXMgYXJlIHNjb3JlcyBiZXR3ZWVuIHplcm8gYW5kIG9uZSBidXQgYSBmZXcgaGF2ZSB2ZXJ5IGRpZmZlcmVudApyYW5nZXMgc28gSSBoYXZlIGNlbnRlcmVkIGFuZCBzY2FsZWQgZWFjaCBvZiB0aGVtLgoKYGBge3IgcGNhfQpwY2EgPC0gcHJjb21wKGZlYXR1cmVzX21hdCkKYGBgCgpMZXQncyBoYXZlIGEgbG9vayBhdCB0aGUgbG9hZGluZ3MgZm9yIGVhY2ggcHJpbmNpcGxlIGNvbXBvbmVudC4KCmBgYHtyIHBjYS1sb2FkaW5nc30KZmVhdHVyZV9sb2FkaW5ncyA8LSBwY2Ekcm90YXRpb24gJT4lCiAgICBhcy5kYXRhLmZyYW1lKCkgJT4lCiAgICByb3duYW1lc190b19jb2x1bW4oIkZlYXR1cmUiKSAlPiUKICAgIG11dGF0ZShGZWF0dXJlID0gZmFjdG9yKEZlYXR1cmUsIGxldmVscyA9IGZlYXR1cmVzKSkgJT4lCiAgICBwaXZvdF9sb25nZXIoLUZlYXR1cmUsIG5hbWVzX3RvID0gIlBDIiwgdmFsdWVzX3RvID0gIkxvYWRpbmciKQoKZ2dwbG90KGZlYXR1cmVfbG9hZGluZ3MsCiAgICAgICBhZXMoeCA9IGZjdF9yZXYoRmVhdHVyZSksIHkgPSBMb2FkaW5nLCBmaWxsID0gRmVhdHVyZSkpICsKICAgIGdlb21fY29sKCkgKwogICAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gMCkgKwogICAgY29vcmRfZmxpcCgpICsKICAgIHNjYWxlX2ZpbGxfYnJld2VyKHBhbGV0dGUgPSAiU2V0MSIsIGd1aWRlID0gRkFMU0UpICsKICAgIGZhY2V0X3dyYXAofiBQQykgKwogICAgbGFicygKICAgICAgICB0aXRsZSA9ICJQQyBsb2FkaW5ncyIsCiAgICAgICAgeCAgICAgPSBOVUxMCiAgICApICsKICAgIHRoZW1lKAogICAgICAgIHN0cmlwLnRleHQgICAgICAgPSBlbGVtZW50X3RleHQoY29sb3VyID0gIndoaXRlIiksCiAgICAgICAgc3RyaXAuYmFja2dyb3VuZCA9IGVsZW1lbnRfcmVjdChmaWxsID0gImJsYWNrIiksCiAgICAgICAgcGFuZWwuYm9yZGVyICAgICA9IGVsZW1lbnRfcmVjdChmaWxsID0gTkEpCiAgICApCmBgYAoKSGVyZSBpcyB0aGUgc2NhdHRlciBwbG90IG9mIHRoZSBmaXJzdCB0d28gY29tcG9uZW50cy4KCmBgYHtyIHBjYS1zY2F0dGVyfQpwY2FfcG9pbnRzIDwtIHBjYSR4ICU+JQogICAgYXMuZGF0YS5mcmFtZSgpICU+JQogICAgcm93bmFtZXNfdG9fY29sdW1uKCJTcG90aWZ5SUQiKQoKZ2dwbG90KHBjYV9wb2ludHMsIGFlcyh4ID0gUEMxLCB5ID0gUEMyKSkgKwogICAgZ2VvbV9wb2ludCgpCmBgYAoKVGhlcmUncyBub3QgYSBsb3Qgb2Ygc2VwYXJhdGlvbiBiZXR3ZWVuIHBvaW50cyBoZXJlLiBQZXJoYXBzIHRoaW5nIHdpbGwgYmUKY2xlYXJlciBpZiB3ZSBkbyBhIG5vbi1saW5lYXIgZW1iZWRkaW5nIGJhc2VkIG9uIHRoZSBQQ0E/CgojIHQtU05FCgpMZXQncyBzZWUgd2hhdCBhIHQtU05FIHBsb3QgbG9va3MgbGlrZS4KCmBgYHtyIHRzbmV9CnRzbmUgPC0gUnRzbmUocGNhJHgsIHBjYSA9IEZBTFNFKQoKdHNuZV9wb2ludHMgPC0gdHNuZSRZICU+JQogICAgYXMuZGF0YS5mcmFtZSgpICU+JQogICAgc2V0X25hbWVzKGMoIlRTTkUxIiwgIlRTTkUyIikpICU+JQogICAgbXV0YXRlKFNwb3RpZnlJRCA9IHBjYV9wb2ludHMkU3BvdGlmeUlEKQoKZ2dwbG90KHRzbmVfcG9pbnRzLCBhZXMoeCA9IFRTTkUxLCB5ID0gVFNORTIpKSArCiAgICBnZW9tX3BvaW50KCkKYGBgCgpUaGF0IG1heWJlIGRvZXMgYSBiZXR0ZXIgam9iIG9mIHNob3dpbmcgdGhlIHN0cnVjdHVyZSBpbiB0aGUgZGF0YT8gV2hhdCBpZiB3ZQpvdmVybGF5IHNvbWUgb2YgdGhlIGluZm9ybWF0aW9uIHdlIGhhdmUuCgojIyBGZWF0dXJlcyB7LnRhYnNldH0KCmBgYHtyIHRzbmUtZmVhdHVyZXMsIHJlc3VsdHMgPSAiaGlkZSJ9CnJlcXVlc3RpdmFsIDwtIGxlZnRfam9pbihyZXF1ZXN0aXZhbCwgdHNuZV9wb2ludHMsIGJ5ID0gIlNwb3RpZnlJRCIpCgpwbG90X2RhdGEgPC0gcmVxdWVzdGl2YWwgJT4lCiAgICBmaWx0ZXIoSGFzU3BvdGlmeSkgJT4lCiAgICBzZWxlY3QoLURhdGVUaW1lKSAlPiUKICAgIGRpc3RpbmN0KFNwb3RpZnlJRCwgLmtlZXBfYWxsID0gVFJVRSkKCnBsb3RfZmVhdHVyZXMgPC0gYygiSXNVbmVhcnRoZWQiLCAiQWxidW1EYXRlIiwgIkR1cmF0aW9uIiwgIkV4cGxpY2l0IiwKICAgICAgICAgICAgICAgICAgICJQb3B1bGFyaXR5IiwgIklzTWFqb3IiLCAiTG91ZG5lc3MiLCAiVGVtcG8iLCAiVmFsZW5jZSIsCiAgICAgICAgICAgICAgICAgICAiRW5lcmd5IiwgIkRhbmNlYWJpbGl0eSIsICJTcGVlY2hpbmVzcyIsICJBY291c3RpY25lc3MiLAogICAgICAgICAgICAgICAgICAgIkxpdmVuZXNzIikKCnNyY19saXN0IDwtIG1hcChwbG90X2ZlYXR1cmVzLCBmdW5jdGlvbiguZmVhdHVyZSkgewogICAgaWYgKGlzLmxvZ2ljYWwocGxvdF9kYXRhW1suZmVhdHVyZV1dWzFdKSkgewogICAgICAgIGNvbG91cl9zY2FsZSA8LSAnc2NhbGVfY29sb3VyX21hbnVhbCh2YWx1ZXMgPSBjKCJncmV5IiwgInJlZCIpKScKICAgIH0gZWxzZSBpZiAoaXMuRGF0ZShwbG90X2RhdGFbWy5mZWF0dXJlXV1bMV0pKSB7CiAgICAgICAgY29sb3VyX3NjYWxlIDwtICdzY2FsZV9jb2xvdXJfZGF0ZSgpJwogICAgfSBlbHNlIHsKICAgICAgICBjb2xvdXJfc2NhbGUgPC0gJ3NjYWxlX2NvbG91cl92aXJpZGlzX2MoKScKICAgIH0KICAgIGtuaXRfZXhwYW5kKHRleHQgPSBjKAogICAgICAgICIjIyMge3suZmVhdHVyZX19IHsudW5udW1iZXJlZH0iLAogICAgICAgICJgYGB7cn0iLAogICAgICAgICJnZ3Bsb3QocGxvdF9kYXRhKSArIiwKICAgICAgICAiYWVzKHggPSBUU05FMSwgeSA9IFRTTkUyLCBjb2xvdXIgPSB7ey5mZWF0dXJlfX0pICsiLAogICAgICAgICJnZW9tX3BvaW50KHNpemUgPSAyKSArIiwKICAgICAgICBjb2xvdXJfc2NhbGUsCiAgICAgICAgImBgYCIsCiAgICAgICAgIiIKICAgICkpCn0pCgpvdXQgPC0ga25pdF9jaGlsZCh0ZXh0ID0gdW5saXN0KHNyY19saXN0KSwgb3B0aW9ucyA9IGxpc3QoY2FjaGUgPSBGQUxTRSkpCmBgYAoKYHIgb3V0YAoKcmVxdWVzdGl2YWwgJT4lIGZpbHRlcihIYXNTcG90aWZ5KSAlPiUgbXV0YXRlKERheSA9IGRheShEYXRlVGltZSksIFRpbWUgPSAoNjAgKiBob3VyKERhdGVUaW1lKSArIG1pbnV0ZShEYXRlVGltZSkpICogNjApICU+JSBzZWxlY3QoRGF5LCBUaW1lLCBEYW5jZWFiaWxpdHksIFNwZWVjaGluZXNzLCBBY291c3RpY25lc3MsIExpdmVuZXNzKSAlPiUgcGl2b3RfbG9uZ2VyKGMoLVRpbWUsIC1EYXkpLCBuYW1lc190byA9ICJGZWF0dXJlIiwgdmFsdWVzX3RvID0gIlNjb3JlIikgLT4gcHAKCmdncGxvdChwcCwgYWVzKHggPSBUaW1lLCB5ID0gU2NvcmUsIGNvbG91ciA9IEZlYXR1cmUsIGZpbGwgPSBGZWF0dXJlKSkgKyBnZW9tX3BvaW50KGFscGhhID0gMC4yNSwgc2l6ZSA9IDEpICsgZ2VvbV9zbW9vdGgoKSArIGZhY2V0X2dyaWQoRGF5IH4gRmVhdHVyZSwgc2NhbGVzID0gImZyZWUiKSArIHNjYWxlX3hfdGltZSgpICsgc2NhbGVfY29sb3VyX2JyZXdlcihwYWxldHRlID0gIlNldDEiLCBndWlkZSA9IEZBTFNFKSArIHNjYWxlX2ZpbGxfYnJld2VyKHBhbGV0dGUgPSAiU2V0MSIsIGd1aWRlID0gRkFMU0UpCg==</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("05-embedding.Rmd");
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
