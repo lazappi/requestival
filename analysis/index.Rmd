@@ -4,8 +4,34 @@ site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
     toc: false
+    number_sections: false
 editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+This website show some analysis of the songs played during triple j's
+"Requestival". A blog post describing the analysis and some of the highlights
+is available [here][blogpost]. This website is divided into the following pages:
+
+### [01 - Scraping](01-scraping.html)
+
+Scraping the data from HTML pages using the **{rvest}** package.
+
+### [02 - Tidying](02-tidying.html)
+
+Tidying up some things in the dataset.
+
+### [03 - Augmentation](03-augmentation.html)
+
+Augmenting the dataset with information from Spotify using the **{spotifyr}**
+package.
+
+### [04 - Exploration](04-exploration.html)
+
+Basic exploration of each of the variables in the dataset.
+
+### [05 - Embedding](05-embedding.html)
+
+Embedding of the dataset using PCA and t-SNE.
+
+[blogpost]: lazappi.id.au/post/2020-07-11-requestival/

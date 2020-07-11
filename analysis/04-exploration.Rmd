@@ -36,7 +36,7 @@ requestival <- read_tsv(
         AlbumDate    = col_date(format = ""),
         Explicit     = col_logical(),
         IsMajor      = col_logical()
-)
+   )
 ) %>%
     mutate(DateTime = with_tz(DateTime, "Australia/Sydney"))
 ```
