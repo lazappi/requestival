@@ -34,4 +34,4 @@ Basic exploration of each of the variables in the dataset.
 
 Embedding of the dataset using PCA and t-SNE.
 
-[blogpost]: lazappi.id.au/post/2020-07-11-requestival/
+[blogpost]: https://lazappi.id.au/post/2020-07-11-requestival/
