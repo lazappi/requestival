@@ -7,3 +7,6 @@ results at lazappi.id.au/post/2020-07-11-requestival/.
 
 The code in this repository is covered by the [MIT][mit] and the written content
 on the website is covered by a [Creative Commons CC-BY][cc] license.
+
+[mit]: https://choosealicense.com/licenses/mit/ "MIT License"
+[cc]: https://creativecommons.org/licenses/by/4.0/ "CC-BY License"
